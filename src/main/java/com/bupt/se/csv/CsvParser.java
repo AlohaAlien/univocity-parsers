@@ -21,6 +21,7 @@ import java.io.*;
 
 import com.bupt.se.common.*;
 import com.bupt.se.common.input.*;
+import com.bupt.se.common.input.EOFException;
 
 /**
  * A very fast CSV parser implementation.

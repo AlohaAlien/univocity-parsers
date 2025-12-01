@@ -22,6 +22,7 @@ import java.text.*;
 import java.util.*;
 
 import com.bupt.se.annotations.*;
+import com.bupt.se.annotations.Format;
 import com.bupt.se.common.*;
 import com.bupt.se.common.beans.*;
 import com.bupt.se.common.input.*;

@@ -22,6 +22,7 @@ import java.nio.charset.*;
 import java.util.*;
 
 import com.bupt.se.common.input.*;
+import com.bupt.se.common.input.EOFException;
 import com.bupt.se.common.iterators.*;
 import com.bupt.se.common.processor.*;
 import com.bupt.se.common.processor.core.*;
