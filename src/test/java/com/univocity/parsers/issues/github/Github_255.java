@@ -16,12 +16,12 @@
 
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -31,7 +31,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/255
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_255 {
 
@@ -51,12 +52,10 @@ public class Github_255 {
 		}
 
 		public static List<Role> examples() {
-			return Arrays.asList(new Role("FIN", "Finance", null)
-					, new Role("MKT", "Marketing", null)
-					, new Role("SLS", "Sales", null));
+			return Arrays.asList(new Role("FIN", "Finance", null), new Role("MKT", "Marketing", null),
+					new Role("SLS", "Sales", null));
 		}
 	}
-
 
 	@Headers
 	static class Employee {
@@ -77,13 +76,8 @@ public class Github_255 {
 		@Parsed(field = "Type", index = 4)
 		private final String type;
 
-		private Employee(final String code
-				, final String name
-				, final String title
-				, final String type
-				, final String fullPart
-				, final Date joiningDate
-				, final Date exitDate) {
+		private Employee(final String code, final String name, final String title, final String type,
+				final String fullPart, final Date joiningDate, final Date exitDate) {
 			this.code = code;
 			this.exitDate = exitDate;
 			this.fullPart = fullPart;
@@ -95,15 +89,17 @@ public class Github_255 {
 
 		public static List<Employee> examples() {
 			return Arrays.asList(
-					new Employee("E001", "John Doe", "CEO", "Employee", "Full-time", new Date(111, 0, 1), null)
-					, new Employee("E002", "Jane Doe", "CFO", "Employee", "Full-time", new Date(111, 0, 1), null)
-					, new Employee("E003", "James Doe", "CMO", "Employee", "Full-time", new Date(111, 0, 1), null)
-					, new Employee("E004", "Jennifer Doe", "CTO", "Employee", "Full-time", new Date(111, 0, 1), null)
-					, new Employee("E005", "Jason Doe", "Analyst", "Employee", "Full-time", new Date(111, 0, 1), new Date(111, 11, 31))
-					, new Employee("E006", "Joseph Doe", "Analyst", "Employee", "Full-time", new Date(111, 0, 1), null)
-					, new Employee("C001", "Jimmy Doe", "Analyst", "Contractor", "Full-time", new Date(111, 0, 1), new Date(112, 5, 30))
-					, new Employee("B001", "Jillian Doe", "Chairperson", "Board member", "Part-time", new Date(111, 0, 1), null)
-			);
+					new Employee("E001", "John Doe", "CEO", "Employee", "Full-time", new Date(111, 0, 1), null),
+					new Employee("E002", "Jane Doe", "CFO", "Employee", "Full-time", new Date(111, 0, 1), null),
+					new Employee("E003", "James Doe", "CMO", "Employee", "Full-time", new Date(111, 0, 1), null),
+					new Employee("E004", "Jennifer Doe", "CTO", "Employee", "Full-time", new Date(111, 0, 1), null),
+					new Employee("E005", "Jason Doe", "Analyst", "Employee", "Full-time", new Date(111, 0, 1),
+							new Date(111, 11, 31)),
+					new Employee("E006", "Joseph Doe", "Analyst", "Employee", "Full-time", new Date(111, 0, 1), null),
+					new Employee("C001", "Jimmy Doe", "Analyst", "Contractor", "Full-time", new Date(111, 0, 1),
+							new Date(112, 5, 30)),
+					new Employee("B001", "Jillian Doe", "Chairperson", "Board member", "Part-time", new Date(111, 0, 1),
+							null));
 		}
 	}
 

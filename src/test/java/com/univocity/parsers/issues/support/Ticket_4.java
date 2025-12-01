@@ -16,10 +16,11 @@
 
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.tsv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.tsv.*;
 
 import java.io.*;
 import java.util.*;
@@ -53,7 +54,8 @@ public class Ticket_4 {
 	public void parseTsvBeanWithMoreColumnsThanInput() {
 		TsvParserSettings settings = new TsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
-		BeanListProcessor<DocumentMetadata> beanProcessor = new BeanListProcessor<DocumentMetadata>(DocumentMetadata.class);
+		BeanListProcessor<DocumentMetadata> beanProcessor = new BeanListProcessor<DocumentMetadata>(
+				DocumentMetadata.class);
 		settings.setRowProcessor(beanProcessor);
 		TsvParser parser = new TsvParser(settings);
 		parser.parseAll(new StringReader("27102	22132639.txt\n27109	22134500.txt"));

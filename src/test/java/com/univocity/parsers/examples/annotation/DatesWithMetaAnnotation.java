@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
-
 import java.util.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 public class DatesWithMetaAnnotation {
 
@@ -34,13 +35,13 @@ public class DatesWithMetaAnnotation {
 	@MyCompanyDate(field = "deleted_at")
 	private Date deletedAt;
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	@Override
 	public String toString() {
 		return "DatesWithMetaAnnotation{" +
 				"id=" + id +
-				", createdAt=" + TestUtils.formatDate(createdAt)+
+				", createdAt=" + TestUtils.formatDate(createdAt) +
 				", updatedAt=" + TestUtils.formatDate(updatedAt) +
 				", deletedAt=" + TestUtils.formatDate(deletedAt) +
 				'}';

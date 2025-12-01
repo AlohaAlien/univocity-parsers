@@ -14,13 +14,13 @@
  * limitations under the License.
  ******************************************************************************/
 
-
 package com.univocity.parsers.annotations.meta;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.util.*;
@@ -28,7 +28,8 @@ import java.util.*;
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class MetaAnnotationTest {
 
@@ -43,7 +44,6 @@ public class MetaAnnotationTest {
 		CsvParser parser = new CsvParser(parserSettings);
 		parser.parse(new StringReader("a,BB,x,y,z\n`Va`,`Vb`,,,`vc`"));
 
-
 		List<ReplacementBean> beans = rowProcessor.getBeans();
 		assertEquals(beans.size(), 1);
 
@@ -55,7 +55,8 @@ public class MetaAnnotationTest {
 
 	@Test
 	public void testWriteWithMetaAnnotation() throws Exception {
-		BeanWriterProcessor<ReplacementBean> rowProcessor = new BeanWriterProcessor<ReplacementBean>(ReplacementBean.class);
+		BeanWriterProcessor<ReplacementBean> rowProcessor = new BeanWriterProcessor<ReplacementBean>(
+				ReplacementBean.class);
 
 		CsvWriterSettings settings = new CsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
@@ -75,5 +76,3 @@ public class MetaAnnotationTest {
 				"zzz7674,ETC,,,C\n");
 	}
 }
-
-

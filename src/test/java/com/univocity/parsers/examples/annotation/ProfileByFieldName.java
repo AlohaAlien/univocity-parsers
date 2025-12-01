@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
+import com.bupt.se.annotations.*;
 
 public class ProfileByFieldName {
 

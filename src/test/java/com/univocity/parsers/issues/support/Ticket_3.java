@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -34,16 +35,17 @@ public class Ticket_3 {
 		settings.setHeaderExtractionEnabled(false);
 		CsvParser parser = new CsvParser(settings);
 
-		List<String[]> allRows = parser.parseAll(new InputStreamReader(Ticket_3.class.getResourceAsStream("/issues/ticket_3/input.csv"), "UTF-8"));
+		List<String[]> allRows = parser.parseAll(
+				new InputStreamReader(Ticket_3.class.getResourceAsStream("/issues/ticket_3/input.csv"), "UTF-8"));
 
 		/*
-		"0\",\"0"     ==> [0","0]
-		"1\\",\"1"    ==> [1\","1]
-		"2\\\",\"2"   ==> [2\\",2]
+		 * "0\",\"0" ==> [0","0]
+		 * "1\\",\"1" ==> [1\","1]
+		 * "2\\\",\"2" ==> [2\\",2]
 		 */
-		String[] expected0 = new String[]{"0\",\"0"};
-		String[] expected1 = new String[]{"1\\\",\"1"};
-		String[] expected2 = new String[]{"2\\\\\",\"2"};
+		String[] expected0 = new String[] { "0\",\"0" };
+		String[] expected1 = new String[] { "1\\\",\"1" };
+		String[] expected2 = new String[] { "2\\\\\",\"2" };
 
 		assertEquals(allRows.get(0), expected0);
 		assertEquals(allRows.get(1), expected1);
@@ -60,16 +62,17 @@ public class Ticket_3 {
 		settings.setHeaderExtractionEnabled(false);
 		CsvParser parser = new CsvParser(settings);
 
-		List<String[]> allRows = parser.parseAll(new InputStreamReader(Ticket_3.class.getResourceAsStream("/issues/ticket_3/input.csv"), "UTF-8"));
+		List<String[]> allRows = parser.parseAll(
+				new InputStreamReader(Ticket_3.class.getResourceAsStream("/issues/ticket_3/input.csv"), "UTF-8"));
 
 		/*
-		"0\",\"0"     ==> [0","0]
-		"1\\",\"1"    ==> [1\],[\"1"]
-		"2\\\",\"2"   ==> [2\","2]
+		 * "0\",\"0" ==> [0","0]
+		 * "1\\",\"1" ==> [1\],[\"1"]
+		 * "2\\\",\"2" ==> [2\","2]
 		 */
-		String[] expected0 = new String[]{"0\",\"0"};
-		String[] expected1 = new String[]{"1\\", "\\\"1\""};
-		String[] expected2 = new String[]{"2\\\",\"2"};
+		String[] expected0 = new String[] { "0\",\"0" };
+		String[] expected1 = new String[] { "1\\", "\\\"1\"" };
+		String[] expected2 = new String[] { "2\\\",\"2" };
 
 		assertEquals(allRows.get(0), expected0);
 		assertEquals(allRows.get(1), expected1);

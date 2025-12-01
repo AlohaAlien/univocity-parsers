@@ -16,14 +16,14 @@
 
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
+import com.bupt.se.annotations.*;
 
 public class ProfileByMultipleFieldNames {
 
-	@Parsed(field = {"profile_id", "id"})
+	@Parsed(field = { "profile_id", "id" })
 	private Long profileId;
 
-	@Parsed(field = {"username", "user"})
+	@Parsed(field = { "username", "user" })
 	private String username;
 
 	@Parsed

@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.util.*;
 
@@ -28,7 +29,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/35
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_35 {
@@ -38,7 +40,8 @@ public class Github_35 {
 		CsvWriterSettings writerSettings = new CsvWriterSettings();
 
 		ObjectRowWriterProcessor writerProcessor = new ObjectRowWriterProcessor();
-		writerProcessor.convertAll(Conversions.toBoolean("T", "F")); // will write "T" and "F" instead of "true" and "false"
+		writerProcessor.convertAll(Conversions.toBoolean("T", "F")); // will write "T" and "F" instead of "true" and
+																		// "false"
 
 		writerSettings.setRowWriterProcessor(writerProcessor);
 
@@ -54,7 +57,7 @@ public class Github_35 {
 		CsvParserSettings parserSettings = new CsvParserSettings();
 
 		ObjectRowListProcessor readerProcessor = new ObjectRowListProcessor();
-		readerProcessor.convertAll(Conversions.toBoolean("T", "F")); //reads "T" and "F" back to true and false
+		readerProcessor.convertAll(Conversions.toBoolean("T", "F")); // reads "T" and "F" back to true and false
 
 		parserSettings.setRowProcessor(readerProcessor);
 

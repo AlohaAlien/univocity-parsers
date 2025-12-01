@@ -17,6 +17,8 @@ package com.univocity.parsers.common.fields;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.fields.FieldEnumSelector;
+
 import static org.testng.Assert.*;
 
 public class FieldEnumSelectorTest {
@@ -26,9 +28,9 @@ public class FieldEnumSelectorTest {
 		FieldEnumSelector selector = new FieldEnumSelector();
 		selector.add(TestEnum.D, TestEnum.A);
 
-		int[] indexes = selector.getFieldIndexes(new String[]{"A", "B", "C", "D", "E", "F"});
+		int[] indexes = selector.getFieldIndexes(new String[] { "A", "B", "C", "D", "E", "F" });
 
-		int[] expected = new int[]{3, 0};
+		int[] expected = new int[] { 3, 0 };
 
 		assertEquals(indexes, expected);
 	}

@@ -16,13 +16,18 @@
 
 package com.univocity.parsers.common.routine;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.common.routine.AbstractRoutines;
+import com.bupt.se.common.routine.InputDimension;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.*;
+import com.bupt.se.tsv.*;
+import com.univocity.parsers.ParserTestCase;
+import com.univocity.parsers.csv.CsvParserTest;
 import com.univocity.parsers.examples.*;
-import com.univocity.parsers.fixed.*;
-import com.univocity.parsers.tsv.*;
+
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -118,7 +123,6 @@ public class AbstractRoutinesTest {
 		assertEquals(fixedWidthTest.result, expectedFixedWidth + randomLine);
 	}
 
-
 	private void testWriteResultSet(ResultSetTest... tests) throws Exception {
 		String createTable = "CREATE TABLE test(" +
 				"	id char(4) primary key," +
@@ -133,11 +137,14 @@ public class AbstractRoutinesTest {
 			try {
 				try {
 					statement.execute(createTable);
-					statement.executeUpdate("INSERT INTO test (id, desc, some_date) VALUES ('1234', 'Description 1', '2015-12-02 10:35:12')");
-					statement.executeUpdate("INSERT INTO test (id, desc, some_date) VALUES ('2345', 'Description 2', '2016-11-25 11:05:32')");
-					statement.executeUpdate("INSERT INTO test (id, desc, some_date) VALUES ('39' , 'Description 3', '2017-05-31 09:24:45')");
-				} catch(Exception ex){
-					//ignore. Table exists already.
+					statement.executeUpdate(
+							"INSERT INTO test (id, desc, some_date) VALUES ('1234', 'Description 1', '2015-12-02 10:35:12')");
+					statement.executeUpdate(
+							"INSERT INTO test (id, desc, some_date) VALUES ('2345', 'Description 2', '2016-11-25 11:05:32')");
+					statement.executeUpdate(
+							"INSERT INTO test (id, desc, some_date) VALUES ('39' , 'Description 3', '2017-05-31 09:24:45')");
+				} catch (Exception ex) {
+					// ignore. Table exists already.
 				}
 
 				for (ResultSetTest test : tests) {
@@ -191,19 +198,20 @@ public class AbstractRoutinesTest {
 
 		assertEquals(output.toString(), expected);
 
-
 	}
 
 	@Test
 	public void testParseAllJavaBeans() throws Exception {
-		List<TestBean> beans = new CsvRoutines(getParserSettings()).parseAll(TestBean.class, CsvParserTest.newReader("/examples/bean_test.csv"));
+		List<TestBean> beans = new CsvRoutines(getParserSettings()).parseAll(TestBean.class,
+				CsvParserTest.newReader("/examples/bean_test.csv"));
 		assertNotNull(beans);
 		assertFalse(beans.isEmpty());
 	}
 
 	@Test
 	public void testWriteAllJavaBeans() throws Exception {
-		List<TestBean> beans = new CsvRoutines(getParserSettings()).parseAll(TestBean.class, CsvParserTest.newReader("/examples/bean_test.csv"));
+		List<TestBean> beans = new CsvRoutines(getParserSettings()).parseAll(TestBean.class,
+				CsvParserTest.newReader("/examples/bean_test.csv"));
 
 		StringWriter output = new StringWriter();
 		CsvWriterSettings settings = getWriterSettings();
@@ -215,11 +223,11 @@ public class AbstractRoutinesTest {
 		assertEquals(output.toString(), "pending,amount\nyes,555.999\nno,\n");
 	}
 
-
 	@Test
 	public void testIterateJavaBeans() throws Exception {
 		List<TestBean> beans = new ArrayList<TestBean>();
-		for (TestBean bean : new CsvRoutines(getParserSettings()).iterate(TestBean.class, CsvParserTest.newReader("/examples/bean_test.csv"))) {
+		for (TestBean bean : new CsvRoutines(getParserSettings()).iterate(TestBean.class,
+				CsvParserTest.newReader("/examples/bean_test.csv"))) {
 			beans.add(bean);
 		}
 		assertEquals(beans.size(), 2);

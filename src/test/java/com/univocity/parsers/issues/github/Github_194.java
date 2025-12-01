@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.input.*;
-import com.univocity.parsers.common.input.concurrent.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.common.input.*;
+import com.bupt.se.common.input.concurrent.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -30,7 +30,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/194
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_194 extends Example {
 
@@ -49,8 +50,9 @@ public class Github_194 extends Example {
 							s.setHeaderExtractionEnabled(true);
 							s.getFormat().setLineSeparator("\r");
 
-							//s.setReadInputOnSeparateThread(false);
-							List<String[]> rows = new CsvParser(s).parseAll(getClass().getResourceAsStream("/issues/github_194/uk-500.csv"));
+							// s.setReadInputOnSeparateThread(false);
+							List<String[]> rows = new CsvParser(s)
+									.parseAll(getClass().getResourceAsStream("/issues/github_194/uk-500.csv"));
 							assertEquals(rows.size(), 500);
 						} catch (Throwable e) {
 							synchronized (errors) {

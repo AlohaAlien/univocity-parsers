@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -30,7 +31,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/29
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_29 {
@@ -66,7 +68,8 @@ public class Github_29 {
 			@Override
 			public void handleError(DataProcessingException error, Object[] inputRow, ParsingContext context) {
 				assertNotNull(context);
-				errors.add(error.getColumnName() + "(" + error.getColumnIndex() + "):" + inputRow[error.getColumnIndex()]);
+				errors.add(
+						error.getColumnName() + "(" + error.getColumnIndex() + "):" + inputRow[error.getColumnIndex()]);
 			}
 		});
 
@@ -110,7 +113,7 @@ public class Github_29 {
 
 		CsvWriter writer = new CsvWriter(output, writerSettings);
 		try {
-			writer.processRecordsAndClose(new Object[]{"I'm not a bean", null, new AB(1, true)});
+			writer.processRecordsAndClose(new Object[] { "I'm not a bean", null, new AB(1, true) });
 		} catch (DataProcessingException e) {
 			e.printStackTrace();
 			fail("Did not expect exception to be thrown here");

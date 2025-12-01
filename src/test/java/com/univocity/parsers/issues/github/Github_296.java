@@ -15,11 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -28,10 +28,10 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/296
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_296 {
-
 
 	public static class TestDTO implements Serializable {
 
@@ -60,25 +60,31 @@ public class Github_296 {
 		private String ssid;
 	}
 
-
 	@Test
-	public void parseValidatedAttributesWithColumnSelection(){
+	public void parseValidatedAttributesWithColumnSelection() {
 		String input = "#version:1.0\n" +
 				"#timestamp:2017-05-29T23:22:22.320Z\n" +
 				"#brand:test report    \n" +
-				"    network_name,location_name,location_category,location_address,location_zipcode,location_phone_number,location_latitude,location_longitude,location_city,location_state_name,location_state_abbreviation,location_country,location_country_code,pricing_type,wep_key\n" +
-				"    \"1 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Marktplatz 18\",\"1233\",\"+41 263 34 05\",\"1212.15\",\"7.51\",\"Basel\",\"test\",\"BE\",\"India\",\"DE\",\"premium\",\"\"\n" +
-				"    \"2 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Zufikerstrasse 1\",\"1111\",\"+41 631 60 00\",\"11.354\",\"8.12\",\"Bremgarten\",\"test\",\"AG\",\"China\",\"CH\",\"premium\",\"\"\n" +
-				"    \"3 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Chemin de la Fontaine 10\",\"1260\",\"+41 22 361 69\",\"12.34\",\"11.23\",\"Nyon\",\"Vaud\",\"VD\",\"Switzerland\",\"CH\",\"premium\",\"\"\n" +
-				"    \"!.oist*~\",\"HoistGroup Office\",\"Office\",\"Chemin de I Etang\",\"CH-1211\",\"\",\"\",\"\",\"test\",\"test\",\"GE\",\"Switzerland\",\"CH\",\"premium\",\"\"\n" +
-				"    \"test\",\"tess's Takashiro\",\"Cafe / Restaurant\",\"Test 1-10\",\"870-01\",\"097-55-1808\",\"\",\"\",\"Oita\",\"Oita\",\"OITA\",\"Japan\",\"JP\",\"premium\",\"1234B\"\n" +
+				"    network_name,location_name,location_category,location_address,location_zipcode,location_phone_number,location_latitude,location_longitude,location_city,location_state_name,location_state_abbreviation,location_country,location_country_code,pricing_type,wep_key\n"
+				+
+				"    \"1 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Marktplatz 18\",\"1233\",\"+41 263 34 05\",\"1212.15\",\"7.51\",\"Basel\",\"test\",\"BE\",\"India\",\"DE\",\"premium\",\"\"\n"
+				+
+				"    \"2 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Zufikerstrasse 1\",\"1111\",\"+41 631 60 00\",\"11.354\",\"8.12\",\"Bremgarten\",\"test\",\"AG\",\"China\",\"CH\",\"premium\",\"\"\n"
+				+
+				"    \"3 Free WiFi\",\"Test Restaurant\",\"Cafe / Restaurant\",\"Chemin de la Fontaine 10\",\"1260\",\"+41 22 361 69\",\"12.34\",\"11.23\",\"Nyon\",\"Vaud\",\"VD\",\"Switzerland\",\"CH\",\"premium\",\"\"\n"
+				+
+				"    \"!.oist*~\",\"HoistGroup Office\",\"Office\",\"Chemin de I Etang\",\"CH-1211\",\"\",\"\",\"\",\"test\",\"test\",\"GE\",\"Switzerland\",\"CH\",\"premium\",\"\"\n"
+				+
+				"    \"test\",\"tess's Takashiro\",\"Cafe / Restaurant\",\"Test 1-10\",\"870-01\",\"097-55-1808\",\"\",\"\",\"Oita\",\"Oita\",\"OITA\",\"Japan\",\"JP\",\"premium\",\"1234B\"\n"
+				+
 				"\n";
 
 		CsvParserSettings parserSettings = new CsvParserSettings();
 		parserSettings.setLineSeparatorDetectionEnabled(true);
-		//parserSettings.setColumnReorderingEnabled(false);
+		// parserSettings.setColumnReorderingEnabled(false);
 		parserSettings.selectFields("network_name", "location_name", "location_address", "location_zipcode",
-				"location_latitude", "location_longitude", "location_city", "location_state_abbreviation", "location_country_code");
+				"location_latitude", "location_longitude", "location_city", "location_state_abbreviation",
+				"location_country_code");
 
 		final int[] errorCount = new int[1];
 		parserSettings.setProcessorErrorHandler(new ProcessorErrorHandler<ParsingContext>() {
@@ -88,9 +94,9 @@ public class Github_296 {
 			}
 		});
 
-
 		CsvRoutines parser = new CsvRoutines(parserSettings);
-		ResultIterator<TestDTO, ParsingContext> iterator = parser.iterate(TestDTO.class, new StringReader(input)).iterator();
+		ResultIterator<TestDTO, ParsingContext> iterator = parser.iterate(TestDTO.class, new StringReader(input))
+				.iterator();
 
 		int invalid = 0;
 		int valid = 0;

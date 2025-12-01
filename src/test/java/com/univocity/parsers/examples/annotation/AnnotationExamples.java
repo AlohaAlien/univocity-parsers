@@ -16,8 +16,9 @@
 
 package com.univocity.parsers.examples.annotation;
 
+import com.bupt.se.fixed.*;
 import com.univocity.parsers.examples.*;
-import com.univocity.parsers.fixed.*;
+
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -88,7 +89,8 @@ public class AnnotationExamples extends Example {
 	public void parseProfileByFieldName() {
 		Reader input = getReader("/examples/annotation/basic_profile.txt");
 
-		for (ProfileByFieldName profile : new FixedWidthRoutines(getBasicProfileSettings()).iterate(ProfileByFieldName.class, input)) {
+		for (ProfileByFieldName profile : new FixedWidthRoutines(getBasicProfileSettings())
+				.iterate(ProfileByFieldName.class, input)) {
 			println(profile);
 		}
 		printAndValidate();
@@ -98,7 +100,8 @@ public class AnnotationExamples extends Example {
 	public void parseProfileByFieldPosition() {
 		Reader input = getReader("/examples/annotation/basic_profile.txt");
 
-		for (ProfileByFieldPosition profile : new FixedWidthRoutines(getBasicProfileSettings()).iterate(ProfileByFieldPosition.class, input)) {
+		for (ProfileByFieldPosition profile : new FixedWidthRoutines(getBasicProfileSettings())
+				.iterate(ProfileByFieldPosition.class, input)) {
 			println(profile);
 		}
 
@@ -110,12 +113,14 @@ public class AnnotationExamples extends Example {
 		Reader input;
 
 		input = getReader("/examples/annotation/basic_profile_2.txt");
-		for (ProfileByMultipleFieldNames profile : new FixedWidthRoutines(getBasicProfile2Settings()).iterate(ProfileByMultipleFieldNames.class, input)) {
+		for (ProfileByMultipleFieldNames profile : new FixedWidthRoutines(getBasicProfile2Settings())
+				.iterate(ProfileByMultipleFieldNames.class, input)) {
 			println(profile);
 		}
 
 		input = getReader("/examples/annotation/basic_profile.txt");
-		for (ProfileByMultipleFieldNames profile : new FixedWidthRoutines(getBasicProfileSettings()).iterate(ProfileByMultipleFieldNames.class, input)) {
+		for (ProfileByMultipleFieldNames profile : new FixedWidthRoutines(getBasicProfileSettings())
+				.iterate(ProfileByMultipleFieldNames.class, input)) {
 			println(profile);
 		}
 
@@ -127,7 +132,8 @@ public class AnnotationExamples extends Example {
 		Reader input;
 
 		input = getReader("/examples/annotation/basic_profile_2.txt");
-		for (ProfileWithDate profile : new FixedWidthRoutines(getBasicProfile2Settings()).iterate(ProfileWithDate.class, input)) {
+		for (ProfileWithDate profile : new FixedWidthRoutines(getBasicProfile2Settings()).iterate(ProfileWithDate.class,
+				input)) {
 			println(profile);
 		}
 
@@ -146,7 +152,7 @@ public class AnnotationExamples extends Example {
 	}
 
 	@Test
-	public void parseOffenders(){
+	public void parseOffenders() {
 		Reader input;
 
 		input = getReader("/examples/annotation/offender_profiles.txt");
@@ -157,29 +163,31 @@ public class AnnotationExamples extends Example {
 	}
 
 	@Test
-	public void parseBetterOffenders(){
+	public void parseBetterOffenders() {
 		Reader input;
 
 		input = getReader("/examples/annotation/offender_profiles.txt");
-		for (BetterOffender offender : new FixedWidthRoutines(getOffenderProfileSettings()).iterate(BetterOffender.class, input)) {
+		for (BetterOffender offender : new FixedWidthRoutines(getOffenderProfileSettings())
+				.iterate(BetterOffender.class, input)) {
 			println(offender);
 		}
 		printAndValidate();
 	}
 
 	@Test
-	public void parseAddressBook(){
+	public void parseAddressBook() {
 		Reader input;
 
 		input = getReader("/examples/annotation/addresses.txt");
-		for (AddressBook addressBook : new FixedWidthRoutines(getAddressBookSettings()).iterate(AddressBook.class, input)) {
+		for (AddressBook addressBook : new FixedWidthRoutines(getAddressBookSettings()).iterate(AddressBook.class,
+				input)) {
 			println(addressBook);
 		}
 		printAndValidate();
 	}
 
 	@Test
-	public void parseDates(){
+	public void parseDates() {
 		Reader input;
 
 		input = getReader("/examples/annotation/dates.txt");
@@ -190,11 +198,12 @@ public class AnnotationExamples extends Example {
 	}
 
 	@Test
-	public void parseDatesWithMetaAnnotation(){
+	public void parseDatesWithMetaAnnotation() {
 		Reader input;
 
 		input = getReader("/examples/annotation/dates.txt");
-		for (DatesWithMetaAnnotation dates : new FixedWidthRoutines(getDateSettings()).iterate(DatesWithMetaAnnotation.class, input)) {
+		for (DatesWithMetaAnnotation dates : new FixedWidthRoutines(getDateSettings())
+				.iterate(DatesWithMetaAnnotation.class, input)) {
 			println(dates);
 		}
 

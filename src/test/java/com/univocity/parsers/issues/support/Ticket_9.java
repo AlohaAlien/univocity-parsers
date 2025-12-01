@@ -1,14 +1,16 @@
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.tsv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.tsv.*;
 
 import java.io.*;
 
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Ticket_9 {
 
@@ -28,7 +30,7 @@ public class Ticket_9 {
 		parser.beginParsing(reader);
 		String[] row = parser.parseNext();
 
-		assertEquals(row.length,3);
+		assertEquals(row.length, 3);
 		assertEquals(row[0], "hello");
 		assertEquals(row[1], "world");
 		assertEquals(row[2], "abc\td\ne\tf");
@@ -49,6 +51,5 @@ public class Ticket_9 {
 		assertEquals(out.toString(), "hello\tworld\tabc\\\td\\\ne\\\tf\n");
 
 	}
-
 
 }

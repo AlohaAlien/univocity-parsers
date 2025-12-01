@@ -15,11 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -28,7 +28,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/266
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_266 {
 
@@ -40,7 +41,7 @@ public class Github_266 {
 		public String b;
 
 		@Parsed
-		@Validate(oneOf = {"0", "1"})
+		@Validate(oneOf = { "0", "1" })
 		public String c;
 	}
 
@@ -48,7 +49,7 @@ public class Github_266 {
 	public void testValidationAnnotation() {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setLineSeparatorDetectionEnabled(true);
-		final boolean[] ran = new boolean[]{false};
+		final boolean[] ran = new boolean[] { false };
 		settings.setProcessorErrorHandler(new ProcessorErrorHandler<Context>() {
 			@Override
 			public void handleError(DataProcessingException error, Object[] inputRow, Context context) {

@@ -15,10 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.ParserTestCase;
 
 import java.io.*;
 
@@ -26,7 +28,8 @@ import java.io.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/1
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_1 extends ParserTestCase {
@@ -40,7 +43,7 @@ public class Github_1 extends ParserTestCase {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setHeaderExtractionEnabled(true);
-		//settings.setHeaders("column1", "column2", "column3", "column4");
+		// settings.setHeaders("column1", "column2", "column3", "column4");
 		settings.excludeIndexes(1);
 		settings.setColumnReorderingEnabled(false);
 		settings.setRowProcessor(processor);
@@ -48,10 +51,10 @@ public class Github_1 extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(reader);
 
-		String[] expectedHeaders = new String[]{"column 1", "column 2", "column 3"};
-		String[][] expectedResult = new String[][]{
-			{"first", null, "third", "fourth"},
-			{"1", null, "3", "4"}
+		String[] expectedHeaders = new String[] { "column 1", "column 2", "column 3" };
+		String[][] expectedResult = new String[][] {
+				{ "first", null, "third", "fourth" },
+				{ "1", null, "3", "4" }
 		};
 
 		this.assertHeadersAndValuesMatch(processor, expectedHeaders, expectedResult);

@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -27,7 +28,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/112
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_112 {
 
@@ -39,11 +41,10 @@ public class Github_112 {
 
 		CsvParser p = new CsvParser(s);
 		p.beginParsing(new StringReader("a,b,c\n1,2,3"));
-		assertEquals(p.getContext().headers(), new String[]{"a", "b", "c"});
-		assertEquals(p.getContext().parsedHeaders(), new String[]{"a", "b", "c"});
-		assertEquals(p.parseNext(), new String[]{"1", "2", "3"});
+		assertEquals(p.getContext().headers(), new String[] { "a", "b", "c" });
+		assertEquals(p.getContext().parsedHeaders(), new String[] { "a", "b", "c" });
+		assertEquals(p.parseNext(), new String[] { "1", "2", "3" });
 	}
-
 
 	@Test
 	public void headersAvailableOnProcessStarted() {
@@ -53,13 +54,13 @@ public class Github_112 {
 		s.setProcessor(new RowProcessor() {
 			@Override
 			public void processStarted(ParsingContext context) {
-				assertEquals(context.headers(), new String[]{"a", "b", "c"});
-				assertEquals(context.parsedHeaders(), new String[]{"a", "b", "c"});
+				assertEquals(context.headers(), new String[] { "a", "b", "c" });
+				assertEquals(context.parsedHeaders(), new String[] { "a", "b", "c" });
 			}
 
 			@Override
 			public void rowProcessed(String[] row, ParsingContext context) {
-				assertEquals(row, new String[]{"1", "2", "3"});
+				assertEquals(row, new String[] { "1", "2", "3" });
 			}
 
 			@Override

@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.conversions.*;
-
 import java.util.*;
+
+import com.bupt.se.conversions.*;
 
 public class WordsToSetConversion implements Conversion<String, Set<String>> {
 
@@ -57,7 +57,7 @@ public class WordsToSetConversion implements Conversion<String, Set<String>> {
 
 		Set<String> out = new TreeSet<String>();
 		for (String token : input.split(separator)) {
-			//extracting words separated by white space as well
+			// extracting words separated by white space as well
 			for (String word : token.trim().split("\\s")) {
 				out.add(word.trim());
 			}
@@ -66,7 +66,7 @@ public class WordsToSetConversion implements Conversion<String, Set<String>> {
 		return out;
 	}
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	@Override
 	public String revert(Set<String> input) {

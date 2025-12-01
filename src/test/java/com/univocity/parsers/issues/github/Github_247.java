@@ -15,11 +15,12 @@
  */
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.RowListProcessor;
-import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvParserSettings;
 import org.testng.annotations.Test;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.RowListProcessor;
+import com.bupt.se.csv.CsvParser;
+import com.bupt.se.csv.CsvParserSettings;
 
 import static com.univocity.parsers.ParserTestCase.newReader;
 import static org.testng.Assert.assertEquals;

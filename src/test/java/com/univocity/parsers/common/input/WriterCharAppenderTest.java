@@ -15,11 +15,12 @@
  */
 package com.univocity.parsers.common.input;
 
-import com.univocity.parsers.csv.CsvWriter;
-import com.univocity.parsers.csv.CsvWriterSettings;
 import java.io.StringWriter;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
+
+import com.bupt.se.csv.CsvWriter;
+import com.bupt.se.csv.CsvWriterSettings;
 
 public class WriterCharAppenderTest {
 
@@ -41,7 +42,7 @@ public class WriterCharAppenderTest {
 
 		// test data's first column length is specific to repro bug occuring due to
 		// appending quote character occuring at writer buffer boundary
-		String[] testCase = {"abcdefghijklmno", "pqrst", "uvwxyz"};
+		String[] testCase = { "abcdefghijklmno", "pqrst", "uvwxyz" };
 		String expectedString = "\"abcdefghijklmno\"\t\"pqrst\"\t\"uvwxyz\"\n";
 
 		writer.writeRow(testCase);

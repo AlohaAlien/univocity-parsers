@@ -1,17 +1,18 @@
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 
 import static org.testng.Assert.*;
 
-
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/447
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Github_447 {
 
@@ -19,7 +20,8 @@ public class Github_447 {
 	public void parseCSV() {
 		String input = "" +
 				"#\n" +
-				"# underscores are used as the padding character, so leading/trailing whitespace can be considered part of the value\n" +
+				"# underscores are used as the padding character, so leading/trailing whitespace can be considered part of the value\n"
+				+
 				"#\n" +
 				"#4    5     40      40      8";
 

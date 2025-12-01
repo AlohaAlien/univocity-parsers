@@ -15,9 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.record.Record;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.record.Record;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 

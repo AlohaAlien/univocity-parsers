@@ -15,10 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.ParserTestCase;
 
 import java.io.*;
 
@@ -26,16 +28,17 @@ import java.io.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/7
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_7 extends ParserTestCase {
 
 	@DataProvider
 	private Object[][] readerProvider() throws Exception {
-		return new Object[][]{
-			{new StringReader("# this is a comment line\nA,B,C\n1,2,3\n")},
-			{newReader("/issues/github_7/input.csv")}
+		return new Object[][] {
+				{ new StringReader("# this is a comment line\nA,B,C\n1,2,3\n") },
+				{ newReader("/issues/github_7/input.csv") }
 		};
 	}
 
@@ -53,9 +56,9 @@ public class Github_7 extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(input);
 
-		String[] expectedHeaders = new String[]{"A", "B", "C"};
-		String[][] expectedResult = new String[][]{
-			{"1", "2", "3"},
+		String[] expectedHeaders = new String[] { "A", "B", "C" };
+		String[][] expectedResult = new String[][] {
+				{ "1", "2", "3" },
 		};
 
 		this.assertHeadersAndValuesMatch(processor, expectedHeaders, expectedResult);

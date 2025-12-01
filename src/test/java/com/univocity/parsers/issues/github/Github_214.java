@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -26,7 +27,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/214
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_214 {
 
@@ -53,7 +55,7 @@ public class Github_214 {
 	@Test
 	public void detectCsvFormatWithPriorityList() {
 		CsvParserSettings settings = new CsvParserSettings();
-		settings.detectFormatAutomatically( '-', '.');
+		settings.detectFormatAutomatically('-', '.');
 		CsvParser parser = new CsvParser(settings);
 
 		String s = "" +
@@ -75,10 +77,10 @@ public class Github_214 {
 		List<String[]> rows = parser.parseAll();
 		assertEquals(rows.size(), 4);
 
-		assertEquals(Arrays.toString(rows.get(0)),"[1, 2001-01-01, First row, 1.1]");
-		assertEquals(Arrays.toString(rows.get(1)),"[2, 2002-02-02, Second row, 2.2]");
-		assertEquals(Arrays.toString(rows.get(2)),"[3, 2003-03-03, Third row, 3.3]");
-		assertEquals(Arrays.toString(rows.get(3)),"[4, 2004-04-04, Fourth row, 4.4]");
+		assertEquals(Arrays.toString(rows.get(0)), "[1, 2001-01-01, First row, 1.1]");
+		assertEquals(Arrays.toString(rows.get(1)), "[2, 2002-02-02, Second row, 2.2]");
+		assertEquals(Arrays.toString(rows.get(2)), "[3, 2003-03-03, Third row, 3.3]");
+		assertEquals(Arrays.toString(rows.get(3)), "[4, 2004-04-04, Fourth row, 4.4]");
 
 	}
 }

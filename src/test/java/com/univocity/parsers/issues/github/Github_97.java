@@ -15,13 +15,15 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_97 {
 
@@ -33,6 +35,6 @@ public class Github_97 {
 		settings.setNullValue("N");
 
 		CsvParser parser = new CsvParser(settings);
-		assertEquals(parser.parseLine(" , \n"), new String[]{"N", "N"});
+		assertEquals(parser.parseLine(" , \n"), new String[] { "N", "N" });
 	}
 }

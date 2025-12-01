@@ -15,9 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.ParserTestCase;
 
 import java.io.*;
 import java.util.*;
@@ -27,13 +29,13 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/177
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_177 extends ParserTestCase {
 
-
 	@Test
-	public void testNewlineAfterEscapedQuote() throws Exception{
+	public void testNewlineAfterEscapedQuote() throws Exception {
 		CsvParserSettings settings = new CsvParserSettings();
 
 		settings.getFormat().setComment('\0');
@@ -50,7 +52,7 @@ public class Github_177 extends ParserTestCase {
 
 		CsvParser parser = new CsvParser(settings);
 
-		for(String[] row : parser.parseAll(newReader("/issues/github_177/input.csv"))){
+		for (String[] row : parser.parseAll(newReader("/issues/github_177/input.csv"))) {
 			assertEquals(row.length, 32);
 		}
 

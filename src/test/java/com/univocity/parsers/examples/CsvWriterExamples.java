@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.issues.github.*;
 import org.testng.annotations.*;
 
@@ -34,19 +34,22 @@ public class CsvWriterExamples extends Example {
 		settings.getFormat().setQuote('\'');
 		settings.getFormat().setQuoteEscape('\'');
 
-		writeAndPrint(new String[]{"Value 1", "I'm capable", "Value 2", null}, settings, "By default we only quote fields when there's no choice");
+		writeAndPrint(new String[] { "Value 1", "I'm capable", "Value 2", null }, settings,
+				"By default we only quote fields when there's no choice");
 
-		//But quotes might need to be escaped
+		// But quotes might need to be escaped
 		settings.setQuoteEscapingEnabled(true);
-		writeAndPrint(new String[]{"Value 1", "I'm capable", "Value 2", null}, settings, "Escaping the quote character");
+		writeAndPrint(new String[] { "Value 1", "I'm capable", "Value 2", null }, settings,
+				"Escaping the quote character");
 
-		//And sometimes values with specific characters should be enclosed in quotes.
+		// And sometimes values with specific characters should be enclosed in quotes.
 		settings.setQuotationTriggers('2', '3', '\t', '\0');
-		writeAndPrint(new String[]{"Value 1", "I'm capable", "Value 2", null}, settings, "Forcing quotes around values that contain specific characters");
+		writeAndPrint(new String[] { "Value 1", "I'm capable", "Value 2", null }, settings,
+				"Forcing quotes around values that contain specific characters");
 
-		//Finally, you might want to put quotes everywhere
+		// Finally, you might want to put quotes everywhere
 		settings.setQuoteAllFields(true);
-		writeAndPrint(new String[]{"Value 1", "I'm capable", "Value 2", null}, settings, "Quotes in everything");
+		writeAndPrint(new String[] { "Value 1", "I'm capable", "Value 2", null }, settings, "Quotes in everything");
 
 		printAndValidate();
 	}

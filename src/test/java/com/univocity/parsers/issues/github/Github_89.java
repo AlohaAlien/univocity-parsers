@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.fixed.*;
 
 import static org.testng.Assert.*;
 
@@ -24,7 +25,7 @@ public class Github_89 {
 
 	@Test
 	public void maxColumnsSettingWorksOnEOF() {
-		int[] length = new int[]{2, 2};
+		int[] length = new int[] { 2, 2 };
 		FixedWidthFields lengths = new FixedWidthFields(length);
 		FixedWidthParserSettings settings = new FixedWidthParserSettings(lengths);
 		settings.setMaxColumns(2);

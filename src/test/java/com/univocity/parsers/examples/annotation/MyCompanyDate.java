@@ -15,21 +15,21 @@
  ******************************************************************************/
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-
 import java.lang.annotation.*;
+
+import com.bupt.se.annotations.*;
 
 //default annotation stuff - you'll probably just want to copy and paste this
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 
-//your common annotations go here
+// your common annotations go here
 @Parsed
 @NullString(nulls = "-")
 @Format(formats = "yyyy-MM-dd")
 public @interface MyCompanyDate {
 
-	@Copy(to = Parsed.class) //copies the value provided in `MyCompanyDate.field` to `Parsed.field`
+	@Copy(to = Parsed.class) // copies the value provided in `MyCompanyDate.field` to `Parsed.field`
 	String field() default "";
 }

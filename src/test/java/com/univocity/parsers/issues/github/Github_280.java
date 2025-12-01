@@ -15,9 +15,8 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -28,7 +27,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/280
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_280 {
 
@@ -45,12 +45,12 @@ public class Github_280 {
 		private Model() {
 		}
 
-
 	}
 
 	@Test
 	public void testImmutableBeanConstructorParam() throws Exception {
-		Model instance = new CsvRoutines().iterate(Model.class, new StringReader("mycolumn,text,count\nvalue,txt,1")).iterator().next();
+		Model instance = new CsvRoutines().iterate(Model.class, new StringReader("mycolumn,text,count\nvalue,txt,1"))
+				.iterator().next();
 		assertNotNull(instance);
 		assertEquals(instance.column1, "value");
 		assertEquals(instance.count, 1);

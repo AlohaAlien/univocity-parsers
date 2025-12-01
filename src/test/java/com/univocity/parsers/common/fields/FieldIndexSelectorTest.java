@@ -17,6 +17,8 @@ package com.univocity.parsers.common.fields;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.fields.FieldIndexSelector;
+
 import static org.testng.Assert.*;
 
 public class FieldIndexSelectorTest {
@@ -26,9 +28,9 @@ public class FieldIndexSelectorTest {
 		FieldIndexSelector selector = new FieldIndexSelector();
 		selector.add(3, 0);
 
-		int[] indexes = selector.getFieldIndexes(new String[]{null, null, null, null, null, null});
+		int[] indexes = selector.getFieldIndexes(new String[] { null, null, null, null, null, null });
 
-		int[] expected = new int[]{3, 0};
+		int[] expected = new int[] { 3, 0 };
 
 		assertEquals(indexes, expected);
 	}

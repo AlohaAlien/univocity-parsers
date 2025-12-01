@@ -17,6 +17,8 @@ package com.univocity.parsers.common.input;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.input.ExpandingCharAppender;
+
 import static org.testng.Assert.*;
 
 public class ExpandingCharAppenderTest {
@@ -137,11 +139,11 @@ public class ExpandingCharAppenderTest {
 		b.append('a');
 		b.append('b');
 
-		a.append(b); //whitespaceRangeStart gets reset here
+		a.append(b); // whitespaceRangeStart gets reset here
 		assertEquals(a.toString(), "ab");
 		assertEquals(a.chars.length, 2);
 
-		a.append(b); //should make no difference
+		a.append(b); // should make no difference
 		assertEquals(a.toString(), "ab");
 		assertEquals(a.chars.length, 2);
 		assertEquals(b.toString(), null);
@@ -157,7 +159,6 @@ public class ExpandingCharAppenderTest {
 		assertEquals(b.chars.length, 2);
 	}
 
-
 	@Test
 	public void testAppendArray() {
 
@@ -165,7 +166,6 @@ public class ExpandingCharAppenderTest {
 		a.append("abc".toCharArray(), 0, 3);
 		assertEquals(a.toString(), "abc");
 		assertEquals(a.chars.length, 5);
-
 
 		a.append("defghi".toCharArray(), 0, 3);
 		assertEquals(a.toString(), "abcdef");
@@ -178,7 +178,7 @@ public class ExpandingCharAppenderTest {
 	}
 
 	@Test
-	public void testRemove(){
+	public void testRemove() {
 		ExpandingCharAppender a = new ExpandingCharAppender(10, null, -1);
 		a.append("0123456789");
 
@@ -187,7 +187,6 @@ public class ExpandingCharAppenderTest {
 
 		a.remove(10, 0);
 		assertEquals(a.toString(), "0123456789");
-
 
 		a.remove(0, 1);
 		assertEquals(a.toString(), "123456789");

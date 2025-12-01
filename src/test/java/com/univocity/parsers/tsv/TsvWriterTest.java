@@ -15,9 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.tsv;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.tsv.TsvParser;
+import com.bupt.se.tsv.TsvParserSettings;
+import com.bupt.se.tsv.TsvWriter;
+import com.bupt.se.tsv.TsvWriterSettings;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -29,11 +34,11 @@ public class TsvWriterTest extends TsvParserTest {
 
 	@DataProvider
 	public Object[][] lineSeparatorProvider() {
-		return new Object[][]{
-			{ new char[]{'\n'}},
-			{ new char[]{'\r', '\n'}},
-			{ new char[]{'\n'}},
-			{ new char[]{'\r', '\n'}},
+		return new Object[][] {
+				{ new char[] { '\n' } },
+				{ new char[] { '\r', '\n' } },
+				{ new char[] { '\n' } },
+				{ new char[] { '\r', '\n' } },
 		};
 	}
 
@@ -41,7 +46,7 @@ public class TsvWriterTest extends TsvParserTest {
 	public void writeTest(char[] lineSeparator) throws Exception {
 		TsvWriterSettings settings = new TsvWriterSettings();
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 		settings.getFormat().setLineSeparator(lineSeparator);
 		settings.setIgnoreLeadingWhitespaces(false);
 		settings.setIgnoreTrailingWhitespaces(false);
@@ -51,22 +56,22 @@ public class TsvWriterTest extends TsvParserTest {
 
 		TsvWriter writer = new TsvWriter(new OutputStreamWriter(tsvResult, "UTF-8"), settings);
 
-		Object[][] expectedResult = new Object[][]{
-			{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-			{"1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00"},
-			{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
-			{"1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00"},
-			{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-			{null, null, null, null, null},
-			{null, null, null, null, null},
-			{null, null, "5", null, null},
-			{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-			{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-			{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-			{"19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00"},
-			{null, " ", null, "  ", "30 00.00"},
-			{"1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00"},
-			{"1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00"},
+		Object[][] expectedResult = new Object[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, "5", null, null },
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00" },
+				{ null, " ", null, "  ", "30 00.00" },
+				{ "1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00" },
+				{ "1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00" },
 		};
 
 		writer.writeHeaders();
@@ -81,7 +86,8 @@ public class TsvWriterTest extends TsvParserTest {
 		writer.close();
 
 		String result = tsvResult.toString();
-		result = "This line and the following should be skipped. The third is ignored automatically because it is blank\n\n\n".replaceAll("\n", new String(lineSeparator)) + result;
+		result = "This line and the following should be skipped. The third is ignored automatically because it is blank\n\n\n"
+				.replaceAll("\n", new String(lineSeparator)) + result;
 
 		TsvParserSettings parserSettings = new TsvParserSettings();
 		parserSettings.setRowProcessor(processor);
@@ -105,7 +111,7 @@ public class TsvWriterTest extends TsvParserTest {
 	public void writeSelectedColumnOnly(char[] lineSeparator) throws Exception {
 		TsvWriterSettings settings = new TsvWriterSettings();
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 		settings.getFormat().setLineSeparator(lineSeparator);
 		settings.setIgnoreLeadingWhitespaces(false);
 		settings.setIgnoreTrailingWhitespaces(false);
@@ -116,28 +122,28 @@ public class TsvWriterTest extends TsvParserTest {
 
 		TsvWriter writer = new TsvWriter(new OutputStreamWriter(tsvResult, "UTF-8"), settings);
 
-		Object[][] input = new Object[][]{
-			{"E350", "3000.00"},
-			{"Venture \"Extended Edition\"", "4900.00"},
-			{"Grand Cherokee", "4799.00"},
-			{"Venture \"Extended Edition, Very Large\"", "5000.00"},
-			{"Venture \"Extended Edition\"", "4900.00"},
-			{null, null},
-			{"5", null},
-			{"E350", "3000.00"},
+		Object[][] input = new Object[][] {
+				{ "E350", "3000.00" },
+				{ "Venture \"Extended Edition\"", "4900.00" },
+				{ "Grand Cherokee", "4799.00" },
+				{ "Venture \"Extended Edition, Very Large\"", "5000.00" },
+				{ "Venture \"Extended Edition\"", "4900.00" },
+				{ null, null },
+				{ "5", null },
+				{ "E350", "3000.00" },
 		};
 		writer.writeHeaders();
 		writer.writeRowsAndClose(input);
 
-		Object[][] expectedResult = new Object[][]{
-			{null, null, "E350", null, "3000.00"},
-			{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-			{null, null, "Grand Cherokee", null, "4799.00"},
-			{null, null, "Venture \"Extended Edition, Very Large\"", null, "5000.00"},
-			{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-			{null, null, null, null, null},
-			{null, null, "5", null, null},
-			{null, null, "E350", null, "3000.00"},
+		Object[][] expectedResult = new Object[][] {
+				{ null, null, "E350", null, "3000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, "Grand Cherokee", null, "4799.00" },
+				{ null, null, "Venture \"Extended Edition, Very Large\"", null, "5000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, null, null, null },
+				{ null, null, "5", null, null },
+				{ null, null, "E350", null, "3000.00" },
 		};
 
 		String result = tsvResult.toString();
@@ -165,7 +171,7 @@ public class TsvWriterTest extends TsvParserTest {
 	public void writeSelectedColumnOnlyToString(char[] lineSeparator) throws Exception {
 		TsvWriterSettings settings = new TsvWriterSettings();
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 		settings.getFormat().setLineSeparator(lineSeparator);
 		settings.setIgnoreLeadingWhitespaces(false);
 		settings.setIgnoreTrailingWhitespaces(false);
@@ -174,15 +180,15 @@ public class TsvWriterTest extends TsvParserTest {
 
 		TsvWriter writer = new TsvWriter(settings);
 
-		Object[][] input = new Object[][]{
-			{"E350", "3000.00"},
-			{"Venture \"Extended Edition\"", "4900.00"},
-			{"Grand Cherokee", "4799.00"},
-			{"Venture \"Extended Edition, Very Large\"", "5000.00"},
-			{"Venture \"Extended Edition\"", "4900.00"},
-			{null, null},
-			{"5", null},
-			{"E350", "3000.00"},
+		Object[][] input = new Object[][] {
+				{ "E350", "3000.00" },
+				{ "Venture \"Extended Edition\"", "4900.00" },
+				{ "Grand Cherokee", "4799.00" },
+				{ "Venture \"Extended Edition, Very Large\"", "5000.00" },
+				{ "Venture \"Extended Edition\"", "4900.00" },
+				{ null, null },
+				{ "5", null },
+				{ "E350", "3000.00" },
 		};
 
 		String headers = writer.writeHeadersToString();
@@ -200,7 +206,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void parseWithLineJoining(){
+	public void parseWithLineJoining() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.setLineJoiningEnabled(true);
 		settings.getFormat().setLineSeparator("\n");
@@ -209,8 +215,8 @@ public class TsvWriterTest extends TsvParserTest {
 		StringWriter out = new StringWriter();
 		TsvWriter writer = new TsvWriter(out, settings);
 
-		writer.writeRow("A","B","\nC");
-		writer.writeRow("1","2","\n3\\");
+		writer.writeRow("A", "B", "\nC");
+		writer.writeRow("1", "2", "\n3\\");
 
 		writer.close();
 
@@ -227,7 +233,7 @@ public class TsvWriterTest extends TsvParserTest {
 		File file = File.createTempFile("test", "tsv");
 
 		TsvWriter writer = new TsvWriter(file, settings);
-		writer.writeRow("A","B","\nC");
+		writer.writeRow("A", "B", "\nC");
 		writer.close();
 
 		assertEquals(readFileContent(file), "A\tB\t\\nC\n");
@@ -267,7 +273,7 @@ public class TsvWriterTest extends TsvParserTest {
 		FileOutputStream outputStream = new FileOutputStream(file);
 
 		TsvWriter writer = new TsvWriter(outputStream, settings);
-		writer.writeRow("A","B","\nC");
+		writer.writeRow("A", "B", "\nC");
 		writer.close();
 
 		assertEquals(readFileContent(file), "A\tB\tC\n");
@@ -302,7 +308,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendEscapeT(){
+	public void appendEscapeT() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setIgnoreTrailingWhitespaces(true);
@@ -317,7 +323,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendEscapeTNotIgnoringWhitespaces(){
+	public void appendEscapeTNotIgnoringWhitespaces() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setIgnoreTrailingWhitespaces(false);
@@ -332,7 +338,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendEscapeR(){
+	public void appendEscapeR() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setIgnoreTrailingWhitespaces(true);
@@ -347,7 +353,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendEscapeRNotIgnoringWhitespaces(){
+	public void appendEscapeRNotIgnoringWhitespaces() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setIgnoreTrailingWhitespaces(false);
@@ -362,7 +368,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendEscapeSlash(){
+	public void appendEscapeSlash() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setIgnoreTrailingWhitespaces(true);
@@ -377,7 +383,7 @@ public class TsvWriterTest extends TsvParserTest {
 	}
 
 	@Test
-	public void appendNullValueWhenThereIsNoContent(){
+	public void appendNullValueWhenThereIsNoContent() {
 		TsvWriterSettings settings = new TsvWriterSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setNullValue("null");
@@ -398,13 +404,13 @@ public class TsvWriterTest extends TsvParserTest {
 		TsvWriter writer = new TsvWriter(settings);
 		String line;
 
-		line = writer.writeRowToString(new String[]{"\0 a", "b"});
+		line = writer.writeRowToString(new String[] { "\0 a", "b" });
 		assertEquals(line, "\0 a\tb");
 
-		line = writer.writeRowToString(new String[]{"\0 a ", " b\1 "});
+		line = writer.writeRowToString(new String[] { "\0 a ", " b\1 " });
 		assertEquals(line, "\0 a\tb\1");
 
-		line = writer.writeRowToString(new String[]{"\2 a ", " b\2"});
+		line = writer.writeRowToString(new String[] { "\2 a ", " b\2" });
 		assertEquals(line, "a\tb");
 	}
 

@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.conversions.*;
 import org.testng.annotations.*;
 
+import com.bupt.se.conversions.*;
 
 import static org.testng.Assert.*;
 
@@ -25,20 +25,20 @@ public class Github_75 {
 
 	@DataProvider
 	public Object[][] inputProvider() {
-		return new Object[][]{
-				{8, "Dies ist ein Text", "Dies ist"},
-				{8, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist"},
-				{17, "Dies ist ein Text", "Dies ist ein Text"},
-				{17, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist ein Text"},
-				{18, "Dies ist ein Text", "Dies ist ein Text"},
-				{18, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist ein Text"},
-				{18, "Dies ist ein Text ", "Dies ist ein Text"},
-				{4, "  a b d", "a b"},
-				{5, "  a b d ", "a b d"},
-				{5, "", ""},
-				{5, " ", ""},
-				{2, " 1", "1"},
-				{2, "  1", "1"},
+		return new Object[][] {
+				{ 8, "Dies ist ein Text", "Dies ist" },
+				{ 8, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist" },
+				{ 17, "Dies ist ein Text", "Dies ist ein Text" },
+				{ 17, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist ein Text" },
+				{ 18, "Dies ist ein Text", "Dies ist ein Text" },
+				{ 18, " Dies ist ein Text mit 34 Zeichen. ", "Dies ist ein Text" },
+				{ 18, "Dies ist ein Text ", "Dies ist ein Text" },
+				{ 4, "  a b d", "a b" },
+				{ 5, "  a b d ", "a b d" },
+				{ 5, "", "" },
+				{ 5, " ", "" },
+				{ 2, " 1", "1" },
+				{ 2, "  1", "1" },
 		};
 	}
 
@@ -49,4 +49,3 @@ public class Github_75 {
 		assertEquals(result, expected);
 	}
 }
-

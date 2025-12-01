@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -25,21 +26,22 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/165
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_165 {
 
 	@DataProvider
-	public Object[][] inputBufferSizeProvider(){
-		return new Object[][]{
-				{1},
-				{2},
-				{3},
-				{4},
-				{5},
-				{6},
-				{7},
-				{8},
+	public Object[][] inputBufferSizeProvider() {
+		return new Object[][] {
+				{ 1 },
+				{ 2 },
+				{ 3 },
+				{ 4 },
+				{ 5 },
+				{ 6 },
+				{ 7 },
+				{ 8 },
 		};
 	}
 

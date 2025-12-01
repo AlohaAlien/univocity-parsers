@@ -15,19 +15,22 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
+
 import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/61
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Github_61 {
 
 	@Test
-	public void testUnescapedQuotes1(){
+	public void testUnescapedQuotes1() {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setParseUnescapedQuotesUntilDelimiter(false);
 		settings.getFormat().setDelimiter(';');
@@ -42,7 +45,7 @@ public class Github_61 {
 	}
 
 	@Test
-	public void testUnescapedQuotes2(){
+	public void testUnescapedQuotes2() {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setParseUnescapedQuotesUntilDelimiter(false);
 		settings.getFormat().setDelimiter(';');

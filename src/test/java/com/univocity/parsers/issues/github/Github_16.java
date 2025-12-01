@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.fixed.*;
 
 import static org.testng.Assert.*;
 
@@ -24,7 +25,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/16
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_16 {
@@ -41,8 +43,8 @@ public class Github_16 {
 		FixedWidthWriter writer = new FixedWidthWriter(settings);
 
 		String headers = writer.writeHeadersToString();
-		String line1 = writer.writeRowToString(new String[]{"AAAA", "BBBB", "12"});
-		String line2 = writer.writeRowToString(new String[]{"CC", "DD", "222212"});
+		String line1 = writer.writeRowToString(new String[] { "AAAA", "BBBB", "12" });
+		String line2 = writer.writeRowToString(new String[] { "CC", "DD", "222212" });
 
 		assertEquals(headers, "date           quantity       comments");
 		assertEquals(line1, "AAAA             BBBB               12");

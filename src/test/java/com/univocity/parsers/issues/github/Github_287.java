@@ -15,13 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.fields.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.fields.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 import java.io.*;
 import java.util.*;
@@ -31,7 +32,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/287
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_287 {
 
@@ -110,9 +112,8 @@ public class Github_287 {
 	}
 
 	private Model parseWithMapping(BeanListProcessor<Model> processor) {
-		processor.convertFields(Conversions.toDate(Locale.ENGLISH,"dd MMM yyyy")).set("col4");
-		processor.convertFields(Conversions.toDate(Locale.ENGLISH,"yyyy-MM-dd")).set("col5");
-
+		processor.convertFields(Conversions.toDate(Locale.ENGLISH, "dd MMM yyyy")).set("col4");
+		processor.convertFields(Conversions.toDate(Locale.ENGLISH, "yyyy-MM-dd")).set("col5");
 
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setProcessor(processor);
@@ -147,21 +148,21 @@ public class Github_287 {
 		BeanListProcessor<Model> processor = new BeanListProcessor<Model>(Model.class);
 
 		ColumnMapper mapper = processor.getColumnMapper();
-		//model
+		// model
 		mapper.attributeToColumnName("a", "col1");
 		mapper.attributeToColumnName("b", "col2");
 		mapper.attributeToColumnName("c", "col3");
 		mapper.attributeToColumnName("d", "col4");
 
-		//model.topmodel
+		// model.topmodel
 		mapper.attributeToColumnName("m.e", "col1");
 		mapper.attributeToColumnName("m.f", "col2");
 
-		//model.topmodel.missuniverse
+		// model.topmodel.missuniverse
 		mapper.attributeToColumnName("m.m.g", "col5");
 		mapper.attributeToColumnName("m.m.h", "col2");
 
-		//model.missuniverse
+		// model.missuniverse
 		mapper.attributeToColumnName("u.g", "col4");
 		mapper.attributeToColumnName("u.h", "col2");
 
@@ -169,7 +170,7 @@ public class Github_287 {
 
 		try {
 			writeWithMappings(object, mapper);
-		} catch (DataProcessingException e){
+		} catch (DataProcessingException e) {
 			assertEquals(e.getMessage(), "" +
 					"Cannot write object as multiple attributes/methods have been mapped to the same output column:\n" +
 					"\tcol1: a, m.e\n" +
@@ -193,7 +194,7 @@ public class Github_287 {
 
 		ColumnMapper mapper = processor.getColumnMapper();
 
-		//model
+		// model
 		mapper.attributeToColumnName("a", "col1");
 		mapper.methodToColumnName("_B", int.class, "col2");
 		mapper.methodToColumnName("_B", "col2");
@@ -201,19 +202,19 @@ public class Github_287 {
 		mapper.methodToColumnName("getC", "col3");
 		mapper.attributeToColumnName("d", "col4");
 
-		//model.topmodel
+		// model.topmodel
 		mapper.methodToColumnName("m.setE", "col1");
 		mapper.methodToColumnName("m.getE", "col1");
 		mapper.methodToColumnName("m.setF", int.class, "col2");
 		mapper.methodToColumnName("m.getF", "col2");
 
-		//model.topmodel.missuniverse
+		// model.topmodel.missuniverse
 		mapper.methodToColumnName("m.m.setG", "col5");
 		mapper.methodToColumnName("m.m.getG", "col5");
 		mapper.methodToColumnName("m.m.setH", Long.class, "col2");
 		mapper.methodToColumnName("m.m.getH", "col2");
 
-		//model.missuniverse
+		// model.missuniverse
 		mapper.methodToColumnName("u.setG", Date.class, "col4");
 		mapper.methodToColumnName("u.getG", Date.class, "col4");
 		mapper.methodToColumnName("u.setH", "col2");
@@ -223,7 +224,7 @@ public class Github_287 {
 
 		try {
 			writeWithMappings(object, mapper);
-		} catch (DataProcessingException e){
+		} catch (DataProcessingException e) {
 			assertEquals(e.getMessage(), "" +
 					"Cannot write object as multiple attributes/methods have been mapped to the same output column:\n" +
 					"\tcol1: a, m.getE\n" +
@@ -245,28 +246,27 @@ public class Github_287 {
 
 		ColumnMapper mapper = processor.getColumnMapper();
 
-		//model
+		// model
 		mapper.attributeToIndex("a", 0);
 		mapper.methodToIndex("_B", int.class, 1);
 		mapper.methodToIndex("_B", 1);
 		mapper.methodToIndex("setC", String.class, 2);
-		mapper.methodToIndex("getC",2);
+		mapper.methodToIndex("getC", 2);
 		mapper.attributeToIndex("d", 3);
 
-
-		//model.topmodel
+		// model.topmodel
 		mapper.methodToIndex("m.setE", 0);
 		mapper.methodToIndex("m.getE", 0);
 		mapper.methodToIndex("m.setF", int.class, 1);
 		mapper.methodToIndex("m.getF", 1);
 
-		//model.topmodel.missuniverse
+		// model.topmodel.missuniverse
 		mapper.methodToIndex("m.m.setG", 4);
 		mapper.methodToIndex("m.m.getG", 4);
 		mapper.methodToIndex("m.m.setH", Long.class, 1);
 		mapper.methodToIndex("m.m.getH", 1);
 
-		//model.missuniverse
+		// model.missuniverse
 		mapper.methodToIndex("u.setG", Date.class, 3);
 		mapper.methodToIndex("u.getG", 3);
 		mapper.methodToIndex("u.setH", 1);
@@ -276,7 +276,7 @@ public class Github_287 {
 
 		try {
 			writeWithMappings(object, mapper);
-		} catch (DataProcessingException e){
+		} catch (DataProcessingException e) {
 			assertEquals(e.getMessage(), "" +
 					"Cannot write object as multiple attributes/methods have been mapped to the same output column:\n" +
 					"\tColumn #0: a, m.getE\n" +

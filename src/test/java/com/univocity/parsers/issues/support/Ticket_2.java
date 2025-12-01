@@ -15,12 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.annotations.Format;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.math.*;
@@ -126,7 +126,8 @@ public class Ticket_2 {
 		simpleBean.setNumber(BigDecimal.ZERO);
 
 		FixedWidthWriterSettings writeSettings = getSettings(SimpleBean.class);
-		((BeanWriterProcessor<?>) writeSettings.getRowWriterProcessor()).convertFields(new MyNumericConversion(new String[]{"#0.00"})).add("number");
+		((BeanWriterProcessor<?>) writeSettings.getRowWriterProcessor())
+				.convertFields(new MyNumericConversion(new String[] { "#0.00" })).add("number");
 
 		writeAndValidate(writeSettings, simpleBean, "0,00                          \r\n");
 	}

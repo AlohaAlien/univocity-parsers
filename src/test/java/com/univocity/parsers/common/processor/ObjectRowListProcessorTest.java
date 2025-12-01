@@ -15,15 +15,17 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.ObjectRowListProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;
 import java.util.*;
 
-import static com.univocity.parsers.conversions.Conversions.*;
+import static com.bupt.se.conversions.Conversions.*;
 import static org.testng.Assert.*;
 
 public class ObjectRowListProcessorTest {
@@ -34,12 +36,12 @@ public class ObjectRowListProcessorTest {
 		return out;
 	}
 
-	private String[] valuesForTrue = new String[]{"yes", "y"};
-	private String[] valuesForFalse = new String[]{"no", "n", null};
+	private String[] valuesForTrue = new String[] { "yes", "y" };
+	private String[] valuesForFalse = new String[] { "no", "n", null };
 
 	private String input = "date,amount,quantity,pending,comments\n"
-		+ "10-oct-2001,555.999,1,yEs,?\n"
-		+ "2001-10-10,,?,N,\"  \"\" something \"\"  \"";
+			+ "10-oct-2001,555.999,1,yEs,?\n"
+			+ "2001-10-10,,?,N,\"  \"\" something \"\"  \"";
 
 	private List<Object[]> process(String input, ObjectRowListProcessor processor, CsvParserSettings settings) {
 		StringReader reader = new StringReader(input);
@@ -59,7 +61,7 @@ public class ObjectRowListProcessorTest {
 
 		processor.convertFields(toNull).set("quantity", "amount");
 
-		processor.convertFields(toCalendar(Locale.ENGLISH,"dd-MMM-yyyy", "yyyy-MM-dd")).set("date");
+		processor.convertFields(toCalendar(Locale.ENGLISH, "dd-MMM-yyyy", "yyyy-MM-dd")).set("date");
 		processor.convertFields(toBigDecimal()).set("amount");
 		processor.convertFields(toInteger()).set("quantity");
 		processor.convertFields(toLowerCase(), toBoolean(valuesForTrue, valuesForFalse)).set("pending");
@@ -85,9 +87,9 @@ public class ObjectRowListProcessorTest {
 
 	@DataProvider(name = "processors")
 	Object[][] getProcessors() {
-		return new Object[][]{
-			{newProcessorWithFieldNames()},
-			{newProcessorWithFieldIndexes()}
+		return new Object[][] {
+				{ newProcessorWithFieldNames() },
+				{ newProcessorWithFieldIndexes() }
 		};
 	}
 

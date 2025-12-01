@@ -16,18 +16,18 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
 
 import static org.testng.Assert.*;
-
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/251
@@ -52,20 +52,20 @@ public class Github_251 {
 		public String nullNotBlank;
 
 		@Parsed(index = 1)
-		@Validate(oneOf = {"a", "b"})
+		@Validate(oneOf = { "a", "b" })
 		public String aOrB;
 
 		@Parsed(index = 2)
-		@Validate(oneOf = {"a"}, noneOf = "b")
+		@Validate(oneOf = { "a" }, noneOf = "b")
 		public String aNotB;
 
 		@Parsed(index = 3)
-		@Validate(nullable = true, oneOf = {"a", "b"})
+		@Validate(nullable = true, oneOf = { "a", "b" })
 		public String aOrBOrNull;
 
 		@Parsed(index = 4)
 		@Validate(allowBlanks = true, matches = "^[^\\d\\s]+$")
-		//yet regex disallows whitespace
+		// yet regex disallows whitespace
 		public String noDigits;
 
 		@Parsed(index = 5)
@@ -86,8 +86,8 @@ public class Github_251 {
 		s.setProcessorErrorHandler(new RetryableErrorHandler<ParsingContext>() {
 			@Override
 			public void handleError(DataProcessingException error, Object[] inputRow, ParsingContext context) {
-//				System.out.println(error.getMessage());
-				errorDetails.add(new Object[]{error.getRecordNumber(), error.getColumnIndex(), error.getValue()});
+				// System.out.println(error.getMessage());
+				errorDetails.add(new Object[] { error.getRecordNumber(), error.getColumnIndex(), error.getValue() });
 				this.keepRecord();
 			}
 		});
@@ -99,13 +99,13 @@ public class Github_251 {
 				"\" \",c,b,,a b,-5"));
 
 		assertEquals(errorDetails.size(), 7);
-		assertEquals(errorDetails.get(0), new Object[]{1L, 3, " "});
-		assertEquals(errorDetails.get(1), new Object[]{1L, 4, "3z"});
-		assertEquals(errorDetails.get(2), new Object[]{2L, 0, " "});
-		assertEquals(errorDetails.get(3), new Object[]{2L, 1, "c"});
-		assertEquals(errorDetails.get(4), new Object[]{2L, 2, "b"});
-		assertEquals(errorDetails.get(5), new Object[]{2L, 4, "a b"});
-		assertEquals(errorDetails.get(6), new Object[]{2L, 5, -5});
+		assertEquals(errorDetails.get(0), new Object[] { 1L, 3, " " });
+		assertEquals(errorDetails.get(1), new Object[] { 1L, 4, "3z" });
+		assertEquals(errorDetails.get(2), new Object[] { 2L, 0, " " });
+		assertEquals(errorDetails.get(3), new Object[] { 2L, 1, "c" });
+		assertEquals(errorDetails.get(4), new Object[] { 2L, 2, "b" });
+		assertEquals(errorDetails.get(5), new Object[] { 2L, 4, "a b" });
+		assertEquals(errorDetails.get(6), new Object[] { 2L, 5, -5 });
 
 		List<A> beans = processor.getBeans();
 		assertEquals(beans.size(), 2);

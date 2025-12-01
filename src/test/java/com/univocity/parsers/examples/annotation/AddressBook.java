@@ -16,14 +16,14 @@
 
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
+import com.bupt.se.annotations.*;
 
 public class AddressBook {
 
 	@Nested(headerTransformer = AddressTypeTransformer.class, args = "mail")
 	private Address mailingAddress;
 
-	@Nested(headerTransformer  = AddressTypeTransformer.class, args = "main")
+	@Nested(headerTransformer = AddressTypeTransformer.class, args = "main")
 	private Address mainAddress;
 
 	@Override

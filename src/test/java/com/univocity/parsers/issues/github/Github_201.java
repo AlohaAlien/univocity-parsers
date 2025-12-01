@@ -15,9 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,7 +26,8 @@ import java.util.*;
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_201 {
 
@@ -50,13 +52,12 @@ public class Github_201 {
 	public void testRoutineKeepResourcesOpen() throws Exception {
 
 		File tmp = File.createTempFile("github_201", ".csv");
-		//System.out.println(tmp.getAbsolutePath());
+		// System.out.println(tmp.getAbsolutePath());
 		FileWriter w = new FileWriter(tmp);
 
 		List<AB> list = new ArrayList<AB>();
 		list.add(new AB("1", true));
 		list.add(new AB("2", false));
-
 
 		CsvRoutines routines = new CsvRoutines();
 		routines.getWriterSettings().setHeaderWritingEnabled(true);

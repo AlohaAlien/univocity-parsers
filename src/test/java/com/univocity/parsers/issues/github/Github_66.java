@@ -15,12 +15,13 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.DataProcessingException;
-import com.univocity.parsers.common.processor.ObjectRowWriterProcessor;
-import com.univocity.parsers.common.processor.OutputValueSwitch;
-import com.univocity.parsers.csv.CsvWriter;
-import com.univocity.parsers.csv.CsvWriterSettings;
 import org.testng.annotations.Test;
+
+import com.bupt.se.common.DataProcessingException;
+import com.bupt.se.common.processor.ObjectRowWriterProcessor;
+import com.bupt.se.common.processor.OutputValueSwitch;
+import com.bupt.se.csv.CsvWriter;
+import com.bupt.se.csv.CsvWriterSettings;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -62,7 +63,7 @@ public class Github_66 {
 
 		Map<String, Object> rowData = new LinkedHashMap<String, Object>();
 		rowData.put("balance", "sp2");
-		rowData.put("type", "Account"); //account NOT in first position to force an exception to happen.
+		rowData.put("type", "Account"); // account NOT in first position to force an exception to happen.
 		rowData.put("bank", "sp3");
 		rowData.put("acount", "sp4");
 		rowData.put("swift", "sp5");
@@ -75,8 +76,10 @@ public class Github_66 {
 	public void testMultiple() {
 		OutputValueSwitch writerSwitch = new OutputValueSwitch("type");
 		writerSwitch.addSwitchForValue("SUPER", new ObjectRowWriterProcessor(), "type", "h1", "h2", "h3", "h4");
-		writerSwitch.addSwitchForValue("SUB1", new ObjectRowWriterProcessor(), "type", "a", "b", "c", "d", "e", "f", "g");
-		writerSwitch.addSwitchForValue("SUB2", new ObjectRowWriterProcessor(), "type", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
+		writerSwitch.addSwitchForValue("SUB1", new ObjectRowWriterProcessor(), "type", "a", "b", "c", "d", "e", "f",
+				"g");
+		writerSwitch.addSwitchForValue("SUB2", new ObjectRowWriterProcessor(), "type", "p", "q", "r", "s", "t", "u",
+				"v", "w", "x", "y", "z");
 
 		CsvWriterSettings settings = new CsvWriterSettings();
 		settings.setExpandIncompleteRows(true);
@@ -105,10 +108,12 @@ public class Github_66 {
 
 	@Test
 	public void testMultiple2() {
-		OutputValueSwitch writerSwitch = new OutputValueSwitch("type"); //switch based on field name
+		OutputValueSwitch writerSwitch = new OutputValueSwitch("type"); // switch based on field name
 		writerSwitch.addSwitchForValue("SUPER", new ObjectRowWriterProcessor(), "type", "h1", "h2", "h3", "h4");
-		writerSwitch.addSwitchForValue("SUB1", new ObjectRowWriterProcessor(), "type", "a", "b", "c", "d", "e", "f", "g");
-		writerSwitch.addSwitchForValue("SUB2", new ObjectRowWriterProcessor(), "type", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
+		writerSwitch.addSwitchForValue("SUB1", new ObjectRowWriterProcessor(), "type", "a", "b", "c", "d", "e", "f",
+				"g");
+		writerSwitch.addSwitchForValue("SUB2", new ObjectRowWriterProcessor(), "type", "p", "q", "r", "s", "t", "u",
+				"v", "w", "x", "y", "z");
 		writerSwitch.addSwitchForValue("SUB3", new ObjectRowWriterProcessor(), "type", "a", "b", "c");
 
 		CsvWriterSettings settings = new CsvWriterSettings();
@@ -131,10 +136,9 @@ public class Github_66 {
 		writer.processRecord("SUPER", "v1", null, null, "v4");
 		writer.processRecord("SUB1", "v1", null, null, "v4");
 		writer.processRecord("SUB2", "v1", null, null, "v4");
-		writer.processRecord("SUB3", "v1", null, null, "v4"); //v4 goes beyond the number of headers
+		writer.processRecord("SUB3", "v1", null, null, "v4"); // v4 goes beyond the number of headers
 
 		writer.close();
-
 
 		assertEquals(output.toString(), "" +
 				"SUPER,v1,v2,v3,\n" +
@@ -147,9 +151,8 @@ public class Github_66 {
 				"SUPER,v1,,,v4\n" +
 				"SUB1,v1,,,v4,,,\n" +
 				"SUB2,v1,,,v4,,,,,,,\n" +
-				"SUB3,v1,,,v4\n"); //we can't lose v4
+				"SUB3,v1,,,v4\n"); // we can't lose v4
 	}
-
 
 	@Test
 	public void testMapWithUnexpectedHeaders() {
@@ -175,4 +178,3 @@ public class Github_66 {
 				"DUPER,v4,v1,v3,\n");
 	}
 }
-

@@ -16,10 +16,11 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -28,11 +29,12 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/46
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Github_46 {
 
-	@Headers(sequence = {"id", "timestamp", "symbol", "quantity", "isComplete", "datetime", "number"})
+	@Headers(sequence = { "id", "timestamp", "symbol", "quantity", "isComplete", "datetime", "number" })
 	class BasicTypes {
 		@Parsed
 		int id = 2;
@@ -48,7 +50,6 @@ public class Github_46 {
 		int number = 1;
 	}
 
-
 	@Test
 	public void testFieldSelectionWithOverriddenHeadersAnnotation() {
 		BeanWriterProcessor<BasicTypes> processor = new BeanWriterProcessor<BasicTypes>(BasicTypes.class);
@@ -59,7 +60,6 @@ public class Github_46 {
 
 		settings.setHeaders("id", "symbol", "timestamp");
 		settings.selectFields("timestamp", "id");
-
 
 		StringWriter out = new StringWriter();
 		CsvWriter w = new CsvWriter(out, settings);

@@ -16,9 +16,9 @@
 
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-
 import java.lang.reflect.*;
+
+import com.bupt.se.annotations.*;
 
 public class AddressTypeTransformer extends HeaderTransformer {
 

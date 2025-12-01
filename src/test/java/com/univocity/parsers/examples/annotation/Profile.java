@@ -16,11 +16,12 @@
 
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
-
 import java.math.*;
 import java.util.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 public class Profile {
 
@@ -44,16 +45,16 @@ public class Profile {
 	private String user;
 
 	@Parsed(field = "created_at")
-	@Format(formats = {"yyyy-MM-dd", "dd/MM/yyyy"}, options = {"locale=en", "lenient=false", "timezone=CST"})
+	@Format(formats = { "yyyy-MM-dd", "dd/MM/yyyy" }, options = { "locale=en", "lenient=false", "timezone=CST" })
 	private Date createdAt;
 
 	@Parsed
 	@Replace(expression = "\\$", replacement = "")
-	@Format(formats = {"#0,00"}, options = "decimalSeparator=,")
+	@Format(formats = { "#0,00" }, options = "decimalSeparator=,")
 	private BigDecimal fees;
 
 	@Parsed
-	@BooleanString(trueStrings = {"yes", "y"}, falseStrings = {"no", "n"})
+	@BooleanString(trueStrings = { "yes", "y" }, falseStrings = { "no", "n" })
 	private boolean admin;
 
 	@Parsed
@@ -61,7 +62,7 @@ public class Profile {
 	private Type type;
 
 	@Parsed(field = "stars")
-	@NullString(nulls = {"?", "N/A"})
+	@NullString(nulls = { "?", "N/A" })
 	private Integer stars;
 
 	@Override
@@ -77,7 +78,7 @@ public class Profile {
 				'}';
 	}
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	public Long getId() {
 		return id;

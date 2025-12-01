@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,18 +27,19 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/271
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_271 {
 
 	@DataProvider
 	public Object[][] delimiterProvider() {
-		return new Object[][]{
-				{","},
-				{"#|#"},
-				{"##"},
-				{". ."},
-				{". "}
+		return new Object[][] {
+				{ "," },
+				{ "#|#" },
+				{ "##" },
+				{ ". ." },
+				{ ". " }
 		};
 	}
 
@@ -54,9 +55,11 @@ public class Github_271 {
 
 		List<String[]> rows = lineParser.parseAll(new StringReader("" +
 				"\"name\"" + delimiter + "\"description\"" + delimiter + "\"digit\"" + delimiter + "\"other\"\n" +
-				" \"test one\"" + delimiter + "\"test description with \"\"" + delimiter + "\"1\"" + delimiter + "\"other one\"" +
+				" \"test one\"" + delimiter + "\"test description with \"\"" + delimiter + "\"1\"" + delimiter
+				+ "\"other one\"" +
 				"\n" +
-				"\"test two\"" + delimiter + "\"test description without a quote\"" + delimiter + "\"2\"" + delimiter + "\"other two\""));
+				"\"test two\"" + delimiter + "\"test description without a quote\"" + delimiter + "\"2\"" + delimiter
+				+ "\"other two\""));
 
 		assertEquals(rows.size(), 3);
 		String[] row;
@@ -93,9 +96,12 @@ public class Github_271 {
 		CsvParser parser = new CsvParser(settings);
 
 		StringReader input = new StringReader("" +
-				"Example Line 1" + delimiter + "some data" + delimiter + "\"good line\"" + delimiter + "processes fine" + delimiter + "happy\n" +
-				"Example Line 2" + delimiter + "some data" + delimiter + "\"bad line" + delimiter + "processes poorly" + delimiter + "unhappy\n" +
-				"Example Line 3" + delimiter + "some data" + delimiter + "\"good line\"" + delimiter + "dies before here" + delimiter + "unhappy");
+				"Example Line 1" + delimiter + "some data" + delimiter + "\"good line\"" + delimiter + "processes fine"
+				+ delimiter + "happy\n" +
+				"Example Line 2" + delimiter + "some data" + delimiter + "\"bad line" + delimiter + "processes poorly"
+				+ delimiter + "unhappy\n" +
+				"Example Line 3" + delimiter + "some data" + delimiter + "\"good line\"" + delimiter
+				+ "dies before here" + delimiter + "unhappy");
 
 		parser.beginParsing(input);
 
@@ -158,7 +164,6 @@ public class Github_271 {
 		assertEquals(row[3], "other two");
 
 	}
-
 
 	@Test
 	public void testBackToDelimiterWithKeepQuotes() {

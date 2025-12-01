@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -24,7 +24,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/197
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_197 extends Example {
 
@@ -38,4 +39,3 @@ public class Github_197 extends Example {
 		assertEquals(row[1], "\"a,b\"");
 	}
 }
-

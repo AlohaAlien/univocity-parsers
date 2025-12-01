@@ -15,8 +15,8 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.common.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -25,7 +25,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/184
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_184 extends Example {
 
@@ -37,7 +38,8 @@ public class Github_184 extends Example {
 
 		CsvRoutines routines = new CsvRoutines(parserSettings);
 
-		IterableResult<TestBean, ParsingContext> iterable = routines.iterate(TestBean.class, getReader("/examples/bean_test.csv"));
+		IterableResult<TestBean, ParsingContext> iterable = routines.iterate(TestBean.class,
+				getReader("/examples/bean_test.csv"));
 		for (TestBean bean : iterable) {
 			println(iterable.getContext().currentParsedContent());
 			println(bean);
@@ -54,7 +56,8 @@ public class Github_184 extends Example {
 
 		CsvRoutines routines = new CsvRoutines(parserSettings);
 
-		ResultIterator<TestBean, ParsingContext> iterator = routines.iterate(TestBean.class, getReader("/examples/bean_test.csv")).iterator();
+		ResultIterator<TestBean, ParsingContext> iterator = routines
+				.iterate(TestBean.class, getReader("/examples/bean_test.csv")).iterator();
 
 		assertTrue(iterator.hasNext());
 		String content = iterator.getContext().currentParsedContent();

@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -29,18 +30,19 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/116
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_116 {
 
 	public static class AN {
 
-		@Parsed(field="A", defaultNullRead="")
+		@Parsed(field = "A", defaultNullRead = "")
 		private String a;
-		@Parsed(field="B", defaultNullRead="N/A")
+		@Parsed(field = "B", defaultNullRead = "N/A")
 		private String b;
-		@Parsed(field="C", defaultNullRead="etc")
+		@Parsed(field = "C", defaultNullRead = "etc")
 		private String c;
 	}
 

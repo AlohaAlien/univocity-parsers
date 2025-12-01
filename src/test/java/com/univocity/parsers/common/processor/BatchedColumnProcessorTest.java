@@ -15,8 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.BatchedColumnProcessor;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -26,26 +28,26 @@ import static org.testng.Assert.*;
 public class BatchedColumnProcessorTest {
 
 	private static final String INPUT = "" +
-		"A,B,C" +
-		"\n1A,1B,1C" +
-		"\n2A,2B" +
-		"\n3A,3B,3C" +
-		"\n4A,4B,4C,4D";
+			"A,B,C" +
+			"\n1A,1B,1C" +
+			"\n2A,2B" +
+			"\n3A,3B,3C" +
+			"\n4A,4B,4C,4D";
 
 	@Test
 	public void testColumnValues() {
 
-		final String[][] expectedValueOnFirstBatch = new String[][]{
-			{"1A", "2A"},
-			{"1B", "2B"},
-			{"1C", null},
+		final String[][] expectedValueOnFirstBatch = new String[][] {
+				{ "1A", "2A" },
+				{ "1B", "2B" },
+				{ "1C", null },
 		};
 
-		final String[][] expectedValueOnSecondBatch = new String[][]{
-			{"3A", "4A"},
-			{"3B", "4B"},
-			{"3C", "4C"},
-			{null, "4D"}
+		final String[][] expectedValueOnSecondBatch = new String[][] {
+				{ "3A", "4A" },
+				{ "3B", "4B" },
+				{ "3C", "4C" },
+				{ null, "4D" }
 		};
 
 		BatchedColumnProcessor processor = new BatchedColumnProcessor(2) {
@@ -54,7 +56,8 @@ public class BatchedColumnProcessorTest {
 				List<List<String>> columnValues = getColumnValuesAsList();
 				Map<Integer, List<String>> columnsByIndex = getColumnValuesAsMapOfIndexes();
 
-				String[][] expectedValues = getBatchesProcessed() == 0 ? expectedValueOnFirstBatch : expectedValueOnSecondBatch;
+				String[][] expectedValues = getBatchesProcessed() == 0 ? expectedValueOnFirstBatch
+						: expectedValueOnSecondBatch;
 
 				assertEquals(columnValues.size(), expectedValues.length);
 
@@ -69,10 +72,10 @@ public class BatchedColumnProcessorTest {
 						getColumnValuesAsMapOfNames();
 						fail("Expected exception. No name defined for 4th column");
 					} catch (Exception e) {
-						//OK
+						// OK
 					}
 				}
-				assertEquals(getHeaders(), new String[]{"A", "B", "C"});
+				assertEquals(getHeaders(), new String[] { "A", "B", "C" });
 			}
 		};
 

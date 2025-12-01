@@ -16,14 +16,14 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
 
 import static org.testng.Assert.*;
-
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/251
@@ -45,7 +45,7 @@ public class Github_250 {
 	}
 
 	@Test
-	public void testParseInputNoIndexSelected(){
+	public void testParseInputNoIndexSelected() {
 		final CsvParserSettings s = new CsvParserSettings();
 		s.setMaxColumns(2);
 		s.setLineSeparatorDetectionEnabled(true);
@@ -55,7 +55,7 @@ public class Github_250 {
 
 		int count = 0;
 
-		for(String[] row : parser.iterate(new StringReader("a,b\nc,d\ne,f\n"))){
+		for (String[] row : parser.iterate(new StringReader("a,b\nc,d\ne,f\n"))) {
 			assertEquals(row.length, 0);
 			count++;
 		}

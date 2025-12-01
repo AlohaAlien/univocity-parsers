@@ -15,9 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.AbstractRowProcessor;
+import com.bupt.se.common.processor.ColumnProcessor;
+import com.bupt.se.common.processor.ConcurrentRowProcessor;
+import com.bupt.se.common.processor.RowProcessor;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -49,14 +54,14 @@ public class ConcurrentRowProcessorTest {
 
 	@DataProvider
 	private Object[][] getLimits() {
-		return new Object[][]{
-				{-1},
-				{0},
-				{1},
-				{2},
-				{5},
-				{10},
-				{100}
+		return new Object[][] {
+				{ -1 },
+				{ 0 },
+				{ 1 },
+				{ 2 },
+				{ 5 },
+				{ 10 },
+				{ 100 }
 		};
 	}
 
@@ -76,11 +81,12 @@ public class ConcurrentRowProcessorTest {
 
 		CsvParser parser = new CsvParser(settings);
 
-		//long start = System.currentTimeMillis();
+		// long start = System.currentTimeMillis();
 		parser.parse(reader);
 
 		List<List<String>> columnValues = processor.getColumnValuesAsList();
-		//System.out.println("Concurrently processed " + LINES + " lines in " + (System.currentTimeMillis() - start) + "ms with limit of " + limit);
+		// System.out.println("Concurrently processed " + LINES + " lines in " +
+		// (System.currentTimeMillis() - start) + "ms with limit of " + limit);
 
 		assertEquals(columnValues.size(), 7);
 		for (int i = 0; i < 7; i++) {
@@ -100,7 +106,7 @@ public class ConcurrentRowProcessorTest {
 
 		final StringBuilder out = new StringBuilder("A,B,C,D,E,F,G\n");
 
-		RowProcessor myProcessor = new AbstractRowProcessor(){
+		RowProcessor myProcessor = new AbstractRowProcessor() {
 			@Override
 			public void rowProcessed(String[] row, ParsingContext context) {
 				out.append(context.currentParsedContent());

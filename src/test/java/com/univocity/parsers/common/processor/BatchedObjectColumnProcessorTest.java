@@ -15,9 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.BatchedObjectColumnProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;
@@ -28,25 +30,25 @@ import static org.testng.Assert.*;
 public class BatchedObjectColumnProcessorTest {
 
 	private static final String INPUT = "" +
-		"A,B,C" +
-		"\n1,true,C" +
-		"\n2,false" +
-		"\n3,,C" +
-		"\n4,false,C,55.4";
+			"A,B,C" +
+			"\n1,true,C" +
+			"\n2,false" +
+			"\n3,,C" +
+			"\n4,false,C,55.4";
 
 	@Test
 	public void testColumnValues() {
-		final Object[][] expectedValueOnFirstBatch = new Object[][]{
-			{1, 2},
-			{true, false},
-			{'C', null},
+		final Object[][] expectedValueOnFirstBatch = new Object[][] {
+				{ 1, 2 },
+				{ true, false },
+				{ 'C', null },
 		};
 
-		final Object[][] expectedValueOnSecondBatch = new Object[][]{
-			{3, 4},
-			{null, false},
-			{'C', 'C'},
-			{null, new BigDecimal("55.4")}
+		final Object[][] expectedValueOnSecondBatch = new Object[][] {
+				{ 3, 4 },
+				{ null, false },
+				{ 'C', 'C' },
+				{ null, new BigDecimal("55.4") }
 		};
 
 		BatchedObjectColumnProcessor processor = new BatchedObjectColumnProcessor(2) {
@@ -55,7 +57,8 @@ public class BatchedObjectColumnProcessorTest {
 				List<List<Object>> columnValues = getColumnValuesAsList();
 				Map<Integer, List<Object>> columnsByIndex = getColumnValuesAsMapOfIndexes();
 
-				Object[][] expectedValues = getBatchesProcessed() == 0 ? expectedValueOnFirstBatch : expectedValueOnSecondBatch;
+				Object[][] expectedValues = getBatchesProcessed() == 0 ? expectedValueOnFirstBatch
+						: expectedValueOnSecondBatch;
 
 				assertEquals(columnValues.size(), expectedValues.length);
 
@@ -70,10 +73,10 @@ public class BatchedObjectColumnProcessorTest {
 						getColumnValuesAsMapOfNames();
 						fail("Expected exception. No name defined for 4th column");
 					} catch (Exception e) {
-						//OK
+						// OK
 					}
 				}
-				assertEquals(getHeaders(), new String[]{"A", "B", "C"});
+				assertEquals(getHeaders(), new String[] { "A", "B", "C" });
 			}
 		};
 

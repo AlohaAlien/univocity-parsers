@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
-
 import java.util.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 public class DatesRepetitive {
 
@@ -40,7 +41,7 @@ public class DatesRepetitive {
 	@Format(formats = "yyyy-MM-dd", options = "timezone=CST")
 	private Date deletedAt;
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	@Override
 	public String toString() {

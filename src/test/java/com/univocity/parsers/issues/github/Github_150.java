@@ -15,9 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,28 +28,28 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/150
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_150 {
 
 	public static class User {
-		@Parsed(field = {"email", "contact", "e-mail"})
+		@Parsed(field = { "email", "contact", "e-mail" })
 		private String email;
 
-		@Parsed(field = {"phone", "ph", "mobile"})
+		@Parsed(field = { "phone", "ph", "mobile" })
 		private String phone;
 	}
 
 	@DataProvider
 	public Object[][] headerProvider() {
-		return new Object[][]{
-				{new String[]{"email", "ph"}},
-				{new String[]{"contact", "mobile"}},
-				{new String[]{"e-mail", "phone"}},
-				{new String[]{"", "mobile"}},
+		return new Object[][] {
+				{ new String[] { "email", "ph" } },
+				{ new String[] { "contact", "mobile" } },
+				{ new String[] { "e-mail", "phone" } },
+				{ new String[] { "", "mobile" } },
 		};
 	}
-
 
 	@Test(dataProvider = "headerProvider")
 	public void readMultipleInputsIntoSameBean(String[] headers) {

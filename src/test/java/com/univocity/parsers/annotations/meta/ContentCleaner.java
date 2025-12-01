@@ -14,13 +14,12 @@
  * limitations under the License.
  ******************************************************************************/
 
-
 package com.univocity.parsers.annotations.meta;
 
-import com.univocity.parsers.common.input.*;
-import com.univocity.parsers.conversions.*;
-
 import java.util.*;
+
+import com.bupt.se.common.input.*;
+import com.bupt.se.conversions.*;
 
 public class ContentCleaner implements Conversion<Object, String> {
 
@@ -46,27 +45,27 @@ public class ContentCleaner implements Conversion<Object, String> {
 		return clean(input);
 	}
 
-	private String clean(Object input){
+	private String clean(Object input) {
 		String result = String.valueOf(input);
 
 		StringBuilder out = null;
 
-		for(int i = 0; i < result.length(); i++){
+		for (int i = 0; i < result.length(); i++) {
 			char ch = result.charAt(i);
 
-			if(ch >= min && ch <= max){
-				if(Arrays.binarySearch(charsToRemove, ch) >= 0){
-					if(out == null){
+			if (ch >= min && ch <= max) {
+				if (Arrays.binarySearch(charsToRemove, ch) >= 0) {
+					if (out == null) {
 						out = new StringBuilder(result.length());
 						out.append(result, 0, i);
 					}
 				}
-			} else if (out != null){
+			} else if (out != null) {
 				out.append(ch);
 			}
 		}
 
-		if(out != null){
+		if (out != null) {
 			result = out.toString();
 		}
 

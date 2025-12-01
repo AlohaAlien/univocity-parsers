@@ -16,11 +16,13 @@
 
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.MultiBeanListProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;
@@ -28,7 +30,7 @@ import java.util.*;
 
 import static org.testng.Assert.*;
 
-public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest{
+public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest {
 
 	public static class AmountBean {
 		@Trim
@@ -47,7 +49,7 @@ public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest{
 
 		@Trim
 		@LowerCase
-		@BooleanString(falseStrings = {"no", "n", "null"}, trueStrings = {"yes", "y"})
+		@BooleanString(falseStrings = { "no", "n", "null" }, trueStrings = { "yes", "y" })
 		@Parsed
 		Boolean pending;
 	}
@@ -64,17 +66,17 @@ public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest{
 		}
 
 		public void setQuantity(int quantity) {
-			if(quantity == 0) {
+			if (quantity == 0) {
 				throw new NullPointerException("throwing error on purpose");
 			}
 			this.quantity = quantity;
 		}
 	}
 
-
 	@Test
 	public void testMultiBeanProcessor() {
-		MultiBeanListProcessor processor = new MultiBeanListProcessor(TestBean.class, AmountBean.class, QuantityBean.class, BrokenBean.class);
+		MultiBeanListProcessor processor = new MultiBeanListProcessor(TestBean.class, AmountBean.class,
+				QuantityBean.class, BrokenBean.class);
 
 		processor.convertAll(Conversions.toNull("", "?"));
 
@@ -129,7 +131,7 @@ public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest{
 		testBean = testBeans.get(1);
 		amountBean = amountBeans.get(1);
 		quantityBean = quantityBeans.get(1);
-		assertNull(brokenBeans.get(1)); //Second row generated a NullPointerException and no bean is generated here
+		assertNull(brokenBeans.get(1)); // Second row generated a NullPointerException and no bean is generated here
 
 		assertEquals(testBean.amnt, null);
 		assertEquals(testBean.quantity, (Object) 0);
@@ -137,10 +139,9 @@ public class MultiBeanListProcessorTest extends AnnotatedBeanProcessorTest{
 		assertEquals(testBean.commts, "\" someth");
 
 		assertEquals(amountBean.amnt, null);
-		assertEquals(amountBean.commts, "\" SOMETHING \""); //upper cased
+		assertEquals(amountBean.commts, "\" SOMETHING \""); // upper cased
 		assertEquals(quantityBean.quantity, Integer.valueOf(-1));
 		assertFalse(quantityBean.pending);
-
 
 	}
 }

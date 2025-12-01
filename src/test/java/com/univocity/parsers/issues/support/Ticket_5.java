@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -31,11 +32,11 @@ public class Ticket_5 {
 	public void testMasterDetailWontIncludeRowsAboveMasterRow() {
 
 		String input = "A,B\n" +
-			"MASTER,m1\n" +
-			"child1,1\n" +
-			"child2,2\n" +
-			"MASTER,m2\n" +
-			"child,1";
+				"MASTER,m1\n" +
+				"child1,1\n" +
+				"child2,2\n" +
+				"MASTER,m2\n" +
+				"child,1";
 
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
@@ -53,13 +54,13 @@ public class Ticket_5 {
 		List<MasterDetailRecord> masterRecords = processor.getRecords();
 		assertEquals(masterRecords.size(), 2);
 
-		assertEquals(masterRecords.get(0).getMasterRow(), new Object[]{"MASTER", "m1"});
+		assertEquals(masterRecords.get(0).getMasterRow(), new Object[] { "MASTER", "m1" });
 		assertEquals(masterRecords.get(0).getDetailRows().size(), 2);
-		assertEquals(masterRecords.get(0).getDetailRows().get(0), new Object[]{"child1", "1"});
-		assertEquals(masterRecords.get(0).getDetailRows().get(1), new Object[]{"child2", "2"});
+		assertEquals(masterRecords.get(0).getDetailRows().get(0), new Object[] { "child1", "1" });
+		assertEquals(masterRecords.get(0).getDetailRows().get(1), new Object[] { "child2", "2" });
 
-		assertEquals(masterRecords.get(1).getMasterRow(), new Object[]{"MASTER", "m2"});
+		assertEquals(masterRecords.get(1).getMasterRow(), new Object[] { "MASTER", "m2" });
 		assertEquals(masterRecords.get(1).getDetailRows().size(), 1);
-		assertEquals(masterRecords.get(1).getDetailRows().get(0), new Object[]{"child", "1"});
+		assertEquals(masterRecords.get(1).getDetailRows().get(0), new Object[] { "child", "1" });
 	}
 }

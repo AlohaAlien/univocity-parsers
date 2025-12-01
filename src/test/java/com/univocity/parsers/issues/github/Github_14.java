@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -29,7 +30,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/14
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_14 {
@@ -54,7 +56,7 @@ public class Github_14 {
 
 	@DataProvider
 	public Object[][] conversionProvider() {
-		return new Object[][]{{true}, {false}};
+		return new Object[][] { { true }, { false } };
 	}
 
 	@Test(dataProvider = "conversionProvider")

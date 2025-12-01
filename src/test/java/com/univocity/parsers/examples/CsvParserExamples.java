@@ -15,13 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.common.record.Record;
-import com.univocity.parsers.common.record.RecordMetaData;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.common.record.Record;
+import com.bupt.se.common.record.RecordMetaData;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;

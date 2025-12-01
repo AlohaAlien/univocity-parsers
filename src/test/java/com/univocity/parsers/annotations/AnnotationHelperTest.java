@@ -15,15 +15,15 @@
  ******************************************************************************/
 package com.univocity.parsers.annotations;
 
-import com.univocity.parsers.annotations.helpers.AnnotationHelper;
-
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
+import com.bupt.se.annotations.helpers.AnnotationHelper;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.annotations.meta.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
+
 import org.testng.annotations.*;
 
 import static org.testng.Assert.*;

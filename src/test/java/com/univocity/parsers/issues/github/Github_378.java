@@ -15,16 +15,17 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/378
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_378 {
 
@@ -35,7 +36,8 @@ public class Github_378 {
 		settings.getFormat().setDelimiter(delim);
 		settings.getFormat().setQuote('\'');
 
-		String[] line = new CsvParser(settings).parseLine("C123" + delim + "'This is quoted string followed by white spaces' " + delim + " " + delim + "0");
+		String[] line = new CsvParser(settings).parseLine(
+				"C123" + delim + "'This is quoted string followed by white spaces' " + delim + " " + delim + "0");
 		assertEquals(line[0], "C123");
 		assertEquals(line[1], "This is quoted string followed by white spaces");
 		assertNull(line[2], null);

@@ -17,6 +17,10 @@ package com.univocity.parsers.csv;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.csv.CsvFormat;
+import com.bupt.se.csv.CsvParser;
+import com.bupt.se.csv.CsvParserSettings;
+
 import java.io.*;
 import java.util.*;
 
@@ -26,20 +30,29 @@ public class CsvFormatDetectorTest {
 
 	@DataProvider
 	public Object[][] getInputsAndOutputs() {
-		return new Object[][]{
-				{"A,B,C\n1,2,3\n1,2,3\n1,2,3",
-						Arrays.asList(new String[]{"A", "B", "C"}, new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"})},
-				{"\"A\";'B';\"C\"\n\"1\\\" and \\\"2\";\"3\\\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n",
-						Arrays.asList(new String[]{"A", "'B'", "C"}, new String[]{"1\" and \"2", "3\"A", "'B'", "C"}, new String[]{"A", "'B'", "C"}, new String[]{"A", "'B'", "C"})},
-				{"\"A\";'B';\"C\"\n\"1\\\" and \\\"2\";\"3' and '4\";\"5\\\" and \\\"6\"\n\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n",
-						Arrays.asList(new String[]{"A", "'B'", "C"}, new String[]{"1\" and \"2", "3' and '4", "5\" and \"6"}, new String[]{"A", "'B'", "C"}, new String[]{"A", "'B'", "C"})},
-				{"1,2;2,3;3,4;a\n1,2;2,3;3,4;b\n1,2;2,3;3,4;c\n1,2;2,3;3,4;d\n",
-						Arrays.asList(new String[]{"1,2", "2,3", "3,4", "a"}, new String[]{"1,2", "2,3", "3,4", "b"}, new String[]{"1,2", "2,3", "3,4", "c"}, new String[]{"1,2", "2,3", "3,4", "d"})},
-				{"A;B;C;D;E\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n",
-						Arrays.asList(new String[]{"A", "B", "C", "D", "E"}, new String[]{"$1.2", "$2.3", "$3.4"}, new String[]{"$1.2", "$2.3", "$3.4"}, new String[]{"$1.2", "$2.3", "$3.4"},
-								new String[]{"$1.2", "$2.3", "$3.4"})},
-				{"\"A'A\",\"BB\",\"CC\"\n\"11\",\"22\",\"33\"\n\"11\",\"22\",\"33\"\n\"11\",\"22\",\"33\"\n",
-						Arrays.asList(new String[]{"A'A", "BB", "CC"}, new String[]{"11", "22", "33"}, new String[]{"11", "22", "33"}, new String[]{"11", "22", "33"})}
+		return new Object[][] {
+				{ "A,B,C\n1,2,3\n1,2,3\n1,2,3",
+						Arrays.asList(new String[] { "A", "B", "C" }, new String[] { "1", "2", "3" },
+								new String[] { "1", "2", "3" }, new String[] { "1", "2", "3" }) },
+				{ "\"A\";'B';\"C\"\n\"1\\\" and \\\"2\";\"3\\\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n",
+						Arrays.asList(new String[] { "A", "'B'", "C" },
+								new String[] { "1\" and \"2", "3\"A", "'B'", "C" }, new String[] { "A", "'B'", "C" },
+								new String[] { "A", "'B'", "C" }) },
+				{ "\"A\";'B';\"C\"\n\"1\\\" and \\\"2\";\"3' and '4\";\"5\\\" and \\\"6\"\n\"A\";'B';\"C\"\n\"A\";'B';\"C\"\n",
+						Arrays.asList(new String[] { "A", "'B'", "C" },
+								new String[] { "1\" and \"2", "3' and '4", "5\" and \"6" },
+								new String[] { "A", "'B'", "C" }, new String[] { "A", "'B'", "C" }) },
+				{ "1,2;2,3;3,4;a\n1,2;2,3;3,4;b\n1,2;2,3;3,4;c\n1,2;2,3;3,4;d\n",
+						Arrays.asList(new String[] { "1,2", "2,3", "3,4", "a" },
+								new String[] { "1,2", "2,3", "3,4", "b" }, new String[] { "1,2", "2,3", "3,4", "c" },
+								new String[] { "1,2", "2,3", "3,4", "d" }) },
+				{ "A;B;C;D;E\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n$1.2;$2.3;$3.4\n",
+						Arrays.asList(new String[] { "A", "B", "C", "D", "E" }, new String[] { "$1.2", "$2.3", "$3.4" },
+								new String[] { "$1.2", "$2.3", "$3.4" }, new String[] { "$1.2", "$2.3", "$3.4" },
+								new String[] { "$1.2", "$2.3", "$3.4" }) },
+				{ "\"A'A\",\"BB\",\"CC\"\n\"11\",\"22\",\"33\"\n\"11\",\"22\",\"33\"\n\"11\",\"22\",\"33\"\n",
+						Arrays.asList(new String[] { "A'A", "BB", "CC" }, new String[] { "11", "22", "33" },
+								new String[] { "11", "22", "33" }, new String[] { "11", "22", "33" }) }
 
 		};
 	}
@@ -70,7 +83,6 @@ public class CsvFormatDetectorTest {
 			assertEquals(expectedOutput.get(i), rows.get(i));
 		}
 	}
-
 
 	@Test
 	public void testAutodetection() throws Exception {
@@ -121,7 +133,7 @@ public class CsvFormatDetectorTest {
 	@Test
 	public static void testDelimitersDetectedUsingOrderOfPreference1() {
 		String input = "HEADER 1,HEADER 2,HEADER 3\n" +
-						"SOME TEXT 1,SOME TEXT 2,SOME TEXT 3,";
+				"SOME TEXT 1,SOME TEXT 2,SOME TEXT 3,";
 
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setDelimiterDetectionEnabled(true, ',', ' ');

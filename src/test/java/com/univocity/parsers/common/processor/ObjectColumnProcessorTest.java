@@ -15,9 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.ObjectColumnProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;
@@ -28,11 +30,11 @@ import static org.testng.Assert.*;
 public class ObjectColumnProcessorTest {
 
 	private static final String INPUT = "" +
-		"A,B,C" +
-		"\n1,true,C" +
-		"\n2,false" +
-		"\n3,,C" +
-		"\n4,false,C,55.4";
+			"A,B,C" +
+			"\n1,true,C" +
+			"\n2,false" +
+			"\n3,,C" +
+			"\n4,false,C,55.4";
 
 	@Test
 	public void testColumnValues() {
@@ -49,11 +51,11 @@ public class ObjectColumnProcessorTest {
 
 		new CsvParser(settings).parse(new StringReader(INPUT));
 
-		Object[][] expectedValues = new Object[][]{
-			{1, 2, 3, 4},
-			{true, false, null, false},
-			{'C', null, 'C', 'C'},
-			{null, null, null, new BigDecimal("55.4")}
+		Object[][] expectedValues = new Object[][] {
+				{ 1, 2, 3, 4 },
+				{ true, false, null, false },
+				{ 'C', null, 'C', 'C' },
+				{ null, null, null, new BigDecimal("55.4") }
 		};
 
 		List<List<Object>> columnValues = processor.getColumnValuesAsList();
@@ -71,8 +73,8 @@ public class ObjectColumnProcessorTest {
 			processor.getColumnValuesAsMapOfNames();
 			fail("Expected exception. No name defined for 4th column");
 		} catch (Exception e) {
-			//OK
+			// OK
 		}
-		assertEquals(processor.getHeaders(), new String[]{"A", "B", "C"});
+		assertEquals(processor.getHeaders(), new String[] { "A", "B", "C" });
 	}
 }

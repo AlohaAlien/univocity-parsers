@@ -1,9 +1,10 @@
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.util.*;

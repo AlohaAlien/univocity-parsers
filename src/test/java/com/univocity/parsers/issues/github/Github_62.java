@@ -16,12 +16,14 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.ParsingContext;
-import com.univocity.parsers.common.processor.AbstractRowProcessor;
-import com.univocity.parsers.common.processor.RowProcessor;
-import com.univocity.parsers.tsv.TsvParser;
-import com.univocity.parsers.tsv.TsvParserSettings;
 import org.testng.annotations.Test;
+
+import com.bupt.se.common.ParsingContext;
+import com.bupt.se.common.processor.AbstractRowProcessor;
+import com.bupt.se.common.processor.RowProcessor;
+import com.bupt.se.tsv.TsvParser;
+import com.bupt.se.tsv.TsvParserSettings;
+
 import static org.testng.Assert.*;
 
 import java.io.StringReader;
@@ -31,7 +33,7 @@ public class Github_62 {
 
 	private static final String INPUT = "#Comment1\n#Comment2\nH1	H2\n#Comment3\nV1	V2\n#Comment4";
 
-	private TsvParser getParser(RowProcessor processor){
+	private TsvParser getParser(RowProcessor processor) {
 		TsvParserSettings settings = new TsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setNumberOfRecordsToRead(0);
@@ -45,11 +47,11 @@ public class Github_62 {
 	}
 
 	@Test
-	public void testRead0Records(){
+	public void testRead0Records() {
 		TsvParser parser = getParser(null);
 		parser.beginParsing(new StringReader(INPUT));
 		assertNull(parser.parseNext());
-		assertEquals(parser.getContext().headers(), new String[]{"H1", "H2"});
+		assertEquals(parser.getContext().headers(), new String[] { "H1", "H2" });
 		assertEquals(parser.getContext().lastComment(), "Comment3");
 		assertTrue(parser.getContext().comments().values().contains("Comment1"));
 		assertTrue(parser.getContext().comments().values().contains("Comment2"));
@@ -57,9 +59,8 @@ public class Github_62 {
 		assertFalse(parser.getContext().comments().values().contains("Comment4"));
 	}
 
-
 	@Test
-	public void testRead0RecordsWithRowProcessor(){
+	public void testRead0RecordsWithRowProcessor() {
 		TsvParser parser = getParser(new AbstractRowProcessor() {
 			@Override
 			public void rowProcessed(String[] row, ParsingContext context) {
@@ -68,7 +69,7 @@ public class Github_62 {
 
 			@Override
 			public void processEnded(ParsingContext context) {
-				assertEquals(context.headers(), new String[]{"H1", "H2"});
+				assertEquals(context.headers(), new String[] { "H1", "H2" });
 				assertEquals(context.lastComment(), "Comment3");
 				assertTrue(context.comments().values().contains("Comment1"));
 				assertTrue(context.comments().values().contains("Comment2"));

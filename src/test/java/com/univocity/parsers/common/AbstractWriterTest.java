@@ -15,11 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.common;
 
+import com.bupt.se.csv.CsvWriter;
+import com.bupt.se.csv.CsvWriterSettings;
+import com.bupt.se.fixed.*;
 import com.univocity.parsers.ParserTestCase;
-import com.univocity.parsers.csv.CsvWriter;
-import com.univocity.parsers.csv.CsvWriterSettings;
-import com.univocity.parsers.fixed.*;
-import com.univocity.parsers.fixed.FixedWidthFields;
+
 import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;

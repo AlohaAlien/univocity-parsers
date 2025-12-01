@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -26,7 +26,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/303
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_303 {
 
@@ -40,7 +41,6 @@ public class Github_303 {
 		testAutoClosingDisabled(true);
 	}
 
-
 	public void testAutoClosingDisabled(boolean separateThread) {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
@@ -49,7 +49,7 @@ public class Github_303 {
 
 		final boolean[] closed = new boolean[1];
 
-		StringReader reader = new StringReader("a\nb\nc"){
+		StringReader reader = new StringReader("a\nb\nc") {
 			@Override
 			public void close() {
 				closed[0] = true;

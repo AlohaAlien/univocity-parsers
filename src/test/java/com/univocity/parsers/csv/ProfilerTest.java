@@ -15,10 +15,15 @@
  ******************************************************************************/
 package com.univocity.parsers.csv;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.CsvParser;
+import com.bupt.se.csv.CsvParserSettings;
+import com.bupt.se.csv.CsvWriter;
+import com.bupt.se.csv.CsvWriterSettings;
+import com.bupt.se.tsv.*;
 import com.univocity.parsers.examples.*;
-import com.univocity.parsers.tsv.*;
+
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -123,21 +128,21 @@ public class ProfilerTest extends Example {
 	}
 
 	@Test(enabled = false)
-	public void runCsvWritingTest() throws Exception{
+	public void runCsvWritingTest() throws Exception {
 		runInLoop(100, "CSV writer", newCsvWritingProcess(1000000, getRowsToWrite()));
 	}
 
 	@Test(enabled = false)
-	public void runTsvWritingTest() throws Exception{
+	public void runTsvWritingTest() throws Exception {
 		runInLoop(100, "TSV writer", newTsvWritingProcess(1000000, getRowsToWrite()));
 	}
 
-	private List<String[]> getRowsToWrite(){
+	private List<String[]> getRowsToWrite() {
 		return new CsvParser(new CsvParserSettings()).parseAll(getReader("/examples/example.csv"));
 	}
 
-	private void runInLoop(int loops, String description, Runnable process) throws Exception{
-		for(int i = 0; i < loops; i++) {
+	private void runInLoop(int loops, String description, Runnable process) throws Exception {
+		for (int i = 0; i < loops; i++) {
 			String loop = "(" + (i + 1) + ") ";
 			execute(loop + description, process);
 			System.gc();
@@ -145,12 +150,12 @@ public class ProfilerTest extends Example {
 		}
 	}
 
-	private Runnable newTsvWritingProcess(final int repeats, final List<String[]> allRows){
+	private Runnable newTsvWritingProcess(final int repeats, final List<String[]> allRows) {
 		return new Runnable() {
 			@Override
 			public void run() {
 				final TsvWriter writer = new TsvWriter(new StringWriter(), new TsvWriterSettings());
-				for(int i = 0; i < repeats; i++) {
+				for (int i = 0; i < repeats; i++) {
 					writer.writeStringRows(allRows);
 				}
 				writer.close();
@@ -158,12 +163,12 @@ public class ProfilerTest extends Example {
 		};
 	}
 
-	private Runnable newCsvWritingProcess(final int repeats, final List<String[]> allRows){
+	private Runnable newCsvWritingProcess(final int repeats, final List<String[]> allRows) {
 		return new Runnable() {
 			@Override
 			public void run() {
 				final CsvWriter writer = new CsvWriter(new StringWriter(), new CsvWriterSettings());
-				for(int i = 0; i < repeats; i++) {
+				for (int i = 0; i < repeats; i++) {
 					writer.writeStringRows(allRows);
 				}
 				writer.close();

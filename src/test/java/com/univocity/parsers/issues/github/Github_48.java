@@ -16,13 +16,13 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
-
 import static org.testng.Assert.*;
 
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -30,11 +30,12 @@ import java.util.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/48
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Github_48 {
 
-	@Headers(sequence = {"id", "timestamp", "symbol", "quantity", "isComplete", "datetime", "number"})
+	@Headers(sequence = { "id", "timestamp", "symbol", "quantity", "isComplete", "datetime", "number" })
 	public static class BasicTypes {
 		@Parsed
 		int id = 2;
@@ -65,7 +66,6 @@ public class Github_48 {
 		void configure(CsvParserSettings settings);
 	}
 
-
 	private List<Github_48.BasicTypes> runWithSettings(ParserTest test) {
 		BeanListProcessor<BasicTypes> processor = new BeanListProcessor<BasicTypes>(BasicTypes.class);
 
@@ -95,11 +95,13 @@ public class Github_48 {
 		});
 		assertFalse(result.isEmpty());
 
-		assertEquals(result.get(0).toString(), "{id=1, quantity=23.4, timestamp=33, symbol='IBM', isComplete=true, number=1}");
-		assertEquals(result.get(1).toString(), "{id=9, quantity=9.55, timestamp=33, symbol='WMT', isComplete=true, number=1}");
-		assertEquals(result.get(2).toString(), "{id=100, quantity=79.7, timestamp=33, symbol='the quick brown fox', isComplete=true, number=1}");
+		assertEquals(result.get(0).toString(),
+				"{id=1, quantity=23.4, timestamp=33, symbol='IBM', isComplete=true, number=1}");
+		assertEquals(result.get(1).toString(),
+				"{id=9, quantity=9.55, timestamp=33, symbol='WMT', isComplete=true, number=1}");
+		assertEquals(result.get(2).toString(),
+				"{id=100, quantity=79.7, timestamp=33, symbol='the quick brown fox', isComplete=true, number=1}");
 	}
-
 
 	@Test
 	public void parseBeanWithSomeHeadersAndFieldSelection() {
@@ -111,9 +113,12 @@ public class Github_48 {
 			}
 		});
 		assertFalse(result.isEmpty());
-		assertEquals(result.get(0).toString(), "{id=2, quantity=2.4, timestamp=33, symbol='IBM', isComplete=true, number=1}");
-		assertEquals(result.get(1).toString(), "{id=2, quantity=2.4, timestamp=33, symbol='WMT', isComplete=true, number=1}");
-		assertEquals(result.get(2).toString(), "{id=2, quantity=2.4, timestamp=33, symbol='the quick brown fox', isComplete=true, number=1}");
+		assertEquals(result.get(0).toString(),
+				"{id=2, quantity=2.4, timestamp=33, symbol='IBM', isComplete=true, number=1}");
+		assertEquals(result.get(1).toString(),
+				"{id=2, quantity=2.4, timestamp=33, symbol='WMT', isComplete=true, number=1}");
+		assertEquals(result.get(2).toString(),
+				"{id=2, quantity=2.4, timestamp=33, symbol='the quick brown fox', isComplete=true, number=1}");
 	}
 
 	@Test
@@ -122,14 +127,16 @@ public class Github_48 {
 			@Override
 			public void configure(CsvParserSettings settings) {
 				settings.setHeaderExtractionEnabled(true);
-				settings.selectIndexes(2, 0); //id, quantity
+				settings.selectIndexes(2, 0); // id, quantity
 			}
 		});
 		assertFalse(result.isEmpty());
-		assertEquals(result.get(0).toString(), "{id=1, quantity=23.4, timestamp=33, symbol='S', isComplete=true, number=1}");
-		assertEquals(result.get(1).toString(), "{id=9, quantity=9.55, timestamp=33, symbol='S', isComplete=true, number=1}");
-		assertEquals(result.get(2).toString(), "{id=100, quantity=79.7, timestamp=33, symbol='S', isComplete=true, number=1}");
+		assertEquals(result.get(0).toString(),
+				"{id=1, quantity=23.4, timestamp=33, symbol='S', isComplete=true, number=1}");
+		assertEquals(result.get(1).toString(),
+				"{id=9, quantity=9.55, timestamp=33, symbol='S', isComplete=true, number=1}");
+		assertEquals(result.get(2).toString(),
+				"{id=100, quantity=79.7, timestamp=33, symbol='S', isComplete=true, number=1}");
 	}
-
 
 }

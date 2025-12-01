@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -28,7 +28,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/191
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_191 extends Example {
 
@@ -39,7 +40,7 @@ public class Github_191 extends Example {
 		CsvParserSettings parseSettings = new CsvParserSettings();
 		parseSettings.getFormat().setLineSeparator("\n");
 		CsvParser parse = new CsvParser(parseSettings);
-		//Original: "bbb","",,10,"15","aaa"
+		// Original: "bbb","",,10,"15","aaa"
 		List<String[]> records = parse.parseAll(new StringReader(input));
 
 		StringWriter writer = new StringWriter();
@@ -54,7 +55,6 @@ public class Github_191 extends Example {
 		csvWriter.close();
 
 		assertEquals(writer.toString(), input);
-
 
 		writer = new StringWriter();
 		writerSettings.setHeaders("A", "B", "C", "D", "E", "F");

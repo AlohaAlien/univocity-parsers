@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.util.*;
@@ -29,7 +30,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/128
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_128 {
 
@@ -42,7 +44,6 @@ public class Github_128 {
 		settings.setMaxColumns(3);
 
 		settings.setSkipTrailingCharsUntilNewline(true);
-
 
 		FixedWidthParser parser = new FixedWidthParser(settings);
 		List<String[]> rows = parser.parseAll(new StringReader("123"));

@@ -16,14 +16,14 @@
 
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.conversions.*;
+import com.bupt.se.conversions.*;
 
 public class Splitter implements Conversion<String, String[]> {
 
 	private String separator;
 
 	public Splitter(String... args) {
-		if(args.length == 0){
+		if (args.length == 0) {
 			separator = ",";
 		} else {
 			separator = args[0];
@@ -32,7 +32,7 @@ public class Splitter implements Conversion<String, String[]> {
 
 	@Override
 	public String[] execute(String input) {
-		if(input == null){
+		if (input == null) {
 			return new String[0];
 		}
 		return input.split(separator);

@@ -17,6 +17,8 @@ package com.univocity.parsers.common.fields;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.fields.ExcludeFieldEnumSelector;
+
 import static org.testng.Assert.*;
 
 public class ExcludeFieldEnumSelectorTest {
@@ -26,9 +28,9 @@ public class ExcludeFieldEnumSelectorTest {
 		ExcludeFieldEnumSelector selector = new ExcludeFieldEnumSelector();
 		selector.add(TestEnum.D, TestEnum.A);
 
-		int[] indexes = selector.getFieldIndexes(new String[]{"A", "B", "C", "D", "E", "F"});
+		int[] indexes = selector.getFieldIndexes(new String[] { "A", "B", "C", "D", "E", "F" });
 
-		int[] expected = new int[]{1, 2, 4, 5};
+		int[] expected = new int[] { 1, 2, 4, 5 };
 
 		assertEquals(indexes, expected);
 	}

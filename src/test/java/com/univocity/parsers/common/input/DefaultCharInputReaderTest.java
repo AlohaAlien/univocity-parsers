@@ -17,6 +17,9 @@ package com.univocity.parsers.common.input;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.input.DefaultCharInputReader;
+import com.bupt.se.common.input.EOFException;
+
 import java.io.*;
 
 import static org.testng.Assert.*;
@@ -28,7 +31,7 @@ public class DefaultCharInputReaderTest {
 			reader.nextChar();
 			fail("Expected EOFException");
 		} catch (EOFException ex) {
-			//pass
+			// pass
 		}
 	}
 

@@ -15,10 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.BeanListProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.lang.annotation.*;
@@ -35,11 +37,11 @@ public class AnnotatedBeanProcessorTest {
 
 	@Trim
 	@UpperCase
-	@BooleanString(falseStrings = "N", trueStrings = {"TRUE", "Y"})
+	@BooleanString(falseStrings = "N", trueStrings = { "TRUE", "Y" })
 	@Parsed
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
-	@Target(value = {ElementType.FIELD})
+	@Target(value = { ElementType.FIELD })
 	public @interface MetaBoolean {
 
 	}
@@ -59,7 +61,7 @@ public class AnnotatedBeanProcessorTest {
 
 		@Trim
 		@LowerCase
-		@BooleanString(falseStrings = {"no", "n", "null"}, trueStrings = {"yes", "y"})
+		@BooleanString(falseStrings = { "no", "n", "null" }, trueStrings = { "yes", "y" })
 		@Parsed
 		Boolean pending;
 
@@ -116,7 +118,6 @@ public class AnnotatedBeanProcessorTest {
 		settings.setProcessor(processor);
 
 		StringReader reader = new StringReader("active,other\n,1\n,,\ny,0");
-
 
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(reader);

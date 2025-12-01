@@ -15,27 +15,26 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.annotations.Format;
-
 import java.text.*;
 import java.util.*;
+
+import com.bupt.se.annotations.*;
 
 //The headers annotation tells us which headers to read/write, and the sequence.
 //By setting the 'extract' parameter to true, we tell the parser to extract the first row of the input and use it as the headers. All other columns will be ignored.
 //The 'write' parameter indicates whether to write the given sequence of headers to the output when writing beans to the output.
-@Headers(sequence = {"pending", "date"}, extract = true, write = true)
+@Headers(sequence = { "pending", "date" }, extract = true, write = true)
 public class AnotherTestBean {
 
-	@Format(formats = {"dd-MMM-yyyy", "yyyy-MM-dd"}, options = "locale=en")
+	@Format(formats = { "dd-MMM-yyyy", "yyyy-MM-dd" }, options = "locale=en")
 	@Parsed
 	private Date date;
 
-	@BooleanString(falseStrings = {"n"}, trueStrings = {"y"})
+	@BooleanString(falseStrings = { "n" }, trueStrings = { "y" })
 	@Parsed
 	private Boolean pending;
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	public final Boolean getPending() {
 		return pending;
@@ -46,7 +45,7 @@ public class AnotherTestBean {
 	}
 
 	public final String getFormattedDate() {
-		if(date == null){
+		if (date == null) {
 			return null;
 		}
 		return new SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH).format(date);

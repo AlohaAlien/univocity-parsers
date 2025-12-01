@@ -15,23 +15,25 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/165
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_176 {
 
 	@DataProvider
 	Object[][] threadProvider() {
-		return new Object[][]{
-				{true},
-				{false}
+		return new Object[][] {
+				{ true },
+				{ false }
 		};
 	}
 
@@ -41,12 +43,14 @@ public class Github_176 {
 		s.setReadInputOnSeparateThread(readInputOnSeparateThread);
 		CsvParser p = new CsvParser(s);
 
-		String path = System.getProperty("user.home") + File.separator + "dev" + File.separator + "data" + File.separator + "Sample-Spreadsheet-500000-rows.csv";
+		String path = System.getProperty("user.home") + File.separator + "dev" + File.separator + "data"
+				+ File.separator + "Sample-Spreadsheet-500000-rows.csv";
 
 		for (int i = 0; i < 10; i++) {
 			long start = System.currentTimeMillis();
 			p.parse(new File(path));
-			System.out.println(p.getContext().currentLine() + " rows parsed in " + (System.currentTimeMillis() - start) + " ms");
+			System.out.println(
+					p.getContext().currentLine() + " rows parsed in " + (System.currentTimeMillis() - start) + " ms");
 		}
 	}
 }

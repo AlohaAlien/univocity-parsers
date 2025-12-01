@@ -16,10 +16,11 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -44,9 +45,9 @@ public class Github_37 {
 		CsvWriter writer = new CsvWriter(out, settings);
 
 		Map<String, Object[]> rows = new TreeMap<String, Object[]>();
-		rows.put("A", new Object[]{1, false});
-		rows.put("B", new Object[]{true, (short)2, null});
-		rows.put("C", new Object[]{null, true, true, 0});
+		rows.put("A", new Object[] { 1, false });
+		rows.put("B", new Object[] { true, (short) 2, null });
+		rows.put("C", new Object[] { null, true, true, 0 });
 
 		// We are writing column by column, i.e. rows should be printed as:
 		// 1, true, null
@@ -62,4 +63,3 @@ public class Github_37 {
 				",,$0.00\n", out.toString());
 	}
 }
-

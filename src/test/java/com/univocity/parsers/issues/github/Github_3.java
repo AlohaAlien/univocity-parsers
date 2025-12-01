@@ -15,9 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.ParserTestCase;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -30,7 +31,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/3
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_3 extends ParserTestCase {
@@ -47,15 +49,15 @@ public class Github_3 extends ParserTestCase {
 		CsvParser parser = new CsvParser(parserSettings);
 		parser.beginParsing(newReader("/examples/bean_test.csv"));
 
-		String[][] expectedCsvRows = new String[][]{
-			{"10-oct-2001", "555.999", "1", "yEs", "?"},
-			{"2001-10-10", null, "?", "N", "  \" something \"  "}
+		String[][] expectedCsvRows = new String[][] {
+				{ "10-oct-2001", "555.999", "1", "yEs", "?" },
+				{ "2001-10-10", null, "?", "N", "  \" something \"  " }
 		};
 
-		//quantity, comments, amount, pending
-		Object[][] expecteBeanValues = new Object[][]{
-			{1, "?", new BigDecimal("555.999"), true},
-			{0, "\" something \"", null, false}
+		// quantity, comments, amount, pending
+		Object[][] expecteBeanValues = new Object[][] {
+				{ 1, "?", new BigDecimal("555.999"), true },
+				{ 0, "\" something \"", null, false }
 		};
 
 		List<String[]> rows = new ArrayList<String[]>();
@@ -77,8 +79,8 @@ public class Github_3 extends ParserTestCase {
 
 		for (int i = 0; i < expecteBeanValues.length; i++) {
 			TestBean bean = beans.get(i);
-			Object[] values = new Object[]{
-				bean.getQuantity(), bean.getComments(), bean.getAmount(), bean.getPending()
+			Object[] values = new Object[] {
+					bean.getQuantity(), bean.getComments(), bean.getAmount(), bean.getPending()
 			};
 
 			assertEquals(values, expecteBeanValues[i]);

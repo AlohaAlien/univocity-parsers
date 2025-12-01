@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -30,7 +31,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/24
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_24 {
@@ -49,15 +51,21 @@ public class Github_24 {
 	}
 
 	/**
-	 * As of https://github.com/univocity/univocity-parsers/issues/48, this test is no longer valid by default
+	 * As of https://github.com/univocity/univocity-parsers/issues/48, this test is
+	 * no longer valid by default
 	 *
-	 * Originally the parser would force an exact match of headers declared in the bean and in the input.
-	 * With the changes introduced in Github_48, the parsing process became less strict to allow
-	 * beans to be loaded using inputs with varying number of columns. When a column is not found in the input
-	 * the values attributed to the bean will be considered null. If conversions are defined for that field,
+	 * Originally the parser would force an exact match of headers declared in the
+	 * bean and in the input.
+	 * With the changes introduced in Github_48, the parsing process became less
+	 * strict to allow
+	 * beans to be loaded using inputs with varying number of columns. When a column
+	 * is not found in the input
+	 * the values attributed to the bean will be considered null. If conversions are
+	 * defined for that field,
 	 * they will be applied over the null value.
 	 *
-	 * To keep getting errors when headers are not fully matched, enable the strict header validation using
+	 * To keep getting errors when headers are not fully matched, enable the strict
+	 * header validation using
 	 * {@link BeanProcessor#setStrictHeaderValidationEnabled(boolean)}
 	 */
 	@Test
@@ -72,7 +80,7 @@ public class Github_24 {
 			parser.parse(new StringReader("AAAA,BB\nA,B\nC,D"));
 			fail("Expected exception to be thrown here");
 		} catch (TextParsingException e) {
-			//success!!
+			// success!!
 		}
 	}
 

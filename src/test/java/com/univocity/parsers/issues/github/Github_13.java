@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.math.*;
@@ -30,7 +31,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/13
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Github_13 {
 
@@ -46,23 +48,24 @@ public class Github_13 {
 	}
 
 	static final String CSV_INPUT = ""
-		+ "Client,1,Foo\n"
-		+ "Account,23234,HSBC,123433-000,HSBCAUS\n"
-		+ "Account,11234,HSBC,222343-130,HSBCCAD\n"
-		+ "Client,2,BAR\n"
-		+ "Account,1234,CITI,213343-130,CITICAD\n";
+			+ "Client,1,Foo\n"
+			+ "Account,23234,HSBC,123433-000,HSBCAUS\n"
+			+ "Account,11234,HSBC,222343-130,HSBCCAD\n"
+			+ "Client,2,BAR\n"
+			+ "Account,1234,CITI,213343-130,CITICAD\n";
 
 	static final String FIXED_INPUT = ""
-		+ "N#123123 1888858    58888548\n"
-		+ "111222       3000FOO                               10\n"
-		+ "333444       2000BAR                               60\n"
-		+ "N#123124 1888844    58888544\n"
-		+ "311222       3500FOO                               30\n";
+			+ "N#123123 1888858    58888548\n"
+			+ "111222       3000FOO                               10\n"
+			+ "333444       2000BAR                               60\n"
+			+ "N#123124 1888844    58888544\n"
+			+ "311222       3500FOO                               30\n";
 
 	@Test
 	public void processMultiRowFormatCsv() {
 		final ObjectRowListProcessor clientProcessor = new ObjectRowListProcessor();
-		clientProcessor.convertIndexes(Conversions.toEnum(ClientType.class, "typeCode", EnumSelector.CUSTOM_FIELD)).set(1);
+		clientProcessor.convertIndexes(Conversions.toEnum(ClientType.class, "typeCode", EnumSelector.CUSTOM_FIELD))
+				.set(1);
 
 		final ObjectRowListProcessor accountProcessor = new ObjectRowListProcessor();
 		accountProcessor.convertFields(Conversions.toBigDecimal()).set("balance");
@@ -98,7 +101,8 @@ public class Github_13 {
 	@Test
 	public void writeMultiRowFormatCsv() {
 		final ObjectRowWriterProcessor clientProcessor = new ObjectRowWriterProcessor();
-		clientProcessor.convertIndexes(Conversions.toEnum(ClientType.class, "typeCode", EnumSelector.CUSTOM_FIELD)).set(1);
+		clientProcessor.convertIndexes(Conversions.toEnum(ClientType.class, "typeCode", EnumSelector.CUSTOM_FIELD))
+				.set(1);
 
 		final ObjectRowWriterProcessor accountProcessor = new ObjectRowWriterProcessor();
 		accountProcessor.convertFields(Conversions.toBigDecimal()).set("balance");
@@ -116,11 +120,11 @@ public class Github_13 {
 		CsvWriter writer = new CsvWriter(out, settings);
 
 		List<Object[]> inputRows = new ArrayList<Object[]>();
-		inputRows.add(new Object[]{"Client", ClientType.BUSINESS, "Foo"});
-		inputRows.add(new Object[]{"Account", new BigDecimal(23234), "HSBC", "123433-000", "HSBCAUS"});
-		inputRows.add(new Object[]{"Account", new BigDecimal(11234), "HSBC", "222343-130", "HSBCCAD"});
-		inputRows.add(new Object[]{"Client", ClientType.PERSONAL, "BAR"});
-		inputRows.add(new Object[]{"Account", new BigDecimal(1234), "CITI", "213343-130", "CITICAD"});
+		inputRows.add(new Object[] { "Client", ClientType.BUSINESS, "Foo" });
+		inputRows.add(new Object[] { "Account", new BigDecimal(23234), "HSBC", "123433-000", "HSBCAUS" });
+		inputRows.add(new Object[] { "Account", new BigDecimal(11234), "HSBC", "222343-130", "HSBCCAD" });
+		inputRows.add(new Object[] { "Client", ClientType.PERSONAL, "BAR" });
+		inputRows.add(new Object[] { "Account", new BigDecimal(1234), "CITI", "213343-130", "CITICAD" });
 
 		writer.processRecordsAndClose(inputRows);
 
@@ -132,17 +136,17 @@ public class Github_13 {
 
 		FixedWidthFields itemLengths = new FixedWidthFields(13, 4, 34, 2);
 		FixedWidthParserSettings settings = new FixedWidthParserSettings(itemLengths);
-		settings.addFormatForLookahead("N#", new FixedWidthFields(9, 11, 8)); //receipt lengths
+		settings.addFormatForLookahead("N#", new FixedWidthFields(9, 11, 8)); // receipt lengths
 
 		FixedWidthParser parser = new FixedWidthParser(settings);
 
 		List<String[]> rows = parser.parseAll(new StringReader(FIXED_INPUT));
 		assertEquals(rows.size(), 5);
-		assertEquals(rows.get(0), new String[]{"N#123123", "1888858", "58888548"});
-		assertEquals(rows.get(1), new String[]{"111222", "3000", "FOO", "10"});
-		assertEquals(rows.get(2), new String[]{"333444", "2000", "BAR", "60"});
-		assertEquals(rows.get(3), new String[]{"N#123124", "1888844", "58888544"});
-		assertEquals(rows.get(4), new String[]{"311222", "3500", "FOO", "30"});
+		assertEquals(rows.get(0), new String[] { "N#123123", "1888858", "58888548" });
+		assertEquals(rows.get(1), new String[] { "111222", "3000", "FOO", "10" });
+		assertEquals(rows.get(2), new String[] { "333444", "2000", "BAR", "60" });
+		assertEquals(rows.get(3), new String[] { "N#123124", "1888844", "58888544" });
+		assertEquals(rows.get(4), new String[] { "311222", "3500", "FOO", "30" });
 	}
 
 	@Test
@@ -156,11 +160,11 @@ public class Github_13 {
 
 		List<String[]> rows = parser.parseAll(new StringReader(FIXED_INPUT));
 		assertEquals(rows.size(), 5);
-		assertEquals(rows.get(0), new String[]{"N#123123", "1888858", "58888548"});
-		assertEquals(rows.get(1), new String[]{"111222", "3000", "FOO", "10"});
-		assertEquals(rows.get(2), new String[]{"333444", "2000", "BAR", "60"});
-		assertEquals(rows.get(3), new String[]{"N#123124", "1888844", "58888544"});
-		assertEquals(rows.get(4), new String[]{"311222", "3500", "FOO", "30"});
+		assertEquals(rows.get(0), new String[] { "N#123123", "1888858", "58888548" });
+		assertEquals(rows.get(1), new String[] { "111222", "3000", "FOO", "10" });
+		assertEquals(rows.get(2), new String[] { "333444", "2000", "BAR", "60" });
+		assertEquals(rows.get(3), new String[] { "N#123124", "1888844", "58888544" });
+		assertEquals(rows.get(4), new String[] { "311222", "3500", "FOO", "30" });
 	}
 
 	@Test
@@ -176,11 +180,11 @@ public class Github_13 {
 
 		List<String[]> rows = parser.parseAll(new StringReader(FIXED_INPUT));
 		assertEquals(rows.size(), 5);
-		assertEquals(rows.get(0), new String[]{"N#123123", "1888858", "58888548"});
-		assertEquals(rows.get(1), new String[]{"111222", "3000", "FOO", "10"});
-		assertEquals(rows.get(2), new String[]{"333", "444", "2000", "BAR", "60"});
-		assertEquals(rows.get(3), new String[]{"N#123124", "1888844", "58888544"});
-		assertEquals(rows.get(4), new String[]{"311222", "3500", "FOO", "30"});
+		assertEquals(rows.get(0), new String[] { "N#123123", "1888858", "58888548" });
+		assertEquals(rows.get(1), new String[] { "111222", "3000", "FOO", "10" });
+		assertEquals(rows.get(2), new String[] { "333", "444", "2000", "BAR", "60" });
+		assertEquals(rows.get(3), new String[] { "N#123124", "1888844", "58888544" });
+		assertEquals(rows.get(4), new String[] { "311222", "3500", "FOO", "30" });
 	}
 
 	@Test
@@ -188,17 +192,17 @@ public class Github_13 {
 		FixedWidthFields itemLengths = new FixedWidthFields(13, 4, 34, 2);
 		FixedWidthWriterSettings settings = new FixedWidthWriterSettings(itemLengths);
 		settings.getFormat().setLineSeparator("\n");
-		settings.addFormatForLookahead("N#", new FixedWidthFields(9, 11, 8)); //receipt lengths
+		settings.addFormatForLookahead("N#", new FixedWidthFields(9, 11, 8)); // receipt lengths
 
 		StringWriter out = new StringWriter();
 		FixedWidthWriter writer = new FixedWidthWriter(out, settings);
 
 		List<Object[]> inputRows = new ArrayList<Object[]>();
-		inputRows.add(new Object[]{"N#123123", "1888858", "58888548"});
-		inputRows.add(new Object[]{"111222", 3000, "FOO", 10});
-		inputRows.add(new Object[]{"333444", 2000, "BAR", 60});
-		inputRows.add(new Object[]{"N#123124", "1888844", "58888544"});
-		inputRows.add(new Object[]{"311222", 3500, "FOO", 30});
+		inputRows.add(new Object[] { "N#123123", "1888858", "58888548" });
+		inputRows.add(new Object[] { "111222", 3000, "FOO", 10 });
+		inputRows.add(new Object[] { "333444", 2000, "BAR", 60 });
+		inputRows.add(new Object[] { "N#123124", "1888844", "58888544" });
+		inputRows.add(new Object[] { "311222", 3500, "FOO", 30 });
 
 		writer.writeRowsAndClose(inputRows);
 
@@ -217,11 +221,11 @@ public class Github_13 {
 		FixedWidthWriter writer = new FixedWidthWriter(out, settings);
 
 		List<Object[]> inputRows = new ArrayList<Object[]>();
-		inputRows.add(new Object[]{"N#123123", "1888858", "58888548"});
-		inputRows.add(new Object[]{"111222", 3000, "FOO", 10});
-		inputRows.add(new Object[]{"333444", 2000, "BAR", 60});
-		inputRows.add(new Object[]{"N#123124", "1888844", "58888544"});
-		inputRows.add(new Object[]{"311222", 3500, "FOO", 30});
+		inputRows.add(new Object[] { "N#123123", "1888858", "58888548" });
+		inputRows.add(new Object[] { "111222", 3000, "FOO", 10 });
+		inputRows.add(new Object[] { "333444", 2000, "BAR", 60 });
+		inputRows.add(new Object[] { "N#123124", "1888844", "58888544" });
+		inputRows.add(new Object[] { "311222", 3500, "FOO", 30 });
 
 		writer.writeRowsAndClose(inputRows);
 
@@ -241,11 +245,11 @@ public class Github_13 {
 		FixedWidthWriter writer = new FixedWidthWriter(out, settings);
 
 		List<Object[]> inputRows = new ArrayList<Object[]>();
-		inputRows.add(new Object[]{"N#123123", "1888858", "58888548"});
-		inputRows.add(new Object[]{"111222", 3000, "FOO", 10});
-		inputRows.add(new Object[]{333, 444, 2000, "BAR", 60});
-		inputRows.add(new Object[]{"N#123124", "1888844", "58888544"});
-		inputRows.add(new Object[]{"311222", 3500, "FOO", 30});
+		inputRows.add(new Object[] { "N#123123", "1888858", "58888548" });
+		inputRows.add(new Object[] { "111222", 3000, "FOO", 10 });
+		inputRows.add(new Object[] { 333, 444, 2000, "BAR", 60 });
+		inputRows.add(new Object[] { "N#123124", "1888844", "58888544" });
+		inputRows.add(new Object[] { "311222", 3500, "FOO", 30 });
 
 		writer.writeRowsAndClose(inputRows);
 

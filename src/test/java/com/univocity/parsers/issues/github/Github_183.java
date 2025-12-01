@@ -15,12 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.*;
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.*;
+import com.univocity.parsers.ParserTestCase;
 
 import java.io.*;
 import java.util.*;
@@ -30,15 +32,16 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/183
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_183 extends ParserTestCase {
 
 	@DataProvider
 	Object[][] inputProvider() {
-		return new Object[][]{
-				{false},
-				{true}
+		return new Object[][] {
+				{ false },
+				{ true }
 		};
 	}
 
@@ -74,6 +77,7 @@ public class Github_183 extends ParserTestCase {
 			assertNull(row[5]);
 		}
 
-		assertEquals(rowProcessor.getColumnValuesAsMapOfIndexes().toString(), "{0=[null, null, null], 1=[R0C1, R1C1, R2C1], 2=[R0C2, R1C2, R2C2], 3=[null, null, null], 4=[null, null, null], 5=[null, null, null]}");
+		assertEquals(rowProcessor.getColumnValuesAsMapOfIndexes().toString(),
+				"{0=[null, null, null], 1=[R0C1, R1C1, R2C1], 2=[R0C2, R1C2, R2C2], 3=[null, null, null], 4=[null, null, null], 5=[null, null, null]}");
 	}
 }

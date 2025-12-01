@@ -15,10 +15,15 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.MasterDetailListProcessor;
+import com.bupt.se.common.processor.MasterDetailRecord;
+import com.bupt.se.common.processor.ObjectRowListProcessor;
+import com.bupt.se.common.processor.RowPlacement;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.math.*;
@@ -29,28 +34,28 @@ import static org.testng.Assert.*;
 public class MasterDetailProcessorTest {
 
 	private String totalsOnTop = "type,amount\n"
-		+ "T,100\n"
-		+ "50\n"
-		+ "40\n"
-		+ "10\n"
-		+ "T,200\n"
-		+ "170\n"
-		+ "30";
+			+ "T,100\n"
+			+ "50\n"
+			+ "40\n"
+			+ "10\n"
+			+ "T,200\n"
+			+ "170\n"
+			+ "30";
 
 	private String totalsAtBottom = "type,amount\n"
-		+ "50\n"
-		+ "40\n"
-		+ "10\n"
-		+ "T,100\n"
-		+ "170\n"
-		+ "30\n"
-		+ "T,200";
+			+ "50\n"
+			+ "40\n"
+			+ "10\n"
+			+ "T,100\n"
+			+ "170\n"
+			+ "30\n"
+			+ "T,200";
 
 	@DataProvider(name = "inputsAndProcessors")
 	private Object[][] getInputsAndProcessors() {
-		return new Object[][]{
-			{totalsOnTop, getProcessor(true)},
-			{totalsAtBottom, getProcessor(false)},
+		return new Object[][] {
+				{ totalsOnTop, getProcessor(true) },
+				{ totalsAtBottom, getProcessor(false) },
 		};
 	}
 
@@ -96,7 +101,8 @@ public class MasterDetailProcessorTest {
 
 	private MasterDetailListProcessor getProcessor(boolean totalsOnTop) {
 		final ObjectRowListProcessor items = new ObjectRowListProcessor();
-		MasterDetailListProcessor totals = new MasterDetailListProcessor(totalsOnTop ? RowPlacement.TOP : RowPlacement.BOTTOM, items) {
+		MasterDetailListProcessor totals = new MasterDetailListProcessor(
+				totalsOnTop ? RowPlacement.TOP : RowPlacement.BOTTOM, items) {
 			@Override
 			protected boolean isMasterRecord(String[] row, ParsingContext context) {
 				return "T".equals(row[0]);

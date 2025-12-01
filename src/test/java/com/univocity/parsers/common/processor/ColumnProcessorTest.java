@@ -15,8 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.ColumnProcessor;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -26,11 +28,11 @@ import static org.testng.Assert.*;
 public class ColumnProcessorTest {
 
 	private static final String INPUT = "" +
-		"A,B,C" +
-		"\n1A,1B,1C" +
-		"\n2A,2B" +
-		"\n3A,3B,3C" +
-		"\n4A,4B,4C,4D";
+			"A,B,C" +
+			"\n1A,1B,1C" +
+			"\n2A,2B" +
+			"\n3A,3B,3C" +
+			"\n4A,4B,4C,4D";
 
 	@Test
 	public void testColumnValues() {
@@ -42,11 +44,11 @@ public class ColumnProcessorTest {
 
 		new CsvParser(settings).parse(new StringReader(INPUT));
 
-		String[][] expectedValues = new String[][]{
-			{"1A", "2A", "3A", "4A"},
-			{"1B", "2B", "3B", "4B"},
-			{"1C", null, "3C", "4C"},
-			{null, null, null, "4D"}
+		String[][] expectedValues = new String[][] {
+				{ "1A", "2A", "3A", "4A" },
+				{ "1B", "2B", "3B", "4B" },
+				{ "1C", null, "3C", "4C" },
+				{ null, null, null, "4D" }
 		};
 
 		List<List<String>> columnValues = processor.getColumnValuesAsList();
@@ -65,9 +67,9 @@ public class ColumnProcessorTest {
 			processor.getColumnValuesAsMapOfNames();
 			fail("Expected exception. No name defined for 4th column");
 		} catch (Exception e) {
-			//OK
+			// OK
 		}
 
-		assertEquals(processor.getHeaders(), new String[]{"A", "B", "C"});
+		assertEquals(processor.getHeaders(), new String[] { "A", "B", "C" });
 	}
 }

@@ -15,14 +15,16 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.csv.*;
 
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_113 {
 
@@ -32,12 +34,12 @@ public class Github_113 {
 
 		settings.setMaxCharsPerColumn(5);
 
-		settings.getFormat().setDelimiter('\t'); //incorrect delimiter to trigger the exception
+		settings.getFormat().setDelimiter('\t'); // incorrect delimiter to trigger the exception
 
 		try {
 			new CsvParser(settings).parseLine("a,b,c,d,e,f\ne,g");
 			fail("Expecting exception here");
-		} catch(TextParsingException ex){
+		} catch (TextParsingException ex) {
 			assertEquals(ex.getParsedContent(), "a,b,c");
 		}
 	}

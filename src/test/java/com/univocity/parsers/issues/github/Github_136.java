@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.common.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.CsvParserTest;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -28,7 +29,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/132
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_136 {
 
@@ -46,7 +48,7 @@ public class Github_136 {
 		ResultIterator<TestBean, ParsingContext> it = routine.iterate(TestBean.class, input).iterator();
 
 		StringBuilder content = new StringBuilder();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			content.append(it.getContext().currentParsedContent());
 			beans.add(it.next());
 		}
@@ -58,6 +60,5 @@ public class Github_136 {
 				"10-oct-2001,\t555.999,\t1,\t\t\tyEs\t\t,?\n" +
 				"2001-10-10,\t\t,\t\t\t?,\t\t\tN\t\t,\"  \"\" something \"\"  \"");
 	}
-
 
 }

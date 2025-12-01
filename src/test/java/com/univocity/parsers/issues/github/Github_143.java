@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.util.*;
 
@@ -25,20 +26,20 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/143
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_143 {
 
-
 	@DataProvider
 	Object[][] data() {
-		return new Object[][]{
-				{"AA'BB"},      // 1 quote char (OK without escapeEscape option)
-				{"AA|'BB"},     // 1 escape char and 1 quote char
-				{"AA||'BB"},    // 2 escape char and 1 quote char
-				{"AA''BB"},     // 2 quote char (OK without escapeEscape option)
-				{"AA|'|'BB"},   // (1 escape char anc 1 quote char) * 2
-				{"AA||'||'BB"}, // (2 escape char and 1 quote char) * 2
+		return new Object[][] {
+				{ "AA'BB" }, // 1 quote char (OK without escapeEscape option)
+				{ "AA|'BB" }, // 1 escape char and 1 quote char
+				{ "AA||'BB" }, // 2 escape char and 1 quote char
+				{ "AA''BB" }, // 2 quote char (OK without escapeEscape option)
+				{ "AA|'|'BB" }, // (1 escape char anc 1 quote char) * 2
+				{ "AA||'||'BB" }, // (2 escape char and 1 quote char) * 2
 
 		};
 	}
@@ -75,7 +76,7 @@ public class Github_143 {
 	public void testEscapeParsing(String input) {
 		System.out.println("\n--------------[ " + input + " ]---------");
 		int i = 0;
-		for (char escape : new char[]{'\'', '|'}) {
+		for (char escape : new char[] { '\'', '|' }) {
 			CsvParserSettings settings = new CsvParserSettings();
 			settings.setEscapeUnquotedValues(true);
 			settings.getFormat().setQuote('\'');
@@ -94,7 +95,6 @@ public class Github_143 {
 		}
 	}
 
-
 	@Test(dataProvider = "data")
 	public void testEscapeWriting(String input) {
 		System.out.println("\n--------------[ " + input + " ]---------");
@@ -102,7 +102,7 @@ public class Github_143 {
 
 		List<String> expected = new ArrayList<String>();
 
-		for (char escape : new char[]{'\'', '|'}) {
+		for (char escape : new char[] { '\'', '|' }) {
 			CsvWriterSettings settings = new CsvWriterSettings();
 			settings.setQuoteAllFields(true);
 			settings.getFormat().setQuote('\'');
@@ -126,19 +126,19 @@ public class Github_143 {
 
 	@DataProvider
 	Object[][] dataToWrite() {
-		return new Object[][]{
-				{"AA'BB", '\'', "'AA''BB'"},      // 1 quote char (OK without escapeEscape option)
-				{"AA'BB", '|', "'AA|'BB'"},      // 1 quote char (OK without escapeEscape option)
-				{"AA|'BB", '\'', "'AA|''BB'"},     // 1 escape char and 1 quote char
-				{"AA|'BB", '|', "'AA|||'BB'"},     // 1 escape char and 1 quote char
-				{"AA||'BB", '\'', "'AA||''BB'"},    // 2 escape char and 1 quote char
-				{"AA||'BB", '|', "'AA|||||'BB'"},    // 2 escape char and 1 quote char
-				{"AA''BB", '\'', "'AA''''BB'"},     // 2 quote char (OK without escapeEscape option)
-				{"AA''BB", '|', "'AA|'|'BB'"},     // 2 quote char (OK without escapeEscape option)
-				{"AA|'|'BB", '\'', "'AA|''|''BB'"},   // (1 escape char anc 1 quote char) * 2
-				{"AA|'|'BB", '|', "'AA|||'|||'BB'"},   // (1 escape char anc 1 quote char) * 2
-				{"AA||'||'BB", '\'', "'AA||''||''BB'"}, // (2 escape char and 1 quote char) * 2
-				{"AA||'||'BB", '|', "'AA|||||'|||||'BB'"}, // (2 escape char and 1 quote char) * 2
+		return new Object[][] {
+				{ "AA'BB", '\'', "'AA''BB'" }, // 1 quote char (OK without escapeEscape option)
+				{ "AA'BB", '|', "'AA|'BB'" }, // 1 quote char (OK without escapeEscape option)
+				{ "AA|'BB", '\'', "'AA|''BB'" }, // 1 escape char and 1 quote char
+				{ "AA|'BB", '|', "'AA|||'BB'" }, // 1 escape char and 1 quote char
+				{ "AA||'BB", '\'', "'AA||''BB'" }, // 2 escape char and 1 quote char
+				{ "AA||'BB", '|', "'AA|||||'BB'" }, // 2 escape char and 1 quote char
+				{ "AA''BB", '\'', "'AA''''BB'" }, // 2 quote char (OK without escapeEscape option)
+				{ "AA''BB", '|', "'AA|'|'BB'" }, // 2 quote char (OK without escapeEscape option)
+				{ "AA|'|'BB", '\'', "'AA|''|''BB'" }, // (1 escape char anc 1 quote char) * 2
+				{ "AA|'|'BB", '|', "'AA|||'|||'BB'" }, // (1 escape char anc 1 quote char) * 2
+				{ "AA||'||'BB", '\'', "'AA||''||''BB'" }, // (2 escape char and 1 quote char) * 2
+				{ "AA||'||'BB", '|', "'AA|||||'|||||'BB'" }, // (2 escape char and 1 quote char) * 2
 		};
 	}
 
@@ -166,7 +166,7 @@ public class Github_143 {
 
 	@Test(dataProvider = "dataToWrite")
 	public void testEscapeWritingNoQuotesButEscapeEnabled(String input, char escape, String expected) {
-		expected = expected.substring(1, expected.length() - 1); //no quotes
+		expected = expected.substring(1, expected.length() - 1); // no quotes
 		CsvWriterSettings settings = new CsvWriterSettings();
 		settings.setEscapeUnquotedValues(true);
 		settings.getFormat().setQuote('\'');

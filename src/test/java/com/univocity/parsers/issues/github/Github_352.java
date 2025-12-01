@@ -16,11 +16,11 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
 
-import static org.testng.Assert.*;
+import com.bupt.se.csv.*;
 
+import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/352
@@ -28,7 +28,7 @@ import static org.testng.Assert.*;
 public class Github_352 {
 
 	@Test
-	public void testNullableFields(){
+	public void testNullableFields() {
 		CsvWriterSettings s = new CsvWriterSettings();
 		s.getFormat().setQuote('\'');
 		s.setNullValue("null");

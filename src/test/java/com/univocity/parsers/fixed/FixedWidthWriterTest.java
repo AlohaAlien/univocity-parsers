@@ -15,10 +15,17 @@
  ******************************************************************************/
 package com.univocity.parsers.fixed;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.fixed.FieldAlignment;
+import com.bupt.se.fixed.FixedWidthFields;
+import com.bupt.se.fixed.FixedWidthParser;
+import com.bupt.se.fixed.FixedWidthParserSettings;
+import com.bupt.se.fixed.FixedWidthWriter;
+import com.bupt.se.fixed.FixedWidthWriterSettings;
 
 import java.io.*;
 import java.nio.charset.*;
@@ -30,9 +37,9 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 
 	@DataProvider
 	public Object[][] lineSeparatorProvider() {
-		return new Object[][]{
-				{new char[]{'\n'}},
-				{new char[]{'\r', '\n'}},
+		return new Object[][] {
+				{ new char[] { '\n' } },
+				{ new char[] { '\r', '\n' } },
 		};
 	}
 
@@ -41,16 +48,16 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		FixedWidthWriterSettings settings = new FixedWidthWriterSettings(getFieldLengths());
 		settings.getFormat().setLineSeparator(lineSeparator);
 
-		String[] expectedHeaders = new String[]{
+		String[] expectedHeaders = new String[] {
 				"DATE", "NAME", "OWED", "INTEREST",
 		};
 
-		Object[][] expectedResult = new Object[][]{
-				{"2013-FEB-28", "Harry Dong", "15000.99", "8.786",},
-				{"2013-JAN-1", "Billy Rubin", "15100.99", "5",},
-				{"2012-SEP-1", "Willie Stroker", "15000.00", "6",},
-				{"2012-JAN-11", "Mike Litoris", "15000", "4.86",},
-				{"2010-JUL-01", "Gaye Males", "1", "8.6",},
+		Object[][] expectedResult = new Object[][] {
+				{ "2013-FEB-28", "Harry Dong", "15000.99", "8.786", },
+				{ "2013-JAN-1", "Billy Rubin", "15100.99", "5", },
+				{ "2012-SEP-1", "Willie Stroker", "15000.00", "6", },
+				{ "2012-JAN-11", "Mike Litoris", "15000", "4.86", },
+				{ "2010-JUL-01", "Gaye Males", "1", "8.6", },
 		};
 
 		settings.setIgnoreLeadingWhitespaces(true);
@@ -97,23 +104,23 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 
 	@Test(enabled = true, dataProvider = "lineSeparatorProvider")
 	public void testWriterWithSpacesAndOverflow(char[] lineSeparator) throws Exception {
-		String[] expectedHeaders = new String[]{
+		String[] expectedHeaders = new String[] {
 				"DATE", "NAME", "OWED", "INTEREST",
 		};
 
-		String[][] input = new String[][]{
-				{null, null},
+		String[][] input = new String[][] {
+				{ null, null },
 				null,
 				{},
-				{"2013-FEB-28", "  Harry Dong  ", "15000.99", " 8.786 ",},
-				{"2013-JANUARY-1", " Billy Rubin  - Ha ", " 15100.99345345345345345345345345345345345", " - 5 - ",},
+				{ "2013-FEB-28", "  Harry Dong  ", "15000.99", " 8.786 ", },
+				{ "2013-JANUARY-1", " Billy Rubin  - Ha ", " 15100.99345345345345345345345345345345345", " - 5 - ", },
 
 		};
 
-		String[][] expectedResult = new String[][]{
-				{"?", "?"},
-				{"2013-FEB-28", "  Harry Dong  ", "15000.99", " 8.786 ",},
-				{"2013-JANUAR", " Billy Rubin  - Ha ", " 15100.9934534534534", " - 5 - ",},
+		String[][] expectedResult = new String[][] {
+				{ "?", "?" },
+				{ "2013-FEB-28", "  Harry Dong  ", "15000.99", " 8.786 ", },
+				{ "2013-JANUAR", " Billy Rubin  - Ha ", " 15100.9934534534534", " - 5 - ", },
 
 		};
 
@@ -125,7 +132,6 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		settings.setIgnoreLeadingWhitespaces(false);
 		settings.setIgnoreTrailingWhitespaces(false);
 		settings.setHeaders(expectedHeaders);
-
 
 		ByteArrayOutputStream fixedWidthResult = new ByteArrayOutputStream();
 
@@ -173,16 +179,19 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		rows.get(0)[2] = "  " + rows.get(0)[2] + "  ";
 
 		ByteArrayOutputStream fixedWidthResult = new ByteArrayOutputStream();
-		FixedWidthWriterSettings writerSettings = new FixedWidthWriterSettings(new FixedWidthFields(11, 15, 10, 10, 20));
+		FixedWidthWriterSettings writerSettings = new FixedWidthWriterSettings(
+				new FixedWidthFields(11, 15, 10, 10, 20));
 		writerSettings.getFormat().setPadding('_');
 		writerSettings.setIgnoreLeadingWhitespaces(false);
 		writerSettings.setIgnoreTrailingWhitespaces(false);
 
-		FixedWidthWriter writer = new FixedWidthWriter(new OutputStreamWriter(fixedWidthResult, "UTF-8"), writerSettings);
+		FixedWidthWriter writer = new FixedWidthWriter(new OutputStreamWriter(fixedWidthResult, "UTF-8"),
+				writerSettings);
 		writer.writeHeaders(headers);
 		writer.writeRowsAndClose(rows);
 
-		//System.out.println("Result 1: \n" + fixedWidthResult.toString().replaceAll("\\r", "#").replaceAll("\\n", "@"));
+		// System.out.println("Result 1: \n" +
+		// fixedWidthResult.toString().replaceAll("\\r", "#").replaceAll("\\n", "@"));
 		int correctLength = fixedWidthResult.toString().length();
 
 		fixedWidthResult = new ByteArrayOutputStream();
@@ -193,7 +202,8 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		writer.writeHeaders(headers);
 		writer.writeRowsAndClose(rows);
 
-		//System.out.println("Result 2: \n" + fixedWidthResult.toString().replaceAll("\\r", "#").replaceAll("\\n", "@"));
+		// System.out.println("Result 2: \n" +
+		// fixedWidthResult.toString().replaceAll("\\r", "#").replaceAll("\\n", "@"));
 		int length = fixedWidthResult.toString().length();
 
 		assertEquals(correctLength, length);
@@ -234,7 +244,8 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		StringWriter writer = new StringWriter();
 		new FixedWidthWriter(writer, fwws).processRecordsAndClose(tofLes);
 
-		assertEquals(writer.toString(), "________ziel__________plzV__\nziel0_______________00000000\nziel1_______________00000001\n");
+		assertEquals(writer.toString(),
+				"________ziel__________plzV__\nziel0_______________00000000\nziel1_______________00000001\n");
 	}
 
 	@Test
@@ -354,7 +365,7 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		FixedWidthWriter writer = new FixedWidthWriter(out, settings);
 
 		writer.writeRow("ab", "cd");
-		writer.writeRow("e\n", "f"); //writes line separator as part of the value, not a record delimiter
+		writer.writeRow("e\n", "f"); // writes line separator as part of the value, not a record delimiter
 		writer.writeRow("g", "hi");
 		writer.close();
 
@@ -373,8 +384,8 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 
 		writer.writeRow("ab", "cd");
 		writer.commentRow(">>some random comment<<");
-		writer.writeEmptyRow(); //does nothing.
-		writer.writeRow("data"); //writer won't validate content and will just dump it as a record.
+		writer.writeEmptyRow(); // does nothing.
+		writer.writeRow("data"); // writer won't validate content and will just dump it as a record.
 		writer.writeRow("++", "++");
 		writer.close();
 
@@ -391,13 +402,13 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		FixedWidthWriter writer = new FixedWidthWriter(settings);
 		String line;
 
-		line = writer.writeRowToString(new String[]{"\0 a", "b"});
+		line = writer.writeRowToString(new String[] { "\0 a", "b" });
 		assertEquals(line, "\0 ab__");
 
-		line = writer.writeRowToString(new String[]{"\0 a ", " b\1 "});
+		line = writer.writeRowToString(new String[] { "\0 a ", " b\1 " });
 		assertEquals(line, "\0 ab\1_");
 
-		line = writer.writeRowToString(new String[]{"\2 a ", " b\2"});
+		line = writer.writeRowToString(new String[] { "\2 a ", " b\2" });
 		assertEquals(line, "a__b__");
 	}
 
@@ -459,7 +470,7 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 	@Test
 	public void testFieldRanges() throws Exception {
 		FixedWidthFields fields = new FixedWidthFields();
-		fields.addField(5, 7).addField(10,14).addField(18, 20, '_').addField(24, 25, '.');
+		fields.addField(5, 7).addField(10, 14).addField(18, 20, '_').addField(24, 25, '.');
 
 		FixedWidthWriterSettings s = new FixedWidthWriterSettings(fields);
 		s.setExpandIncompleteRows(true);
@@ -476,7 +487,7 @@ public class FixedWidthWriterTest extends FixedWidthParserTest {
 		settings.setNullValue("N/A");
 		StringWriter sw = new StringWriter();
 		FixedWidthWriter fixedWidthWriter = new FixedWidthWriter(sw, settings);
-		fixedWidthWriter.writeRow(new String[] {null});
+		fixedWidthWriter.writeRow(new String[] { null });
 		assertEquals(sw.toString(), "N/A  \n");
 	}
 

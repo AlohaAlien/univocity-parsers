@@ -15,10 +15,13 @@
  ******************************************************************************/
 package com.univocity.parsers.common.record;
 
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
-import com.univocity.parsers.tsv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.record.Record;
+import com.bupt.se.common.record.RecordMetaData;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
+import com.bupt.se.tsv.*;
 
 import java.io.*;
 import java.math.*;
@@ -33,7 +36,8 @@ public class RecordImplTest {
 	@BeforeClass
 	public void setup() {
 		TsvParserSettings settings = new TsvParserSettings();
-		settings.setHeaders("boolean,byte,short,int,long,bigint,float,double,bigdec,char,string,date,calendar".split(","));
+		settings.setHeaders(
+				"boolean,byte,short,int,long,bigint,float,double,bigdec,char,string,date,calendar".split(","));
 		TsvParser parser = new TsvParser(settings);
 		record = parser.parseRecord("Y	1	2		4	5	6.6	7.7	$8.888	B	blah	10/10/10	11/11/11");
 		assertNotNull(record);
@@ -157,12 +161,12 @@ public class RecordImplTest {
 
 	@Test
 	public void getCalendar() {
-		Calendar cal = record.getCalendar(12, "hh/mm/ss");//ha!
+		Calendar cal = record.getCalendar(12, "hh/mm/ss");// ha!
 		assertEquals(cal.get(Calendar.HOUR), 11);
 		assertEquals(cal.get(Calendar.MINUTE), 11);
 		assertEquals(cal.get(Calendar.SECOND), 11);
 
-		cal = record.getCalendar("calendar");//format defined in metaData's column type - see @BeforeClass method. 
+		cal = record.getCalendar("calendar");// format defined in metaData's column type - see @BeforeClass method.
 		assertEquals(cal, new GregorianCalendar(2011, Calendar.NOVEMBER, 11));
 	}
 
@@ -173,7 +177,7 @@ public class RecordImplTest {
 
 	@Test
 	public void getDate() {
-		Date dt = record.getDate("date", "hh/mm/ss");//ha!
+		Date dt = record.getDate("date", "hh/mm/ss");// ha!
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(dt);
@@ -182,7 +186,7 @@ public class RecordImplTest {
 		assertEquals(cal.get(Calendar.MINUTE), 10);
 		assertEquals(cal.get(Calendar.SECOND), 10);
 
-		dt = record.getDate(11);//format defined in metaData's column type - see @BeforeClass method.
+		dt = record.getDate(11);// format defined in metaData's column type - see @BeforeClass method.
 		cal.setTime(dt);
 		assertEquals(cal, new GregorianCalendar(2010, Calendar.OCTOBER, 10));
 	}
@@ -223,9 +227,9 @@ public class RecordImplTest {
 
 	@Test
 	public void getValues() {
-		assertEquals(record.getValues(E.bigdec, E.date), new String[]{"$8.888", "10/10/10"});
-		assertEquals(record.getValues("bigdec", "date"), new String[]{"$8.888", "10/10/10"});
-		assertEquals(record.getValues(8, 11), new String[]{"$8.888", "10/10/10"});
+		assertEquals(record.getValues(E.bigdec, E.date), new String[] { "$8.888", "10/10/10" });
+		assertEquals(record.getValues("bigdec", "date"), new String[] { "$8.888", "10/10/10" });
+		assertEquals(record.getValues(8, 11), new String[] { "$8.888", "10/10/10" });
 	}
 
 	@Test

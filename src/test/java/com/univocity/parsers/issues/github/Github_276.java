@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
+import com.bupt.se.fixed.*;
 import com.univocity.parsers.examples.*;
-import com.univocity.parsers.fixed.*;
+
 import org.testng.annotations.*;
 
 import java.util.*;
@@ -25,7 +25,8 @@ import java.util.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/276
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_276 extends Example {
 
@@ -43,7 +44,7 @@ public class Github_276 extends Example {
 		FixedWidthParser parser = new FixedWidthParser(settings);
 
 		List<String[]> allRows = parser.parseAll(getReader("/examples/example.txt"));
-		
+
 		printAndValidate(null, allRows);
 	}
 

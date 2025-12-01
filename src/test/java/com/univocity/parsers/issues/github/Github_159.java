@@ -15,9 +15,10 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.lang.reflect.*;
@@ -28,7 +29,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/159
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_159 {
 
@@ -67,7 +69,7 @@ public class Github_159 {
 		@Parsed
 		int miles;
 
-		public Wheel(){
+		public Wheel() {
 
 		}
 
@@ -78,12 +80,15 @@ public class Github_159 {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
 
 			Wheel wheel = (Wheel) o;
 
-			if (miles != wheel.miles) return false;
+			if (miles != wheel.miles)
+				return false;
 			return brand.equals(wheel.brand);
 		}
 
@@ -102,7 +107,6 @@ public class Github_159 {
 		@Parsed(index = 1)
 		int miles;
 	}
-
 
 	public static class Car {
 		@Nested(headerTransformer = NameTransformer.class, args = "frontLeftWheel")
@@ -134,7 +138,8 @@ public class Github_159 {
 
 	@Test
 	public void testNestedWithPrefix() throws IOException {
-		String input = "frontLeftWheelBrand,frontLeftWheelMiles,frontRightWheelBrand,frontRightWheelMiles,rearLeftWheelBrand,rearLeftWheelMiles,rearRightWheelBrand,rearRightWheelMiles\n" +
+		String input = "frontLeftWheelBrand,frontLeftWheelMiles,frontRightWheelBrand,frontRightWheelMiles,rearLeftWheelBrand,rearLeftWheelMiles,rearRightWheelBrand,rearRightWheelMiles\n"
+				+
 				"b,2,b,4,b,6,v,3\n" +
 				"c,1,c,3,c,1,z,9\n";
 
@@ -175,9 +180,8 @@ public class Github_159 {
 
 	@Test
 	public void testNestedTransformingIndex() throws IOException {
-		String input =
-				"b,2,b,4,b,6,v,3\n" +
-						"c,1,c,3,c,1,z,9\n";
+		String input = "b,2,b,4,b,6,v,3\n" +
+				"c,1,c,3,c,1,z,9\n";
 
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
@@ -239,7 +243,8 @@ public class Github_159 {
 
 	@Test
 	public void testNestedList() {
-		String input = "frontLeftWheelBrand,frontLeftWheelMiles,frontRightWheelBrand,frontRightWheelMiles,rearLeftWheelBrand,rearLeftWheelMiles,rearRightWheelBrand,rearRightWheelMiles\n" +
+		String input = "frontLeftWheelBrand,frontLeftWheelMiles,frontRightWheelBrand,frontRightWheelMiles,rearLeftWheelBrand,rearLeftWheelMiles,rearRightWheelBrand,rearRightWheelMiles\n"
+				+
 				"b,2,b,4,b,6,v,3\n" +
 				"c,1,c,3,c,1,z,9\n";
 

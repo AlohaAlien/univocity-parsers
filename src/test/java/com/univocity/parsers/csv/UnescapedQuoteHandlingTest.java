@@ -1,7 +1,11 @@
 package com.univocity.parsers.csv;
 
-import com.univocity.parsers.common.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.csv.CsvParser;
+import com.bupt.se.csv.CsvParserSettings;
+import com.bupt.se.csv.UnescapedQuoteHandling;
 
 import java.io.*;
 import java.util.*;
@@ -15,33 +19,33 @@ public class UnescapedQuoteHandlingTest {
 
 	@DataProvider
 	private Object[][] inputProvider() {
-		return new Object[][]{
-				//INPUT 1
-				{UnescapedQuoteHandling.SKIP_VALUE, INPUT_1, new String[][]{
-						{"a", null, "e,f", ",g", null}
-				}},
+		return new Object[][] {
+				// INPUT 1
+				{ UnescapedQuoteHandling.SKIP_VALUE, INPUT_1, new String[][] {
+						{ "a", null, "e,f", ",g", null }
+				} },
 
-				{UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, INPUT_1, new String[][]{
-						{"a", "b c\" d,\"e,f", ",g", null}
-				}},
-				{UnescapedQuoteHandling.STOP_AT_DELIMITER, INPUT_1, new String[][]{
-						{"a", "\"b c\" d", "e,f", ",g", null}
-				}},
-				{UnescapedQuoteHandling.RAISE_ERROR, INPUT_1, null},
+				{ UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, INPUT_1, new String[][] {
+						{ "a", "b c\" d,\"e,f", ",g", null }
+				} },
+				{ UnescapedQuoteHandling.STOP_AT_DELIMITER, INPUT_1, new String[][] {
+						{ "a", "\"b c\" d", "e,f", ",g", null }
+				} },
+				{ UnescapedQuoteHandling.RAISE_ERROR, INPUT_1, null },
 
-				//INPUT 2
-				{UnescapedQuoteHandling.SKIP_VALUE, INPUT_2, new String[][]{
-						{"a", null},
-						{"e,f", ",g", null}
-				}},
-				{UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, INPUT_2, new String[][]{
-						{"a", "b c\" d\n\"e,f", ",g", null}
-				}},
-				{UnescapedQuoteHandling.STOP_AT_DELIMITER, INPUT_2, new String[][]{
-						{"a", "\"b c\" d"},
-						{"e,f", ",g", null}
-				}},
-				{UnescapedQuoteHandling.RAISE_ERROR, INPUT_2, null},
+				// INPUT 2
+				{ UnescapedQuoteHandling.SKIP_VALUE, INPUT_2, new String[][] {
+						{ "a", null },
+						{ "e,f", ",g", null }
+				} },
+				{ UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, INPUT_2, new String[][] {
+						{ "a", "b c\" d\n\"e,f", ",g", null }
+				} },
+				{ UnescapedQuoteHandling.STOP_AT_DELIMITER, INPUT_2, new String[][] {
+						{ "a", "\"b c\" d" },
+						{ "e,f", ",g", null }
+				} },
+				{ UnescapedQuoteHandling.RAISE_ERROR, INPUT_2, null },
 		};
 	}
 
@@ -65,18 +69,23 @@ public class UnescapedQuoteHandlingTest {
 
 	@DataProvider
 	public Object[][] config() {
-		return new Object[][]{
-				{false, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{false, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "INCOME\".\"Taxable", "EXPENSES\".\"TotalExpenses", "EXPENSES\".\"Exceptional"},
-				{false, UnescapedQuoteHandling.SKIP_VALUE, null, null, null},
-				{true, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{true, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{true, UnescapedQuoteHandling.SKIP_VALUE, null, null, null},
+		return new Object[][] {
+				{ false, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ false, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "INCOME\".\"Taxable",
+						"EXPENSES\".\"TotalExpenses", "EXPENSES\".\"Exceptional" },
+				{ false, UnescapedQuoteHandling.SKIP_VALUE, null, null, null },
+				{ true, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ true, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ true, UnescapedQuoteHandling.SKIP_VALUE, null, null, null },
 		};
 	}
 
 	@Test(dataProvider = "config")
-	public void testWithKeepQuotes(boolean keepQuotes, UnescapedQuoteHandling handling, String first, String second, String third) {
+	public void testWithKeepQuotes(boolean keepQuotes, UnescapedQuoteHandling handling, String first, String second,
+			String third) {
 		String input = "" +
 				"PAL : PAL : NF : \"INCOME\".\"Taxable\"\n" +
 				"PAL : PAL : NF : \"EXPENSES\".\"TotalExpenses\"\n" +

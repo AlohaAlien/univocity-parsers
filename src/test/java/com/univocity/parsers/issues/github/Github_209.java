@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,26 +26,28 @@ import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/209
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * 
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_209 {
 
 	@DataProvider
 	public Object[][] delimiterProvider() {
-		return new Object[][]{
-				{"#|#"},
-				{"##"},
-				{". ."},
-				{". "}
+		return new Object[][] {
+				{ "#|#" },
+				{ "##" },
+				{ ". ." },
+				{ ". " }
 		};
 	}
 
 	@DataProvider
 	public Object[][] whiteDelimiterProvider() {
-		return new Object[][]{
-				{"\t\t"},
-				{" . "},
-				{" ."}
+		return new Object[][] {
+				{ "\t\t" },
+				{ " . " },
+				{ " ." }
 		};
 	}
 
@@ -118,7 +121,7 @@ public class Github_209 {
 		validate(delimiter, partial + "A" + delimiter, partial + "A,null");
 	}
 
-	//delimiters with whitespace
+	// delimiters with whitespace
 	@Test(dataProvider = "whiteDelimiterProvider")
 	public void testMultiWhiteDelimiterNoQuotes(String delimiter) {
 		validate(delimiter, "A" + delimiter + "B" + delimiter + "C", "A,B,C");
@@ -167,7 +170,7 @@ public class Github_209 {
 		validate(delimiter, partial + "A" + delimiter, partial + "A,null");
 	}
 
-	//QUOTED
+	// QUOTED
 	@Test(dataProvider = "delimiterProvider")
 	public void testMultiDelimiterQuoted(String delimiter) {
 		validate(delimiter, "'A'" + delimiter + "'B'" + delimiter + "'C'", "A,B,C");
@@ -210,7 +213,7 @@ public class Github_209 {
 		validate(delimiter, "'A" + delimiter + "\n" + delimiter, "A" + delimiter + "\n" + delimiter);
 	}
 
-	//delimiters with whitespace
+	// delimiters with whitespace
 	@Test(dataProvider = "whiteDelimiterProvider")
 	public void testMultiWhiteDelimiterQuoted(String delimiter) {
 		validate(delimiter, "'A'" + delimiter + "'B'" + delimiter + "'C'", "A,B,C");
@@ -228,18 +231,23 @@ public class Github_209 {
 
 	@DataProvider
 	public Object[][] config() {
-		return new Object[][]{
-				{false, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{false, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "INCOME\".\"Taxable", "EXPENSES\".\"TotalExpenses", "EXPENSES\".\"Exceptional"},
-				{false, UnescapedQuoteHandling.SKIP_VALUE, null, null, null},
-				{true, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{true, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "\"INCOME\".\"Taxable\"", "\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\""},
-				{true, UnescapedQuoteHandling.SKIP_VALUE, null, null, null},
+		return new Object[][] {
+				{ false, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ false, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "INCOME\".\"Taxable",
+						"EXPENSES\".\"TotalExpenses", "EXPENSES\".\"Exceptional" },
+				{ false, UnescapedQuoteHandling.SKIP_VALUE, null, null, null },
+				{ true, UnescapedQuoteHandling.STOP_AT_DELIMITER, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ true, UnescapedQuoteHandling.STOP_AT_CLOSING_QUOTE, "\"INCOME\".\"Taxable\"",
+						"\"EXPENSES\".\"TotalExpenses\"", "\"EXPENSES\".\"Exceptional\"" },
+				{ true, UnescapedQuoteHandling.SKIP_VALUE, null, null, null },
 		};
 	}
 
 	@Test(dataProvider = "config")
-	public void testWithKeepQuotes(boolean keepQuotes, UnescapedQuoteHandling handling, String first, String second, String third) {
+	public void testWithKeepQuotes(boolean keepQuotes, UnescapedQuoteHandling handling, String first, String second,
+			String third) {
 		String input = "" +
 				"PAL :: PAL :: NF :: \"INCOME\".\"Taxable\"\n" +
 				"PAL :: PAL :: NF :: \"EXPENSES\".\"TotalExpenses\"\n" +
@@ -274,24 +282,20 @@ public class Github_209 {
 
 	@Test(dataProvider = "delimiterProvider")
 	public void testMultiDelimiterWritingNoQuotes(String delimiter) {
-		String line = write(delimiter, new String[]{"A", "B", "C"});
+		String line = write(delimiter, new String[] { "A", "B", "C" });
 		assertEquals(line, "A" + delimiter + "B" + delimiter + "C");
 	}
 
-
 	@Test(dataProvider = "delimiterProvider")
 	public void testMultiDelimiterWritingInValues(String delimiter) {
-		String line = write(delimiter, new String[]{"A" + delimiter + "a", "B" + delimiter, delimiter + "C"});
-		assertEquals(line, "'A" + delimiter + "a'" + delimiter + "'B" + delimiter + "'" + delimiter + "'" + delimiter + "C'");
+		String line = write(delimiter, new String[] { "A" + delimiter + "a", "B" + delimiter, delimiter + "C" });
+		assertEquals(line,
+				"'A" + delimiter + "a'" + delimiter + "'B" + delimiter + "'" + delimiter + "'" + delimiter + "C'");
 	}
 
 	@Test(dataProvider = "delimiterProvider")
 	public void testMultiDelimiterWritingInValuesWithQuotes(String delimiter) {
-		String line = write(delimiter, new String[]{"A'a", "B" + delimiter + "'", delimiter + "'C"});
+		String line = write(delimiter, new String[] { "A'a", "B" + delimiter + "'", delimiter + "'C" });
 		assertEquals(line, "A'a" + delimiter + "'B" + delimiter + "'''" + delimiter + "'" + delimiter + "''C'");
 	}
 }
-
-
-
-

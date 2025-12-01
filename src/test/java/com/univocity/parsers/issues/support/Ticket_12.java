@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -66,7 +67,8 @@ public class Ticket_12 {
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(e.getMessage().startsWith("lalala"));
-			assertTrue(e.getMessage().contains("Unable to set value '443' of type 'java.lang.String' to method 'setComment' "));
+			assertTrue(e.getMessage()
+					.contains("Unable to set value '443' of type 'java.lang.String' to method 'setComment' "));
 			assertTrue(e.getMessage().contains("Internal state when error was thrown"));
 		}
 	}
@@ -91,13 +93,13 @@ public class Ticket_12 {
 		int max;
 
 		public RangeLimiter(String[] args) {
-			super(false, false); //not null, not blank
+			super(false, false); // not null, not blank
 			min = Integer.parseInt(args[0]);
 			max = Integer.parseInt(args[1]);
 		}
 
 		protected void validate(Object value) {
-			super.validate(value); //runs the existing validations for not null and not blank
+			super.validate(value); // runs the existing validations for not null and not blank
 			int v = ((Number) value).intValue();
 			if (v < min || v > max) {
 				throw new DataValidationException("out of range: " + min + " >= " + value + " <=" + max);
@@ -117,18 +119,17 @@ public class Ticket_12 {
 		}
 
 		@Parsed(field = "c")
-		@Convert(conversionClass = RangeLimiter.class, args = {"1", "5"})
+		@Convert(conversionClass = RangeLimiter.class, args = { "1", "5" })
 		public void setComment(int comment) {
 			this.c = comment;
 		}
 
 		@Parsed(field = "c")
-		@Convert(conversionClass = RangeLimiter.class, args = {"1", "5"})
+		@Convert(conversionClass = RangeLimiter.class, args = { "1", "5" })
 		public int getComment() {
 			return c;
 		}
 	}
-
 
 	@Test
 	public void testCustomValidationHandlingOnParse() {

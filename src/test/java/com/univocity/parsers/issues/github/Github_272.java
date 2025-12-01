@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,11 +27,12 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/272
  *
- *  * @author Luiz Felipe (https://github.com/luizfp)
+ * * @author Luiz Felipe (https://github.com/luizfp)
  */
 public class Github_272 {
 
-	String input = "CPF MOTORISTA (Obrigatório - APENAS NÚMEROS);PLACA (Obrigatório - APENAS NÚMEROS);DATA VIAGEM (Obrigatório - EX.: 28/10/2018); VALOR (Obrigatório) ;USINA (Obrigatório);FAZENDA (Obrigatório);RAIO EM KM (Obrigatório);TONELADA (Obrigatório)\n" +
+	String input = "CPF MOTORISTA (Obrigatório - APENAS NÚMEROS);PLACA (Obrigatório - APENAS NÚMEROS);DATA VIAGEM (Obrigatório - EX.: 28/10/2018); VALOR (Obrigatório) ;USINA (Obrigatório);FAZENDA (Obrigatório);RAIO EM KM (Obrigatório);TONELADA (Obrigatório)\n"
+			+
 			"333;mmm1234;21/08/2018; 5.000,50 ;Test;Test;28.98;18.98";
 
 	@Test

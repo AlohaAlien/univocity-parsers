@@ -15,23 +15,25 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.nio.charset.*;
 import java.util.*;
 
-import static com.univocity.parsers.common.ArgumentUtils.*;
-import static com.univocity.parsers.common.input.BomInput.*;
+import static com.bupt.se.common.ArgumentUtils.*;
+import static com.bupt.se.common.input.BomInput.*;
 import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/154
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_154 {
 
@@ -48,26 +50,26 @@ public class Github_154 {
 
 	@DataProvider
 	Object[][] getFileAndEncoding() {
-		return new Object[][]{
-				{true, "UTF-8", null},
-				{false, "UTF-8", null},
-				{true, "UTF-8", UTF_8_BOM},
-				{false, "UTF-8", UTF_8_BOM},
+		return new Object[][] {
+				{ true, "UTF-8", null },
+				{ false, "UTF-8", null },
+				{ true, "UTF-8", UTF_8_BOM },
+				{ false, "UTF-8", UTF_8_BOM },
 
-				{true, "UTF-16BE", UTF_16BE_BOM},
-				{false, "UTF-16BE", UTF_16BE_BOM},
+				{ true, "UTF-16BE", UTF_16BE_BOM },
+				{ false, "UTF-16BE", UTF_16BE_BOM },
 
-				{true, "UTF-16LE", UTF_16LE_BOM},
-				{false, "UTF-16LE", UTF_16LE_BOM},
+				{ true, "UTF-16LE", UTF_16LE_BOM },
+				{ false, "UTF-16LE", UTF_16LE_BOM },
 
-				//edge case here. Looks like UTF-32LE until the last character.
-				{true, "UTF-16LE", toByteArray(0xFF, 0xFE, 0x00, ' ')},
+				// edge case here. Looks like UTF-32LE until the last character.
+				{ true, "UTF-16LE", toByteArray(0xFF, 0xFE, 0x00, ' ') },
 
-				{true, "UTF-32BE", UTF_32BE_BOM},
-				{false, "UTF-32BE", UTF_32BE_BOM},
+				{ true, "UTF-32BE", UTF_32BE_BOM },
+				{ false, "UTF-32BE", UTF_32BE_BOM },
 
-				{true, "UTF-32LE", UTF_32LE_BOM},
-				{false, "UTF-32LE", UTF_32LE_BOM},
+				{ true, "UTF-32LE", UTF_32LE_BOM },
+				{ false, "UTF-32LE", UTF_32LE_BOM },
 		};
 	}
 
@@ -99,7 +101,7 @@ public class Github_154 {
 		String[] row = parser.parseNext();
 		parser.stopParsing();
 
-		if(prepend != null && prepend[prepend.length -1] == ' '){
+		if (prepend != null && prepend[prepend.length - 1] == ' ') {
 			assertEquals(parser.getContext().headers()[0], " Email");
 			assertEquals(row[0], "dev@univocity.com");
 

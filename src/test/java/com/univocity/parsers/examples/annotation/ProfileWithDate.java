@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.examples.annotation;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
-
 import java.util.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 public class ProfileWithDate {
 
@@ -29,7 +30,7 @@ public class ProfileWithDate {
 	private String user;
 
 	@Parsed(field = "created_at")
-	@Format(formats = {"yyyy-MM-dd", "dd/MM/yyyy"}, options = "locale=en;")
+	@Format(formats = { "yyyy-MM-dd", "dd/MM/yyyy" }, options = "locale=en;")
 	private Date createdAt;
 
 	@Override

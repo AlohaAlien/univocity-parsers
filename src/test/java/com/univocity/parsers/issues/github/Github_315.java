@@ -15,38 +15,40 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
-import static com.univocity.parsers.common.ArgumentUtils.*;
+import static com.bupt.se.common.ArgumentUtils.*;
 import static org.testng.Assert.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/315
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_315 {
 
 	static final String[][] rows = {
-			{"Start newline", "\nabc123", "Trailing"},
-			{"Middle newline", "abc\n123", "Trailing"},
-			{"End newline", "abc123\n", "Trailing"},
-			{"Start cr", "\rabc123", "Trailing"},
-			{"Middle cr", "abc\r123", "Trailing"},
-			{"End cr", "abc123\r", "Trailing"},
-			{"Start both", "\n\rabc123", "Trailing"},
-			{"Middle both", "abc\n\r123", "Trailing"},
-			{"End both", "abc123\n\r", "Trailing"},
+			{ "Start newline", "\nabc123", "Trailing" },
+			{ "Middle newline", "abc\n123", "Trailing" },
+			{ "End newline", "abc123\n", "Trailing" },
+			{ "Start cr", "\rabc123", "Trailing" },
+			{ "Middle cr", "abc\r123", "Trailing" },
+			{ "End cr", "abc123\r", "Trailing" },
+			{ "Start both", "\n\rabc123", "Trailing" },
+			{ "Middle both", "abc\n\r123", "Trailing" },
+			{ "End both", "abc123\n\r", "Trailing" },
 	};
 
-	static final String csv(){
+	static final String csv() {
 		StringBuilder csv = new StringBuilder();
 		for (String[] row : rows) {
-			csv.append(row[0]).append(',').append('"').append(row[1]).append('"').append(',').append(row[2]).append("\r\n----\r\n");
+			csv.append(row[0]).append(',').append('"').append(row[1]).append('"').append(',').append(row[2])
+					.append("\r\n----\r\n");
 		}
 		return csv.toString();
 	}
@@ -64,7 +66,7 @@ public class Github_315 {
 		try {
 			for (String[] row : rows) {
 				csv.writeRow(row);
-				csv.writeRow(new String[]{"----"});
+				csv.writeRow(new String[] { "----" });
 			}
 		} finally {
 			csv.close();
@@ -77,7 +79,7 @@ public class Github_315 {
 	}
 
 	@Test
-	public void testDisplayLineSeparatorsMultiLine(){
+	public void testDisplayLineSeparatorsMultiLine() {
 		String csv = csv().replace('"', '\'');
 		assertEquals(displayLineSeparators(csv, true), "" +
 				"Start newline,'[lf]\nabc123',Trailing[crlf]\r\n" +
@@ -97,12 +99,11 @@ public class Github_315 {
 				"Middle both,'abc[lfcr]\n\r123',Trailing[crlf]\r\n" +
 				"----[crlf]\r\n" +
 				"End both,'abc123[lfcr]\n\r',Trailing[crlf]\r\n" +
-				"----[crlf]\r\n"
-		);
+				"----[crlf]\r\n");
 	}
 
 	@Test
-	public void testDisplayLineSeparatorsSingleLine(){
+	public void testDisplayLineSeparatorsSingleLine() {
 		String csv = csv().replace('"', '\'');
 		assertEquals(displayLineSeparators(csv, false), "" +
 				"Start newline,'[lf]abc123',Trailing[crlf]" +
@@ -122,7 +123,6 @@ public class Github_315 {
 				"Middle both,'abc[lfcr]123',Trailing[crlf]" +
 				"----[crlf]" +
 				"End both,'abc123[lfcr]',Trailing[crlf]" +
-				"----[crlf]"
-		);
+				"----[crlf]");
 	}
 }

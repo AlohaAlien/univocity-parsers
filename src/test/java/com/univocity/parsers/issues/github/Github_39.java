@@ -16,10 +16,11 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -101,9 +102,9 @@ public class Github_39 {
 		headerMap.put("E", "HE");
 
 		Map<String, String[]> rows = new TreeMap<String, String[]>();
-		rows.put("A", new String[]{"a1", "a2"});
-		rows.put("B", new String[]{"b1", "b2", "b3"});
-		rows.put("D", new String[]{null, "d1"});
+		rows.put("A", new String[] { "a1", "a2" });
+		rows.put("B", new String[] { "b1", "b2", "b3" });
+		rows.put("D", new String[] { null, "d1" });
 
 		writer.writeStringRowsAndClose(headerMap, rows);
 
@@ -136,16 +137,15 @@ public class Github_39 {
 		headerMap.put("E", "HE");
 
 		Map<String, Object[]> rows = new TreeMap<String, Object[]>();
-		rows.put("A", new String[]{"a1", "a2"});
-		rows.put("B", new String[]{"b1", "b2", "b3"});
-		rows.put("D", new String[]{null, "d1"});
+		rows.put("A", new String[] { "a1", "a2" });
+		rows.put("B", new String[] { "b1", "b2", "b3" });
+		rows.put("D", new String[] { null, "d1" });
 
 		writer.processObjectRecordsAndClose(headerMap, rows);
 
-		assertEquals(out.toString(),"HA,HB,HC,HD,HE\n" +
+		assertEquals(out.toString(), "HA,HB,HC,HD,HE\n" +
 				"a1,B1,!,!,!\n" +
 				"a2,B2,!,d1,!\n" +
 				"!,B3,!,!,!\n");
 	}
 }
-

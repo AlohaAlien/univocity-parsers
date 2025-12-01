@@ -15,14 +15,16 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.conversions.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.processor.ObjectRowWriterProcessor;
+import com.bupt.se.conversions.*;
 
 import java.math.*;
 import java.text.*;
 import java.util.*;
 
-import static com.univocity.parsers.conversions.Conversions.*;
+import static com.bupt.se.conversions.Conversions.*;
 import static org.testng.Assert.*;
 
 public class ObjectRowWriterProcessorTest {
@@ -35,9 +37,9 @@ public class ObjectRowWriterProcessorTest {
 
 	{
 		try {
-			values = new Object[][]{
-					{format.parse("10-oct-2001"), new BigDecimal("555.999"), 1, true, null},
-					{format.parse("11-oct-2001"), null, null, false, "  something  "}
+			values = new Object[][] {
+					{ format.parse("10-oct-2001"), new BigDecimal("555.999"), 1, true, null },
+					{ format.parse("11-oct-2001"), null, null, false, "  something  " }
 			};
 		} catch (ParseException e) {
 			throw new IllegalStateException(e);
@@ -76,9 +78,9 @@ public class ObjectRowWriterProcessorTest {
 
 	@DataProvider(name = "processors")
 	Object[][] getProcessors() {
-		return new Object[][]{
-				{newProcessorWithFieldNames()},
-				{newProcessorWithFieldIndexes()}
+		return new Object[][] {
+				{ newProcessorWithFieldNames() },
+				{ newProcessorWithFieldIndexes() }
 		};
 	}
 
@@ -106,7 +108,7 @@ public class ObjectRowWriterProcessorTest {
 		ObjectRowWriterProcessor processor = new ObjectRowWriterProcessor();
 		processor.convertType(Boolean.class, Conversions.string(), Conversions.toUpperCase());
 		processor.convertType(String.class, Conversions.toUpperCase(), Conversions.trim());
-		processor.convertType(Date.class, Conversions.toDate(Locale.ENGLISH,"yyyy-MMM-dd"), Conversions.toUpperCase());
+		processor.convertType(Date.class, Conversions.toDate(Locale.ENGLISH, "yyyy-MMM-dd"), Conversions.toUpperCase());
 
 		Object[] row;
 		row = processor.write(values[0], headers, null);

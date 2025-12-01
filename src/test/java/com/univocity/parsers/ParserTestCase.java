@@ -15,12 +15,13 @@
  ******************************************************************************/
 package com.univocity.parsers;
 
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.csv.TestUtils;
 
 import static org.testng.Assert.*;
 
@@ -37,7 +38,8 @@ public abstract class ParserTestCase {
 		return reader;
 	}
 
-	public void assertHeadersAndValuesMatch(RowListProcessor processor, String[] expectedHeaders, Object[][] expectedResult) {
+	public void assertHeadersAndValuesMatch(RowListProcessor processor, String[] expectedHeaders,
+			Object[][] expectedResult) {
 		String[] headers = processor.getHeaders();
 		TestUtils.assertEquals(headers, expectedHeaders);
 
@@ -59,7 +61,7 @@ public abstract class ParserTestCase {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		String line;
 		StringBuilder fileContent = new StringBuilder();
-		while((line = reader.readLine()) != null) {
+		while ((line = reader.readLine()) != null) {
 			fileContent.append(line).append('\n');
 		}
 

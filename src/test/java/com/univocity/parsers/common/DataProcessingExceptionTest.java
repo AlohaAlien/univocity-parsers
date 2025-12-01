@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.common;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.DataProcessingException;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -30,7 +31,7 @@ public class DataProcessingExceptionTest {
 
 	@Test
 	public void testRestrictionOfValuesDisplayedInErrorMessage() {
-		String[] headers = new String[]{"aaaa", "bbbb", "cccc"};
+		String[] headers = new String[] { "aaaa", "bbbb", "cccc" };
 
 		DataProcessingException ex = new DataProcessingException("{x}boom: '{value}' is broken. Headers: {headers}");
 		assertEquals(ex.getMessage(), "" +
@@ -55,7 +56,6 @@ public class DataProcessingExceptionTest {
 		assertEquals(ex.getMessage(), "" +
 				"{x}boom: '{value}' is broken. Headers: {headers}");
 	}
-
 
 	@Test
 	public void testRestrictionOfValuesDisplayedInErrorMessageWhileParsing() {
@@ -85,7 +85,7 @@ public class DataProcessingExceptionTest {
 
 		CsvWriter writer = new CsvWriter(new StringWriter(), writerSettings);
 		try {
-			writer.processRecordsAndClose(new Object[]{"I'm not a bean", null, new A(new Date())});
+			writer.processRecordsAndClose(new Object[] { "I'm not a bean", null, new A(new Date()) });
 		} catch (DataProcessingException e) {
 			assertFalse(e.getMessage().contains("I'm not a bean"));
 		}
@@ -95,7 +95,7 @@ public class DataProcessingExceptionTest {
 		@Parsed(field = "AA")
 		private Date a;
 
-		public A(){
+		public A() {
 
 		}
 

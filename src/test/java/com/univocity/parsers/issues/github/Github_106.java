@@ -15,32 +15,34 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_106 {
 
 	@DataProvider
-	private Object[][] inputProvider(){
-		return new Object[][]{
-				{new String[]{"abc,def,gh", "ij,klm,no "}, "\n"},
-				{new String[]{"abc,def,gh", "ij,klm,no \n"}, "\n"},
-				{new String[]{"abc,def,gh", "ij,klm,no "}, "\r\n"},
-				{new String[]{"abc,def,gh", "ij,klm,no \r\n"}, "\r\n"},
+	private Object[][] inputProvider() {
+		return new Object[][] {
+				{ new String[] { "abc,def,gh", "ij,klm,no " }, "\n" },
+				{ new String[] { "abc,def,gh", "ij,klm,no \n" }, "\n" },
+				{ new String[] { "abc,def,gh", "ij,klm,no " }, "\r\n" },
+				{ new String[] { "abc,def,gh", "ij,klm,no \r\n" }, "\r\n" },
 		};
 	};
 
 	@Test(dataProvider = "inputProvider")
-	public void ensureCurrentParsedContentIsValid(final String input[], final String lineSeparator){
+	public void ensureCurrentParsedContentIsValid(final String input[], final String lineSeparator) {
 
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator(lineSeparator);
@@ -52,7 +54,7 @@ public class Github_106 {
 
 			@Override
 			public void rowProcessed(String[] row, ParsingContext context) {
-				if(context.currentLine() == 1){
+				if (context.currentLine() == 1) {
 					assertEquals(context.currentParsedContent(), input[0] + lineSeparator);
 				} else {
 					assertEquals(context.currentParsedContent(), input[1]);

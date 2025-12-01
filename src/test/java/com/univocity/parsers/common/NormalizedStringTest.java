@@ -17,6 +17,8 @@ package com.univocity.parsers.common;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.NormalizedString;
+
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -28,14 +30,14 @@ public class NormalizedStringTest {
 	private NormalizedString _a_ = NormalizedString.valueOf(" a ");
 	private NormalizedString _A_ = NormalizedString.valueOf(" A ");
 
-	NormalizedString[] normalized = new NormalizedString[]{A, a, _a_, _A_};
+	NormalizedString[] normalized = new NormalizedString[] { A, a, _a_, _A_ };
 
 	private NormalizedString dA = NormalizedString.literalValueOf("A");
 	private NormalizedString da = NormalizedString.literalValueOf("a");
 	private NormalizedString d_a_ = NormalizedString.literalValueOf(" a ");
 	private NormalizedString d_A_ = NormalizedString.literalValueOf(" A ");
 
-	NormalizedString[] literal = new NormalizedString[]{dA, da, d_a_, d_A_};
+	NormalizedString[] literal = new NormalizedString[] { dA, da, d_a_, d_A_ };
 
 	@Test
 	public void testEqualsHashCodeContract() throws Exception {
@@ -102,9 +104,9 @@ public class NormalizedStringTest {
 
 	@DataProvider
 	private Object[][] setProvider() {
-		return new Object[][]{
-				{new HashSet<NormalizedString>(), "HashSet"},
-				{new TreeSet<NormalizedString>(), "TreeSet"}
+		return new Object[][] {
+				{ new HashSet<NormalizedString>(), "HashSet" },
+				{ new TreeSet<NormalizedString>(), "TreeSet" }
 		};
 	}
 
@@ -112,7 +114,8 @@ public class NormalizedStringTest {
 	public void testSetBehaves(Set<NormalizedString> set, String name) {
 		Collections.addAll(set, normalized); // 1
 
-		assertEquals(set.size(), 1); //hashcode & equals are the same for all elements, so we'll end up with just one.
+		assertEquals(set.size(), 1); // hashcode & equals are the same for all elements, so we'll end up with just
+										// one.
 
 		for (NormalizedString element : normalized) {
 			assertTrue(set.contains(element));
@@ -125,18 +128,19 @@ public class NormalizedStringTest {
 			}
 		}
 
-		assertEquals(count, 1); // only one literal element will match because the original strings are compared and if they match then the NormalizedString always matches.
+		assertEquals(count, 1); // only one literal element will match because the original strings are compared
+								// and if they match then the NormalizedString always matches.
 
 		Collections.addAll(set, literal);
 
-		assertEquals(set.size(), literal.length); //all literal elements should be in the set
+		assertEquals(set.size(), literal.length); // all literal elements should be in the set
 
 		for (NormalizedString element : normalized) {
-			assertTrue(set.contains(element)); //normalized Strings should all be found here
+			assertTrue(set.contains(element)); // normalized Strings should all be found here
 		}
 
 		for (NormalizedString element : literal) {
-			assertTrue(set.contains(element)); //literal Strings should all be found here
+			assertTrue(set.contains(element)); // literal Strings should all be found here
 		}
 	}
 
@@ -169,25 +173,30 @@ public class NormalizedStringTest {
 	public void testHashMap() {
 		Map<NormalizedString, String> map = new HashMap<NormalizedString, String>();
 		putString(map, "A");
-		putString(map, "'a'"); //literal
+		putString(map, "'a'"); // literal
 
 		assertEquals(map.get(NormalizedString.valueOf("A")), "A");
 		assertEquals(map.get(NormalizedString.literalValueOf("A")), "A");
 		assertEquals(map.get(NormalizedString.valueOf("'a'")), "'a'");
 		assertEquals(map.get(NormalizedString.literalValueOf("a")), "'a'");
 
-		// Unspecified behavior here as A and 'a' clash (A should be a literal in this test, but it isn't).
-		// A normalized, non literal 'a' can match either the literal 'a' or the normalized A, depending on the
-		// HashMap implementation. These entries have the same hashcode and the equals method will
+		// Unspecified behavior here as A and 'a' clash (A should be a literal in this
+		// test, but it isn't).
+		// A normalized, non literal 'a' can match either the literal 'a' or the
+		// normalized A, depending on the
+		// HashMap implementation. These entries have the same hashcode and the equals
+		// method will
 		// compare this:
 
 		// Search entry:
 		// NormalizedString.valueOf("a") - not a literal, normalized value = a
 
 		// Keys in map
-		// NormalizedString.valueOf("A") - not literal, normalized value = a (will match)
-		// NormalizedString.valueOf("'a'") - literal, original value = a (will also match)
-		
+		// NormalizedString.valueOf("A") - not literal, normalized value = a (will
+		// match)
+		// NormalizedString.valueOf("'a'") - literal, original value = a (will also
+		// match)
+
 		// The entry picked up first by the map implementation will be returned.
 
 		// On JDK 6 this is the expected output:
@@ -201,13 +210,15 @@ public class NormalizedStringTest {
 	public void testTreeMap() {
 		Map<NormalizedString, String> map = new TreeMap<NormalizedString, String>();
 		putString(map, "A");
-		putString(map, "'a'"); //literal
+		putString(map, "'a'"); // literal
 
 		assertEquals(map.get(NormalizedString.valueOf("A")), "A");
 		assertEquals(map.get(NormalizedString.literalValueOf("A")), "A");
 		assertEquals(map.get(NormalizedString.valueOf("'a'")), "'a'");
 		assertEquals(map.get(NormalizedString.literalValueOf("a")), "'a'");
-		assertEquals(map.get(NormalizedString.valueOf("a")), "A");  //compareTo implementation will run a compareTo against normalized values (normalized against normalized)
+		assertEquals(map.get(NormalizedString.valueOf("a")), "A"); // compareTo implementation will run a compareTo
+																	// against normalized values (normalized against
+																	// normalized)
 	}
 
 	private void putString(Map<NormalizedString, String> map, String str) {
@@ -215,7 +226,7 @@ public class NormalizedStringTest {
 	}
 
 	@Test
-	public void identifyLiterals(){
+	public void identifyLiterals() {
 		NormalizedString[] s = NormalizedString.toArray("a", "A", " a ", " A ", "a ", "A ", "B");
 		Set<NormalizedString> set = new HashSet<NormalizedString>();
 		Collections.addAll(set, s);

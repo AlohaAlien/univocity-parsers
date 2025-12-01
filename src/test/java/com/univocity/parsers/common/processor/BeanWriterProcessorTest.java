@@ -15,11 +15,13 @@
  ******************************************************************************/
 package com.univocity.parsers.common.processor;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.conversions.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.BeanWriterProcessor;
+import com.bupt.se.conversions.*;
+import com.bupt.se.csv.*;
 
 import java.math.*;
 
@@ -42,12 +44,13 @@ public class BeanWriterProcessorTest {
 
 		@Trim
 		@LowerCase
-		@BooleanString(falseStrings = {"no", "n", "null"}, trueStrings = {"yes", "y"})
+		@BooleanString(falseStrings = { "no", "n", "null" }, trueStrings = { "yes", "y" })
 		@Parsed
 		Boolean pending;
 	}
 
-	private final NormalizedString[] headers = NormalizedString.toArray("date,amount,quantity,pending,comments".split(","));
+	private final NormalizedString[] headers = NormalizedString
+			.toArray("date,amount,quantity,pending,comments".split(","));
 
 	@Test
 	public void testAnnotatedBeanProcessor() {
@@ -89,14 +92,15 @@ public class BeanWriterProcessorTest {
 
 	@Test
 	public void testRepeatedIndexInAnnotation() {
-		BeanWriterProcessor<AnnotatedBeanProcessorTest.Data> rowProcessor = new BeanWriterProcessor<AnnotatedBeanProcessorTest.Data>(AnnotatedBeanProcessorTest.Data.class);
+		BeanWriterProcessor<AnnotatedBeanProcessorTest.Data> rowProcessor = new BeanWriterProcessor<AnnotatedBeanProcessorTest.Data>(
+				AnnotatedBeanProcessorTest.Data.class);
 		CsvWriterSettings settings = new CsvWriterSettings();
 		settings.setRowWriterProcessor(rowProcessor);
 
 		try {
 			new CsvWriter(settings);
 			fail("Expecting validation error on duplicate field");
-		} catch(Exception e){
+		} catch (Exception e) {
 			assertTrue(e.getMessage().startsWith("Duplicate field index '1' found in attribute"));
 		}
 	}

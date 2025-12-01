@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,7 +28,8 @@ import java.util.*;
 import static org.testng.Assert.*;
 
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_111 {
 
@@ -48,7 +50,7 @@ public class Github_111 {
 			this.b = b;
 		}
 
-		public boolean getB(){
+		public boolean getB() {
 			throw new IllegalStateException("I'm explosive!");
 		}
 	}
@@ -67,9 +69,10 @@ public class Github_111 {
 			@Override
 			public void handleError(DataProcessingException error, Object[] inputRow, ParsingContext context) {
 				assertNotNull(context);
-				errors.add(error.getColumnName() + "(" + error.getColumnIndex() + "):" + inputRow[error.getColumnIndex()]);
+				errors.add(
+						error.getColumnName() + "(" + error.getColumnIndex() + "):" + inputRow[error.getColumnIndex()]);
 
-				if(error.getColumnIndex() == 0){
+				if (error.getColumnIndex() == 0) {
 					setDefaultValue(50);
 				}
 
@@ -115,7 +118,7 @@ public class Github_111 {
 				assertNull(context);
 				errors.add(Arrays.toString(inputRow));
 
-				if(error.getColumnIndex() == 1){
+				if (error.getColumnIndex() == 1) {
 					setDefaultValue(false);
 					keepRecord();
 				}
@@ -126,7 +129,7 @@ public class Github_111 {
 
 		CsvWriter writer = new CsvWriter(output, writerSettings);
 		try {
-			writer.processRecordsAndClose(new Object[]{"I'm not a bean", null, new AB(1, true)});
+			writer.processRecordsAndClose(new Object[] { "I'm not a bean", null, new AB(1, true) });
 		} catch (DataProcessingException e) {
 			e.printStackTrace();
 			fail("Did not expect exception to be thrown here");
@@ -150,7 +153,6 @@ public class Github_111 {
 		parser.parse(new StringReader("AA,BB\nA,B\nC,D,\n1,true"));
 	}
 
-
 	@Test(expectedExceptions = DataProcessingException.class)
 	public void dontHandleExceptionsAndStopWriting() {
 		CsvWriterSettings writerSettings = new CsvWriterSettings();
@@ -160,7 +162,7 @@ public class Github_111 {
 		writerSettings.setRowWriterProcessor(beanProcessor);
 
 		CsvWriter writer = new CsvWriter(new StringWriter(), writerSettings);
-		writer.processRecordsAndClose(new Object[]{"I'm not a bean", null, new AB(1, true)});
+		writer.processRecordsAndClose(new Object[] { "I'm not a bean", null, new AB(1, true) });
 
 	}
 }

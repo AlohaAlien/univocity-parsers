@@ -15,10 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.TextWritingException;
-import com.univocity.parsers.csv.CsvWriter;
-import com.univocity.parsers.csv.CsvWriterSettings;
 import org.testng.annotations.Test;
+
+import com.bupt.se.common.TextWritingException;
+import com.bupt.se.csv.CsvWriter;
+import com.bupt.se.csv.CsvWriterSettings;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.Map;
 public class Github_69 {
 
 	@Test(expectedExceptions = TextWritingException.class)
-	public void testException(){
+	public void testException() {
 		CsvWriterSettings settings = new CsvWriterSettings();
 		settings.setHeaders("col2", "col5", "col3", "col4", "col1", "col6");
 		StringWriter out = new StringWriter();

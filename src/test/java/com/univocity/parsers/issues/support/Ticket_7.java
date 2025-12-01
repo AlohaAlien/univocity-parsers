@@ -15,12 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.support;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.annotations.Format;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -28,15 +28,17 @@ import java.util.*;
 import static org.testng.Assert.*;
 
 /**
- * Description: lenient flag was not being set in format options of @Format annotation.
+ * Description: lenient flag was not being set in format options of @Format
+ * annotation.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public class Ticket_7 {
 
 	public static class DateBean {
 		@Trim
-		@Format(formats = {"yyyy-MM-dd", "MM/dd/yyyy", "MM/dd/yy"}, options = "lenient=false")
+		@Format(formats = { "yyyy-MM-dd", "MM/dd/yyyy", "MM/dd/yy" }, options = "lenient=false")
 		@Parsed(field = "Invoice Date")
 		public Date invoiceDate;
 	}

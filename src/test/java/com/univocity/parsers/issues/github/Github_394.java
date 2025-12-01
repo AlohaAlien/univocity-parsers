@@ -16,11 +16,11 @@
 
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import com.bupt.se.csv.*;
 
+import static org.testng.Assert.assertEquals;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/394

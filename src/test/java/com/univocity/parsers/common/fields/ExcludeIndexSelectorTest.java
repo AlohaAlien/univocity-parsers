@@ -17,6 +17,8 @@ package com.univocity.parsers.common.fields;
 
 import org.testng.annotations.*;
 
+import com.bupt.se.common.fields.ExcludeFieldIndexSelector;
+
 import static org.testng.Assert.*;
 
 public class ExcludeIndexSelectorTest {
@@ -26,9 +28,9 @@ public class ExcludeIndexSelectorTest {
 		ExcludeFieldIndexSelector selector = new ExcludeFieldIndexSelector();
 		selector.add(3, 0);
 
-		int[] indexes = selector.getFieldIndexes(new String[]{null, null, null, null, null, null});
+		int[] indexes = selector.getFieldIndexes(new String[] { null, null, null, null, null, null });
 
-		int[] expected = new int[]{1, 2, 4, 5};
+		int[] expected = new int[] { 1, 2, 4, 5 };
 
 		assertEquals(indexes, expected);
 	}

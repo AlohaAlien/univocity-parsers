@@ -16,12 +16,12 @@
 
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.util.*;
@@ -31,15 +31,17 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/256
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_256 {
 
 	@Test
-	public void testParseFooFile(){
+	public void testParseFooFile() {
 		ArrayList<Foo> fooList = new ArrayList<Foo>();
 
-		// Foo fields - the default format to use as nothing in the rows identify their type
+		// Foo fields - the default format to use as nothing in the rows identify their
+		// type
 		FixedWidthFields fooFields = new FixedWidthFields();
 		fooFields.addField("UserId", 10, FieldAlignment.RIGHT, '0');
 
@@ -54,16 +56,14 @@ public class Github_256 {
 		// associate the "H" lookahead with the header fields
 		settings.addFormatForLookahead("H", headerFields);
 
-
 		settings.getFormat().setLineSeparator("\n");
 		settings.getFormat().setPadding(' ');
-
 
 		final FooFileProcessor fileProcessor = new FooFileProcessor();
 		final FooProcessor fooProcesser = new FooProcessor(fooList);
 		InputValueSwitch processor = new InputValueSwitch("RecordType") {
 			public void rowProcessorSwitched(RowProcessor from, RowProcessor to) {
-				if(from == fileProcessor) {
+				if (from == fileProcessor) {
 					fooProcesser.prepareForRecords(((FooFileProcessor) from).file);
 				}
 			}
@@ -72,11 +72,10 @@ public class Github_256 {
 		processor.setDefaultSwitch(fooProcesser);
 		settings.setProcessor(processor);
 
-		FixedWidthParser  parser = new FixedWidthParser(settings);
+		FixedWidthParser parser = new FixedWidthParser(settings);
 		parser.parse(new StringReader("" +
 				"HFooFile   0000000001\n" +
 				"0000000002\n"));
-
 
 		assertFalse(fooList.isEmpty());
 		assertEquals(fooList.get(0).userId, Long.valueOf(2L));

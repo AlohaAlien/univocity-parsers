@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -29,7 +30,8 @@ import static org.testng.Assert.*;
  *
  * From: https://github.com/univocity/univocity-parsers/issues/26
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class Github_26 {
@@ -62,9 +64,9 @@ public class Github_26 {
 			assertEquals(e.getLineIndex(), 2);
 			assertEquals(e.getColumnIndex(), 1);
 			assertEquals(e.getColumnName(), "BB");
-			assertEquals(e.getHeaders(), new String[]{"AAAA", "BB"});
+			assertEquals(e.getHeaders(), new String[] { "AAAA", "BB" });
 			assertEquals(e.getValue(), "B");
-			assertEquals(e.getRow(), new Object[]{"A", "B"});
+			assertEquals(e.getRow(), new Object[] { "A", "B" });
 		}
 	}
 }

@@ -15,10 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.*;
-import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.*;
+import com.bupt.se.common.processor.*;
+import com.bupt.se.csv.*;
+import com.univocity.parsers.ParserTestCase;
 
 import java.io.*;
 import java.util.*;
@@ -28,16 +30,16 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/178
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_178 extends ParserTestCase {
 
-
 	@DataProvider
 	public Object[][] inputs() {
-		return new Object[][]{
-				{'|', "a|b|c\nd|e|f"},
-				{';', "a;b;c\nd;e;f"},
+		return new Object[][] {
+				{ '|', "a|b|c\nd|e|f" },
+				{ ';', "a;b;c\nd;e;f" },
 		};
 	}
 
@@ -61,7 +63,6 @@ public class Github_178 extends ParserTestCase {
 				" 'A12075';Mako;yao;6eme1;'01/02/2007';15/10/2015;'07108954'\n" +
 				"A12076; 'Mako';yao;6eme1;01/02/2007;15/10/2015;07108954\n" +
 				"'A12087';Mako;yao;6eme1;01/02/2007;15/10/2015;07108954";
-
 
 		CsvParserSettings parserSettings = new CsvParserSettings();
 		parserSettings.setLineSeparatorDetectionEnabled(true);

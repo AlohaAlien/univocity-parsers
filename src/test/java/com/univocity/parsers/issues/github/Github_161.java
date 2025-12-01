@@ -15,8 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 
@@ -25,19 +26,26 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/161
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_161 {
 
 	@Test
 	public void testCsvFormatAutodetection() throws IOException {
 		String input = "\"Date\",\"Col2\",\"Col3\",\"Col4\",\"Col5\",\"Col6\",\"Col7\",\"Col7\",\"Col8\"\n" +
-				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"mcdonalds.com/online.html\",\"\",\"-\",\"-\",\"-\"\n" +
-				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"burgerking.com\",\"https://burgerking.com/\",\"20\",\"2\",\"fake\"\n" +
-				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"wendys.com\",\"\",\"-\",\"-\",\"-\"\n" +
-				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"buggagump.com\",\"\",\"-\",\"-\",\"-\"\n" +
-				"\"2017-05-23\",\"String\",\"cheese\",\"ad eum\",\"mcdonalds.com/online.html\",\"\",\"-\",\"-\",\"-\"\n" +
-				"\"2017-05-23\",\"String\",\"burger\",\"ludus dissentiet\",\"www.mcdonalds.com\",\"https://www.mcdonalds.com/\",\"25\",\"3\",\"fake\"\n" +
+				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"mcdonalds.com/online.html\",\"\",\"-\",\"-\",\"-\"\n"
+				+
+				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"burgerking.com\",\"https://burgerking.com/\",\"20\",\"2\",\"fake\"\n"
+				+
+				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"wendys.com\",\"\",\"-\",\"-\",\"-\"\n"
+				+
+				"\"2017-05-23\",\"String\",\"lo rem ipsum\",\"dolor sit amet\",\"buggagump.com\",\"\",\"-\",\"-\",\"-\"\n"
+				+
+				"\"2017-05-23\",\"String\",\"cheese\",\"ad eum\",\"mcdonalds.com/online.html\",\"\",\"-\",\"-\",\"-\"\n"
+				+
+				"\"2017-05-23\",\"String\",\"burger\",\"ludus dissentiet\",\"www.mcdonalds.com\",\"https://www.mcdonalds.com/\",\"25\",\"3\",\"fake\"\n"
+				+
 				"\"2017-05-23\",\"String\",\"wine\",\"id erat utamur\",\"bubbagump.com\",\"https://buggagump.com/\",\"25\",\"3\",\"fake\"";
 
 		CsvParserSettings s = new CsvParserSettings();

@@ -15,11 +15,11 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.input.*;
-import com.univocity.parsers.common.input.concurrent.*;
-import com.univocity.parsers.common.processor.core.*;
-import com.univocity.parsers.csv.*;
+import com.bupt.se.common.*;
+import com.bupt.se.common.input.*;
+import com.bupt.se.common.input.concurrent.*;
+import com.bupt.se.common.processor.core.*;
+import com.bupt.se.csv.*;
 import com.univocity.parsers.examples.*;
 import org.testng.annotations.*;
 
@@ -30,7 +30,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/186
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_186 extends Example {
 
@@ -39,7 +40,8 @@ public class Github_186 extends Example {
 		CsvParserSettings settings = new CsvParserSettings() {
 			@Override
 			protected CharInputReader newCharInputReader(int whitespaceRangeStart) {
-				return new ConcurrentCharInputReader(getFormat().getNormalizedNewline(), this.getInputBufferSize(), 10, whitespaceRangeStart, true){
+				return new ConcurrentCharInputReader(getFormat().getNormalizedNewline(), this.getInputBufferSize(), 10,
+						whitespaceRangeStart, true) {
 					protected void setReader(Reader reader) {
 						super.setReader(reader);
 						try {
@@ -51,19 +53,18 @@ public class Github_186 extends Example {
 			}
 		};
 
-		final boolean[] processorRan = new boolean[]{false};
+		final boolean[] processorRan = new boolean[] { false };
 		settings.setProcessor(new AbstractProcessor<ParsingContext>() {
 			@Override
 			public void processStarted(ParsingContext context) {
 				processorRan[0] = true;
-				assertEquals(context.headers(), new String[]{"a", "b"});
+				assertEquals(context.headers(), new String[] { "a", "b" });
 			}
 		});
 		settings.setHeaderExtractionEnabled(true);
 
 		CsvParser parser = new CsvParser(settings);
 		parser.beginParsing(new ByteArrayInputStream("a,b".getBytes()));
-
 
 		assertTrue(processorRan[0]);
 	}

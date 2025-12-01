@@ -15,11 +15,12 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.record.Record;
-import com.univocity.parsers.common.record.RecordMetaData;
-import com.univocity.parsers.csv.CsvParser;
-import com.univocity.parsers.csv.CsvParserSettings;
 import org.testng.annotations.*;
+
+import com.bupt.se.common.record.Record;
+import com.bupt.se.common.record.RecordMetaData;
+import com.bupt.se.csv.CsvParser;
+import com.bupt.se.csv.CsvParserSettings;
 
 import java.io.*;
 
@@ -27,13 +28,14 @@ import static org.testng.Assert.*;
 
 /**
  * @author Oliver Henlich
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_109 {
 
     @DataProvider
     public Object[][] inputProvider() {
-        return new Object[][] {{"col1, col2\n val1,val2"}, {"col1, col2 ,\n val1,val2 "}};
+        return new Object[][] { { "col1, col2\n val1,val2" }, { "col1, col2 ,\n val1,val2 " } };
     }
 
     @Test(dataProvider = "inputProvider")

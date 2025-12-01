@@ -15,16 +15,17 @@
  ******************************************************************************/
 package com.univocity.parsers.annotations.meta;
 
-import com.univocity.parsers.annotations.*;
-
 import java.lang.annotation.*;
 
+import com.bupt.se.annotations.*;
+
 /**
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 @MyReplacement
 @UpperCase
 @Trim

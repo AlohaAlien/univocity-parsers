@@ -15,9 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.csv.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,7 +27,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/362
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_362 {
 
@@ -37,7 +38,7 @@ public class Github_362 {
 		{
 			CsvWriterSettings writerSettings = new CsvWriterSettings();
 			CsvWriter writer = new CsvWriter(sw, writerSettings);
-			writer.writeRow(new String[]{"#field1", "field2", "field3"});
+			writer.writeRow(new String[] { "#field1", "field2", "field3" });
 			writer.close();
 		}
 		StringReader sr = new StringReader(sw.toString());

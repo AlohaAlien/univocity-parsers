@@ -15,20 +15,20 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.annotations.*;
-
 import java.math.*;
 import java.util.*;
+
+import com.bupt.se.annotations.*;
 
 public class Car {
 	@Parsed
 	private Integer year;
 
-	@Convert(conversionClass = WordsToSetConversion.class, args = {",", "true"})
+	@Convert(conversionClass = WordsToSetConversion.class, args = { ",", "true" })
 	@Parsed
 	private Set<String> description;
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	@Parsed
 	private String make;
@@ -85,7 +85,7 @@ public class Car {
 
 	@Override
 	public String toString() {
-		return "Car: {year=" + year + ", make=" + make + ", model=" + model + ", price=" + price+"}";
+		return "Car: {year=" + year + ", make=" + make + ", model=" + model + ", price=" + price + "}";
 	}
 
 }

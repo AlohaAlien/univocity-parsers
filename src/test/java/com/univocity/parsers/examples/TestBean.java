@@ -15,23 +15,27 @@
  ******************************************************************************/
 package com.univocity.parsers.examples;
 
-import com.univocity.parsers.annotations.*;
-
 import java.math.*;
+
+import com.bupt.se.annotations.*;
 
 public class TestBean {
 
-	// if the value parsed in the quantity column is "?" or "-", it will be replaced by null.
-	@NullString(nulls = {"?", "-"})
+	// if the value parsed in the quantity column is "?" or "-", it will be replaced
+	// by null.
+	@NullString(nulls = { "?", "-" })
 	// if a value resolves to null, it will be converted to the String "0".
 	@Parsed(defaultNullRead = "0")
-	private Integer quantity;   // The attribute type defines which conversion will be executed when processing the value.
+	private Integer quantity; // The attribute type defines which conversion will be executed when processing
+								// the value.
 	// In this case, IntegerConversion will be used.
-	// The attribute name will be matched against the column header in the file automatically.
+	// The attribute name will be matched against the column header in the file
+	// automatically.
 
 	@Trim
 	@LowerCase
-	// the value for the comments attribute is in the column at index 4 (0 is the first column, so this means fifth column in the file)
+	// the value for the comments attribute is in the column at index 4 (0 is the
+	// first column, so this means fifth column in the file)
 	@Parsed(index = 4)
 	private String comments;
 
@@ -41,16 +45,18 @@ public class TestBean {
 
 	@Trim
 	@LowerCase
-	// values "no", "n" and "null" will be converted to false; values "yes" and "y" will be converted to true
-	@BooleanString(falseStrings = {"no", "n", "null"}, trueStrings = {"yes", "y"})
+	// values "no", "n" and "null" will be converted to false; values "yes" and "y"
+	// will be converted to true
+	@BooleanString(falseStrings = { "no", "n", "null" }, trueStrings = { "yes", "y" })
 	@Parsed
 	private Boolean pending;
 
-	//##CLASS_END
+	// ##CLASS_END
 
 	@Override
 	public String toString() {
-		return "TestBean [quantity=" + quantity + ", comments=" + comments + ", amount=" + amount + ", pending=" + pending + "]";
+		return "TestBean [quantity=" + quantity + ", comments=" + comments + ", amount=" + amount + ", pending="
+				+ pending + "]";
 	}
 
 	public Integer getQuantity() {

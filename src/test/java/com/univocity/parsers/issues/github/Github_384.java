@@ -15,18 +15,18 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
 
-import java.io.*;
+import com.bupt.se.annotations.*;
+import com.bupt.se.csv.*;
 
+import java.io.*;
 
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/384
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_384 {
 
@@ -58,7 +58,7 @@ public class Github_384 {
 	@Test
 	public void testQuoteAutoDetection() {
 		CsvParserSettings settings = new CsvParserSettings();
-//		settings.detectFormatAutomatically();
+		// settings.detectFormatAutomatically();
 
 		new CsvRoutines(settings).parseAll(MyPojo.class, new StringReader(inputA));
 		new CsvRoutines(settings).parseAll(MyPojo.class, new StringReader(inputB));

@@ -16,10 +16,10 @@
 
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.annotations.*;
-import com.univocity.parsers.fixed.*;
 import org.testng.annotations.*;
+
+import com.bupt.se.annotations.*;
+import com.bupt.se.fixed.*;
 
 import java.io.*;
 import java.util.*;
@@ -29,7 +29,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/260
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_260 {
 
@@ -59,10 +60,12 @@ public class Github_260 {
 
 	@Test
 	public void testParseAnnotatedIntegerWithPadding() {
-		final FixedWidthParserSettings settings = new FixedWidthParserSettings(FixedWidthFields.forParsing(PaddedNumber.class));
+		final FixedWidthParserSettings settings = new FixedWidthParserSettings(
+				FixedWidthFields.forParsing(PaddedNumber.class));
 		settings.getFormat().setLineSeparator("\n");
 
-		List<PaddedNumber> result = new FixedWidthRoutines(settings).parseAll(PaddedNumber.class, new StringReader("001\n   \n000"));
+		List<PaddedNumber> result = new FixedWidthRoutines(settings).parseAll(PaddedNumber.class,
+				new StringReader("001\n   \n000"));
 
 		assertEquals(result.get(0).number, Integer.valueOf(1));
 		assertEquals(result.get(1).number, null);
@@ -71,7 +74,8 @@ public class Github_260 {
 
 	@Test
 	public void testWriteAnnotatedIntegerWithPadding() {
-		final FixedWidthWriterSettings settings = new FixedWidthWriterSettings(FixedWidthFields.forWriting(PaddedNumber.class));
+		final FixedWidthWriterSettings settings = new FixedWidthWriterSettings(
+				FixedWidthFields.forWriting(PaddedNumber.class));
 		settings.getFormat().setLineSeparator("\n");
 		settings.trimValues(false);
 
