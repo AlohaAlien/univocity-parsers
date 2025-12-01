@@ -17,12 +17,13 @@ package com.univocity.parsers.fixed;
 
 import com.univocity.parsers.common.*;
 import com.univocity.parsers.common.input.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 
 /**
  * A fast and flexible fixed-with parser implementation.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  * @see FixedWidthFormat
  * @see FixedWidthFields
  * @see FixedWidthParserSettings
@@ -69,7 +70,9 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 	private final char wildcard;
 
 	/**
-	 * The FixedWidthParser supports all settings provided by {@link FixedWidthParserSettings}, and requires this configuration to be properly initialized.
+	 * The FixedWidthParser supports all settings provided by
+	 * {@link FixedWidthParserSettings}, and requires this configuration to be
+	 * properly initialized.
 	 *
 	 * @param settings the parser configuration
 	 */
@@ -186,7 +189,9 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 			if (!matched) {
 				if (lookbehindFormat == null) {
 					if (rootLengths == null) {
-						throw new TextParsingException(context, "Cannot process input with the given configuration. No default field lengths defined and no lookahead/lookbehind value match '" + lookaheadInput.getLookahead(ch) + '\'');
+						throw new TextParsingException(context,
+								"Cannot process input with the given configuration. No default field lengths defined and no lookahead/lookbehind value match '"
+										+ lookaheadInput.getLookahead(ch) + '\'');
 					}
 					lengths = rootLengths;
 					alignments = rootAlignments;
@@ -258,7 +263,7 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 				ch = input.nextChar();
 			}
 		} catch (EOFException e) {
-			//ignore and let the EOF blow up again after the record is generated.
+			// ignore and let the EOF blow up again after the record is generated.
 		}
 	}
 
@@ -271,7 +276,8 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 	}
 
 	private void skipWhitespace(boolean lastFieldOfRecord, boolean ignorePadding) {
-		while ((ch <= ' ' && whitespaceRangeStart < ch || ch == padding) && !(!ignorePadding && ch == padding) && length-- > 0) {
+		while ((ch <= ' ' && whitespaceRangeStart < ch || ch == padding) && !(!ignorePadding && ch == padding)
+				&& length-- > 0) {
 			if (!lastFieldOfRecord || length > 0) {
 				ch = input.nextChar();
 			}
@@ -356,4 +362,3 @@ public class FixedWidthParser extends AbstractParser<FixedWidthParserSettings> {
 		}
 	}
 }
-

@@ -15,12 +15,14 @@
  ******************************************************************************/
 package com.univocity.parsers.common;
 
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
 
 /**
  * A simple a wrapper for a {@link Context}.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  */
 public abstract class ContextWrapper<T extends Context> implements Context {
 

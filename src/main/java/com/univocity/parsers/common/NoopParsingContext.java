@@ -15,14 +15,17 @@
  ******************************************************************************/
 package com.univocity.parsers.common;
 
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
+import com.univocity.parsers.common.record.RecordFactory;
 
 import java.util.*;
 
 /**
  * A {@link ParsingContext} implementation that does nothing.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 class NoopParsingContext implements ParsingContext {
 
@@ -143,7 +146,7 @@ class NoopParsingContext implements ParsingContext {
 
 	@Override
 	public RecordMetaData recordMetaData() {
-		if(recordMetaData == null){
+		if (recordMetaData == null) {
 			recordMetaData = new RecordFactory(this).getRecordMetaData();
 		}
 		return recordMetaData;

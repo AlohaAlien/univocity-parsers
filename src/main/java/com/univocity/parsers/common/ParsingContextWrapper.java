@@ -15,20 +15,22 @@
  */
 package com.univocity.parsers.common;
 
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 
 import java.util.*;
 
 /**
  * A simple a wrapper for a {@link ParsingContext}.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  *
  */
 public class ParsingContextWrapper extends ContextWrapper<ParsingContext> implements ParsingContext {
 
 	/**
 	 * Wraps a {@link ParsingContext}.
+	 * 
 	 * @param context the parsingContext object to be wrapped.
 	 */
 	public ParsingContextWrapper(ParsingContext context) {

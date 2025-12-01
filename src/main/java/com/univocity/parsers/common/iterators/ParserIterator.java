@@ -16,16 +16,19 @@
 package com.univocity.parsers.common.iterators;
 
 import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 
 import java.util.*;
 
 /**
- * An {@link Iterator} over the parser enabling easy iteration against rows and records
+ * An {@link Iterator} over the parser enabling easy iteration against rows and
+ * records
  * Multiple iterations are possible if Files are being fed into the parser,
- * but other forms of input (such as {@code InputStream}s and {@code Reader}s) can not be iterated over more than once.
+ * but other forms of input (such as {@code InputStream}s and {@code Reader}s)
+ * can not be iterated over more than once.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 abstract class ParserIterator<T> implements IterableResult<T, ParsingContext> {
 
@@ -48,21 +51,24 @@ abstract class ParserIterator<T> implements IterableResult<T, ParsingContext> {
 		return parser.getContext();
 	}
 
-
 	/**
-	 * This method is called whenever the {@code iterator} is starting to iterate over the
+	 * This method is called whenever the {@code iterator} is starting to iterate
+	 * over the
 	 * results.
 	 * an example implementation of this is:
 	 * <hr>
+	 * 
 	 * <pre>
 	 *     {@code
-	 *     &#064;Override
-	 *     public void beginParsing(){
-	 *         parser.beginParsing(input);
-	 *     }}
+	 * &#064;Override
+	 * public void beginParsing() {
+	 * 	parser.beginParsing(input);
+	 * }
+	 * }
 	 * </pre>
 	 * <hr>
-	 * This is to allow for different input types such as {@code Reader, File, or InputStream} without large code
+	 * This is to allow for different input types such as
+	 * {@code Reader, File, or InputStream} without large code
 	 * reuse.
 	 */
 	protected abstract void beginParsing();

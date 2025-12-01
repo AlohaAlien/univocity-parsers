@@ -15,8 +15,7 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.fixed.*;
 import org.testng.*;
 import org.testng.annotations.*;
@@ -26,12 +25,13 @@ import java.io.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/294
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_294 {
 
 	@Test
-	public void withoutLookAhead(){
+	public void withoutLookAhead() {
 		StringReader input = new StringReader("XAAAAABBBBBCCCCCDDDDD\n");
 		FixedWidthFields fields = new FixedWidthFields();
 		fields.addField("chunk_1", 6, 11);
@@ -42,7 +42,7 @@ public class Github_294 {
 		settings.setSkipTrailingCharsUntilNewline(true);
 		FixedWidthParser parser = new FixedWidthParser(settings);
 		Iterable<Record> iterator = parser.iterateRecords(input);
-		for (Record r : iterator){
+		for (Record r : iterator) {
 
 			Assert.assertEquals("BBBBB", r.getString(0));
 			Assert.assertEquals("DDDDD", r.getString(1));
@@ -50,7 +50,7 @@ public class Github_294 {
 	}
 
 	@Test
-	public void withLookAhead(){
+	public void withLookAhead() {
 		StringReader input = new StringReader("XAAAAABBBBBCCCCCDDDDD\n");
 		FixedWidthFields fields = new FixedWidthFields();
 		fields.addField("chunk_1", 6, 11);
@@ -62,7 +62,7 @@ public class Github_294 {
 		settings.addFormatForLookahead("X", fields);
 		FixedWidthParser parser = new FixedWidthParser(settings);
 		Iterable<Record> iterator = parser.iterateRecords(input);
-		for (Record r : iterator){
+		for (Record r : iterator) {
 			System.out.println(r.getString(0));
 			System.out.println(r.getString(1));
 			Assert.assertEquals("BBBBB", r.getString(0));

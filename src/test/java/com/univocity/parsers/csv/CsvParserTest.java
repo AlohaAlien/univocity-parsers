@@ -18,7 +18,7 @@ package com.univocity.parsers.csv;
 import com.univocity.parsers.*;
 import com.univocity.parsers.common.*;
 import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -31,21 +31,21 @@ public class CsvParserTest extends ParserTestCase {
 
 	@DataProvider(name = "testProvider")
 	public Object[][] testProvider() {
-		return new Object[][]{
-				{"/csv/test.csv", new char[]{'\n'}},
-				{"/csv/test.csv", null}
+		return new Object[][] {
+				{ "/csv/test.csv", new char[] { '\n' } },
+				{ "/csv/test.csv", null }
 		};
 	}
 
 	@DataProvider(name = "csvProvider")
 	public Object[][] csvProvider() {
-		return new Object[][]{
-				{"/csv/essential.csv", new char[]{'\n'}},
-				{"/csv/essential-dos.csv", new char[]{'\r', '\n'}},
-				{"/csv/essential-mac.csv", new char[]{'\r'}},
-				{"/csv/essential.csv", null},
-				{"/csv/essential-dos.csv", null},
-				{"/csv/essential-mac.csv", null}
+		return new Object[][] {
+				{ "/csv/essential.csv", new char[] { '\n' } },
+				{ "/csv/essential-dos.csv", new char[] { '\r', '\n' } },
+				{ "/csv/essential-mac.csv", new char[] { '\r' } },
+				{ "/csv/essential.csv", null },
+				{ "/csv/essential-dos.csv", null },
+				{ "/csv/essential-mac.csv", null }
 		};
 	}
 
@@ -61,24 +61,24 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(newReader(csvFile));
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00"},
-				{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00"},
-				{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, "5", null, null},
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00"},
-				{null, " ", null, "  ", "30 00.00"},
-				{"1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00"},
-				{"1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00"},
+		String[][] expectedResult = new String[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, "5", null, null },
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00" },
+				{ null, " ", null, "  ", "30 00.00" },
+				{ "1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00" },
+				{ "1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00" },
 		};
 
 		assertHeadersAndValuesMatch(expectedHeaders, expectedResult);
@@ -114,25 +114,25 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(newReader(csvFile));
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition\"", "XXXXX", "4900.00"},
-				{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition, Very Large\"", "?????", "5000.00"},
-				{"?????", "?????", "Venture \"Extended Edition\"", "XXXXX", "4900.00"},
-				{"?????", "?????", "?????", "?????", "?????"},
-				{" ", " ", " ", " ", " "},
-				{"?????", "?????", " 5 ", "?????", "?????"},
-				{"  "},
-				{"1997 ", " Ford ", "E350", "ac, abs, moon", " \"3000.00\" \t"},
-				{"1997", " Ford ", "E350", " ac, abs, moon ", "3000.00  \t"},
-				{"  1997", " Ford ", "E350", " ac, abs, moon ", "3000.00"},
-				{"    19 97 ", " Fo rd ", "E350", " ac, abs, moon ", "3000.00"},
-				{"\t\t", " ", "  ", " \"  \"\t", "30 00.00\t"},
-				{"1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00"},
-				{"1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00"},
+		String[][] expectedResult = new String[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", "XXXXX", "4900.00" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition, Very Large\"", "?????", "5000.00" },
+				{ "?????", "?????", "Venture \"Extended Edition\"", "XXXXX", "4900.00" },
+				{ "?????", "?????", "?????", "?????", "?????" },
+				{ " ", " ", " ", " ", " " },
+				{ "?????", "?????", " 5 ", "?????", "?????" },
+				{ "  " },
+				{ "1997 ", " Ford ", "E350", "ac, abs, moon", " \"3000.00\" \t" },
+				{ "1997", " Ford ", "E350", " ac, abs, moon ", "3000.00  \t" },
+				{ "  1997", " Ford ", "E350", " ac, abs, moon ", "3000.00" },
+				{ "    19 97 ", " Fo rd ", "E350", " ac, abs, moon ", "3000.00" },
+				{ "\t\t", " ", "  ", " \"  \"\t", "30 00.00\t" },
+				{ "1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00" },
+				{ "1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00" },
 		};
 
 		assertHeadersAndValuesMatch(expectedHeaders, expectedResult);
@@ -151,30 +151,31 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(newReader(csvFile));
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", null, null, null, null},
-				{"1999", null, null, null, null},
-				{"1996", null, null, null, null},
-				{"1999", null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{"1997", null, null, null, null},
-				{"1997", null, null, null, null},
-				{"1997", null, null, null, null},
-				{"19 97", null, null, null, null},
-				{null, null, null, null, null},
-				{"1997", null, null, null, null},
-				{"1997", null, null, null, null},
+		String[][] expectedResult = new String[][] {
+				{ "1997", null, null, null, null },
+				{ "1999", null, null, null, null },
+				{ "1996", null, null, null, null },
+				{ "1999", null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ "1997", null, null, null, null },
+				{ "1997", null, null, null, null },
+				{ "1997", null, null, null, null },
+				{ "19 97", null, null, null, null },
+				{ null, null, null, null, null },
+				{ "1997", null, null, null, null },
+				{ "1997", null, null, null, null },
 		};
 
 		assertHeadersAndValuesMatch(expectedHeaders, expectedResult);
 	}
 
-	private String[] process(String input, Integer[] indexesToExclude, Integer[] indexesToSelect, String[] fieldsToExclude, String[] fieldsToSelect) {
+	private String[] process(String input, Integer[] indexesToExclude, Integer[] indexesToSelect,
+			String[] fieldsToExclude, String[] fieldsToSelect) {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.getFormat().setLineSeparator("\n");
 		settings.setHeaderExtractionEnabled(fieldsToExclude != null || fieldsToSelect != null);
@@ -198,23 +199,23 @@ public class CsvParserTest extends ParserTestCase {
 		String[] result;
 		String input = "a,b,c,d,e";
 
-		Integer[] indexesToExclude = new Integer[]{0, 4};
+		Integer[] indexesToExclude = new Integer[] { 0, 4 };
 		result = process(input, indexesToExclude, null, null, null);
-		assertEquals(result, new String[]{"b", "c", "d"});
+		assertEquals(result, new String[] { "b", "c", "d" });
 
-		Integer[] indexesToSelect = new Integer[]{0, 4};
+		Integer[] indexesToSelect = new Integer[] { 0, 4 };
 		result = process(input, null, indexesToSelect, null, null);
-		assertEquals(result, new String[]{"a", "e"});
+		assertEquals(result, new String[] { "a", "e" });
 
 		input = "ha,hb,hc,hd,he\na,b,c,d,e";
 
-		String[] fieldsToExclude = new String[]{"hb", "hd"};
+		String[] fieldsToExclude = new String[] { "hb", "hd" };
 		result = process(input, null, null, fieldsToExclude, null);
-		assertEquals(result, new String[]{"a", "c", "e"});
+		assertEquals(result, new String[] { "a", "c", "e" });
 
-		String[] fieldsToSelect = new String[]{"hb", "hd"};
+		String[] fieldsToSelect = new String[] { "hb", "hd" };
 		result = process(input, null, null, null, fieldsToSelect);
-		assertEquals(result, new String[]{"b", "d"});
+		assertEquals(result, new String[] { "b", "d" });
 	}
 
 	@Override
@@ -266,24 +267,24 @@ public class CsvParserTest extends ParserTestCase {
 			parser.stopParsing();
 		}
 
-		String[] expectedHeaders = new String[]{"YR", "MK", "MDL", "DSC", "PRC"};
+		String[] expectedHeaders = new String[] { "YR", "MK", "MDL", "DSC", "PRC" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00"},
-				{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00"},
-				{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, "5", null, null},
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00"},
-				{null, " ", null, "  ", "30 00.00"},
-				{"1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00"},
-				{"1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00"},
+		String[][] expectedResult = new String[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, "5", null, null },
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00" },
+				{ null, " ", null, "  ", "30 00.00" },
+				{ "1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00" },
+				{ "1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00" },
 		};
 
 		Object[] headers = processor.getHeaders();
@@ -310,12 +311,12 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(newReader(csvFile));
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00"},
-				{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
+		String[][] expectedResult = new String[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
 		};
 
 		assertHeadersAndValuesMatch(expectedHeaders, expectedResult);
@@ -323,7 +324,7 @@ public class CsvParserTest extends ParserTestCase {
 
 	@Test
 	public void parseBrokenQuoteEscape() {
-		CsvParserSettings settings = newCsvInputSettings(new char[]{'\n'});
+		CsvParserSettings settings = newCsvInputSettings(new char[] { '\n' });
 		settings.setParseUnescapedQuotesUntilDelimiter(false);
 		settings.setHeaderExtractionEnabled(false);
 		CsvParser parser = new CsvParser(settings);
@@ -342,10 +343,10 @@ public class CsvParserTest extends ParserTestCase {
 
 		row = parser.parseNext();
 
-		assertEquals(row, new String[]{"1997", "Ford", "E350", "s, m\"", "3000.00"});
+		assertEquals(row, new String[] { "1997", "Ford", "E350", "s, m\"", "3000.00" });
 
 		row = parser.parseNext();
-		assertEquals(row, new String[]{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"});
+		assertEquals(row, new String[] { "1997", "Ford", "E350", "ac, abs, moon", "3000.00" });
 
 		row = parser.parseNext();
 		assertEquals(row[0], "something");
@@ -356,7 +357,7 @@ public class CsvParserTest extends ParserTestCase {
 
 	@Test
 	public void testReadEmptyValue() {
-		CsvParserSettings settings = newCsvInputSettings(new char[]{'\n'});
+		CsvParserSettings settings = newCsvInputSettings(new char[] { '\n' });
 		settings.setEmptyValue("");
 		settings.setHeaderExtractionEnabled(false);
 		CsvParser parser = new CsvParser(settings);
@@ -374,17 +375,26 @@ public class CsvParserTest extends ParserTestCase {
 
 	@DataProvider
 	public Object[][] escapeHandlingProvider() {
-		return new Object[][]{
-				//parsing a line with the following content: ||,|| |"," |" B |" "," |" ||"
-				{false, false, new String[]{"||", "|| |\"", " \" B \" ", " \" |"}}, // process escapes on quoted values only: 		||	, || |"	, " B "			,	" |
-				{false, true, new String[]{"|", "| \"", " \" B \" ", " \" |"}}, // process escapes quoted and unquoted: 			|	, | "	, " B "			,	" |
-				{true, false, new String[]{"||", "|| |\"", " |\" B |\" ", " |\" ||"}}, // keep escape on quoted values only:		||	, || |"	, " |" B |" "	,  |" ||"
-				{true, true, new String[]{"||", "|| |\"", " |\" B |\" ", " |\" ||"}} // keep escape on everything: 				||	, || |"	, " |" B |" "	,  |" ||"
+		return new Object[][] {
+				// parsing a line with the following content: ||,|| |"," |" B |" "," |" ||"
+				{ false, false, new String[] { "||", "|| |\"", " \" B \" ", " \" |" } }, // process escapes on quoted
+																							// values only: || , || |" ,
+																							// " B " , " |
+				{ false, true, new String[] { "|", "| \"", " \" B \" ", " \" |" } }, // process escapes quoted and
+																						// unquoted: | , | " , " B " , "
+																						// |
+				{ true, false, new String[] { "||", "|| |\"", " |\" B |\" ", " |\" ||" } }, // keep escape on quoted
+																							// values only: || , || |" ,
+																							// " |" B |" " , |" ||"
+				{ true, true, new String[] { "||", "|| |\"", " |\" B |\" ", " |\" ||" } } // keep escape on everything:
+																							// || , || |" , " |" B |" "
+																							// , |" ||"
 		};
 	}
 
 	@Test(dataProvider = "escapeHandlingProvider")
-	public void testHandlingOfEscapeSequences(boolean keepEscape, boolean escapeUnquoted, String[] expected) throws Exception {
+	public void testHandlingOfEscapeSequences(boolean keepEscape, boolean escapeUnquoted, String[] expected)
+			throws Exception {
 		CsvParserSettings settings = new CsvParserSettings();
 		settings.setKeepEscapeSequences(keepEscape);
 		settings.setEscapeUnquotedValues(escapeUnquoted);
@@ -408,26 +418,25 @@ public class CsvParserTest extends ParserTestCase {
 		String input = "1,\" Line1 \r\n Line2 \r Line3 \n Line4 \n\r \"\r\n" +
 				"2,\" Line10 \r\n Line11 \"";
 
-
 		List<String[]> result = parser.parseAll(new StringReader(input)); // ||, || |", " |" B |" ", " |" ||"
 		assertEquals(result.size(), 2);
 		assertEquals(result.get(0).length, 2);
 		assertEquals(result.get(1).length, 2);
 
-		assertEquals(result.get(0), new String[]{"1", " Line1 \r\n Line2 \r Line3 \n Line4 \n\r "});
-		assertEquals(result.get(1), new String[]{"2", " Line10 \r\n Line11 "});
+		assertEquals(result.get(0), new String[] { "1", " Line1 \r\n Line2 \r Line3 \n Line4 \n\r " });
+		assertEquals(result.get(1), new String[] { "2", " Line10 \r\n Line11 " });
 
 	}
 
 	public char[] getLineSeparator() {
-		return new char[]{'\n'};
+		return new char[] { '\n' };
 	}
 
 	@Test
 	public void shouldNotAllowParseUnescapedQuotes() throws UnsupportedEncodingException {
 		CsvParserSettings settings = newCsvInputSettings(getLineSeparator());
-		settings.setRowProcessor(new RowListProcessor()); //Default used by CsvParserTest skip 2 lines
-		settings.setParseUnescapedQuotes(false); //To force exception
+		settings.setRowProcessor(new RowListProcessor()); // Default used by CsvParserTest skip 2 lines
+		settings.setParseUnescapedQuotes(false); // To force exception
 
 		CsvParser parser = new CsvParser(settings);
 		try {
@@ -442,7 +451,7 @@ public class CsvParserTest extends ParserTestCase {
 	public void parseQuotedStringFollowedByBlankSpace() throws UnsupportedEncodingException {
 		RowListProcessor processor = new RowListProcessor();
 		CsvParserSettings settings = newCsvInputSettings(getLineSeparator());
-		settings.setRowProcessor(processor); //Default used by CsvParserTest skip 2 lines
+		settings.setRowProcessor(processor); // Default used by CsvParserTest skip 2 lines
 		settings.setParseUnescapedQuotes(true);
 		settings.setParseUnescapedQuotesUntilDelimiter(false);
 
@@ -459,7 +468,8 @@ public class CsvParserTest extends ParserTestCase {
 	}
 
 	@Test(dataProvider = "testProvider")
-	public void shouldNotAllowUnexpectedCharacterAfterQuotedValue(String csvFile, char[] lineSeparator) throws UnsupportedEncodingException {
+	public void shouldNotAllowUnexpectedCharacterAfterQuotedValue(String csvFile, char[] lineSeparator)
+			throws UnsupportedEncodingException {
 		CsvParserSettings settings = newCsvInputSettings(lineSeparator);
 		settings.setParseUnescapedQuotes(false);
 
@@ -472,12 +482,11 @@ public class CsvParserTest extends ParserTestCase {
 		}
 	}
 
-
 	@Test
 	public void parseValueProcessingEscapeNotIgnoringWhitespace() {
 		RowListProcessor processor = new RowListProcessor();
 		CsvParserSettings settings = newCsvInputSettings(getLineSeparator());
-		settings.setRowProcessor(processor); //Default used by CsvParserTest skip 2 lines
+		settings.setRowProcessor(processor); // Default used by CsvParserTest skip 2 lines
 		settings.setKeepEscapeSequences(true);
 		settings.setIgnoreTrailingWhitespaces(false);
 		settings.setEscapeUnquotedValues(true);
@@ -488,7 +497,8 @@ public class CsvParserTest extends ParserTestCase {
 		settings.setFormat(format);
 
 		CsvParser parser = new CsvParser(settings);
-		parser.parse(new StringReader("'\\\"a\n")); //goes into the else statement of CsvParser.parseValueProcessingEscape() method.
+		parser.parse(new StringReader("'\\\"a\n")); // goes into the else statement of
+													// CsvParser.parseValueProcessingEscape() method.
 
 		List<String[]> rows = processor.getRows();
 
@@ -502,7 +512,7 @@ public class CsvParserTest extends ParserTestCase {
 	public void parseValueProcessingEscapeNotIgnoringWhitespacePrevQuoteEscape2() {
 		RowListProcessor processor = new RowListProcessor();
 		CsvParserSettings settings = newCsvInputSettings(getLineSeparator());
-		settings.setRowProcessor(processor); //Default used by CsvParserTest skip 2 lines
+		settings.setRowProcessor(processor); // Default used by CsvParserTest skip 2 lines
 		settings.setKeepEscapeSequences(true);
 		settings.setIgnoreTrailingWhitespaces(false);
 		settings.setEscapeUnquotedValues(true);
@@ -527,7 +537,7 @@ public class CsvParserTest extends ParserTestCase {
 	public void parseValueProcessingEscapeNotIgnoringWhitespacePrevQuoteEscape() {
 		RowListProcessor processor = new RowListProcessor();
 		CsvParserSettings settings = newCsvInputSettings(getLineSeparator());
-		settings.setRowProcessor(processor); //Default used by CsvParserTest skip 2 lines
+		settings.setRowProcessor(processor); // Default used by CsvParserTest skip 2 lines
 		settings.setKeepEscapeSequences(true);
 		settings.setIgnoreTrailingWhitespaces(false);
 		settings.setEscapeUnquotedValues(true);
@@ -550,13 +560,13 @@ public class CsvParserTest extends ParserTestCase {
 
 	@DataProvider
 	public Object[][] skipLinesProvider() {
-		return new Object[][]{
-				{0, "1234"},
-				{1, "234"},
-				{2, "34"},
-				{3, "4"},
-				{4, null},
-				{5, "BOOM"},
+		return new Object[][] {
+				{ 0, "1234" },
+				{ 1, "234" },
+				{ 2, "34" },
+				{ 3, "4" },
+				{ 4, null },
+				{ 5, "BOOM" },
 		};
 	}
 
@@ -580,7 +590,7 @@ public class CsvParserTest extends ParserTestCase {
 			out.append(row[0]);
 		}
 
-		if("BOOM".equals(expectedResult)){
+		if ("BOOM".equals(expectedResult)) {
 			expectedResult = null;
 		}
 		assertEquals(out == null ? null : out.toString(), expectedResult);
@@ -689,7 +699,6 @@ public class CsvParserTest extends ParserTestCase {
 		settings.setNullValue("NULL");
 		CsvParser parser = new CsvParser(settings);
 
-
 		String[] result = parser.parseLine(", ,");
 		assertEquals(result.length, 3);
 		assertEquals(result[0], "NULL");
@@ -706,7 +715,7 @@ public class CsvParserTest extends ParserTestCase {
 		settings.selectFields("a", "c");
 
 		String[] values = new CsvParser(settings).parseLine("1,2,3");
-		assertEquals(values, new String[]{"1", null, "3"});
+		assertEquals(values, new String[] { "1", null, "3" });
 	}
 
 	@Test
@@ -760,12 +769,12 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(parserSettings);
 
 		String[][] correctRows = {
-				{"a", "b", "c"},
-				{"d", "e", "f"},
-				{"g", "h", "i"},
-				{"j", null},
-				{"k", "l"},
-				{"m", "n", "o", "p", "q", "r"}
+				{ "a", "b", "c" },
+				{ "d", "e", "f" },
+				{ "g", "h", "i" },
+				{ "j", null },
+				{ "k", "l" },
+				{ "m", "n", "o", "p", "q", "r" }
 		};
 
 		Reader input = newReader("/csv/iterating_test.csv");
@@ -800,7 +809,8 @@ public class CsvParserTest extends ParserTestCase {
 		}
 		final StringBuilder csv = new StringBuilder("time,value\n");
 		append4000Symbols(csv);
-		// now the comment processing will meet buffer update operation (if buffer size is 4096)
+		// now the comment processing will meet buffer update operation (if buffer size
+		// is 4096)
 		csv.append(commentLine);
 
 		final CsvParserSettings csvParserSettings = new CsvParserSettings();
@@ -815,12 +825,12 @@ public class CsvParserTest extends ParserTestCase {
 
 	@Test
 	public void shouldPrintUserDefinedHeaders() {
-		final String[] userDefinedHeader = {"timestamp", "memory_used"};
+		final String[] userDefinedHeader = { "timestamp", "memory_used" };
 		final CsvParserSettings settings = new CsvParserSettings();
 		settings.setHeaderExtractionEnabled(false);
 		settings.setHeaders(userDefinedHeader);
 
-		final String[][] headersFromContext = new String[][]{null};
+		final String[][] headersFromContext = new String[][] { null };
 		settings.setProcessor(new AbstractRowProcessor() {
 			@Override
 			public void processStarted(ParsingContext context) {
@@ -854,10 +864,11 @@ public class CsvParserTest extends ParserTestCase {
 
 	@Test
 	public void shouldNotResolveSpaceAsColumnSeparator() {
-		final Reader csv = new StringReader("<COL TICKER>,<COL PER>,<COL DATE>,<COL TIME>,<COL OPEN>,<COL HIGH>,<COL LOW>,<COL CLOSE>,<COL VOL>\n" +
-				"MOEX,15,12/03/18,10:15:00,90.0900000,90.9500000,90.0700000,90.8200000,468,730\n" +
-				"MOEX,15,12/03/18,10:30:00,90.8200000,90.8600000,90.6000000,90.7100000,136,040\n" +
-				"MOEX,15,12/03/18,10:45:00,90.7000000,91.3000000,90.6600000,90.9900000,278,580");
+		final Reader csv = new StringReader(
+				"<COL TICKER>,<COL PER>,<COL DATE>,<COL TIME>,<COL OPEN>,<COL HIGH>,<COL LOW>,<COL CLOSE>,<COL VOL>\n" +
+						"MOEX,15,12/03/18,10:15:00,90.0900000,90.9500000,90.0700000,90.8200000,468,730\n" +
+						"MOEX,15,12/03/18,10:30:00,90.8200000,90.8600000,90.6000000,90.7100000,136,040\n" +
+						"MOEX,15,12/03/18,10:45:00,90.7000000,91.3000000,90.6600000,90.9900000,278,580");
 		final CsvParserSettings settings = new CsvParserSettings();
 		settings.setReadInputOnSeparateThread(false);
 		settings.setLineSeparatorDetectionEnabled(true);
@@ -880,25 +891,25 @@ public class CsvParserTest extends ParserTestCase {
 		CsvParser parser = new CsvParser(settings);
 		parser.parse(newReader(csvFile));
 
-		String[] expectedHeaders = new String[]{"Year", "Make", "Model", "Description", "Price"};
+		String[] expectedHeaders = new String[] { "Year", "Make", "Model", "Description", "Price" };
 
-		String[][] expectedResult = new String[][]{
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00"},
-				{"#this is a comment and should be ignored"},
-				{"1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00"},
-				{"1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00"},
-				{null, null, "Venture \"Extended Edition\"", null, "4900.00"},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, "5", null, null},
-				{"1997", "Ford", "E350", "ac, abs, moon", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"1997", "Ford", "E350", " ac, abs, moon ", "3000.00"},
-				{"19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00"},
-				{null, " ", null, "  ", "30 00.00"},
-				{"1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00"},
-				{"1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00"},
+		String[][] expectedResult = new String[][] {
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition\"", null, "4900.00" },
+				{ "#this is a comment and should be ignored" },
+				{ "1996", "Jeep", "Grand Cherokee", "MUST SELL!\nair, moon roof, loaded", "4799.00" },
+				{ "1999", "Chevy", "Venture \"Extended Edition, Very Large\"", null, "5000.00" },
+				{ null, null, "Venture \"Extended Edition\"", null, "4900.00" },
+				{ null, null, null, null, null },
+				{ null, null, null, null, null },
+				{ null, null, "5", null, null },
+				{ "1997", "Ford", "E350", "ac, abs, moon", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "1997", "Ford", "E350", " ac, abs, moon ", "3000.00" },
+				{ "19 97", "Fo rd", "E350", " ac, abs, moon ", "3000.00" },
+				{ null, " ", null, "  ", "30 00.00" },
+				{ "1997", "Ford", "E350", " \" ac, abs, moon \" ", "3000.00" },
+				{ "1997", "Ford", "E350", "\" ac, abs, moon \" ", "3000.00" },
 		};
 
 		assertHeadersAndValuesMatch(expectedHeaders, expectedResult);

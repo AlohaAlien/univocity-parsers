@@ -16,6 +16,7 @@
 package com.univocity.parsers.examples;
 
 import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
 import com.univocity.parsers.conversions.*;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
@@ -29,12 +30,14 @@ public class RecordExamples extends Example {
 	public void example001ParseRecords() throws Exception {
 
 		CsvParserSettings settings = new CsvParserSettings();
-		//the file used in the example uses '\n' as the line separator sequence.
-		//the line separator sequence is defined here to ensure systems such as MacOS and Windows
-		//are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
+		// the file used in the example uses '\n' as the line separator sequence.
+		// the line separator sequence is defined here to ensure systems such as MacOS
+		// and Windows
+		// are able to process this file correctly (MacOS uses '\r'; and Windows uses
+		// '\r\n').
 		settings.getFormat().setLineSeparator("\n");
 
-		//##CODE_START
+		// ##CODE_START
 
 		settings.getFormat().setDelimiter(';');
 		settings.getFormat().setQuoteEscape('\\');
@@ -48,9 +51,11 @@ public class RecordExamples extends Example {
 
 		double sumOfPrices = 0.0;
 		for (Record record : allRecords) {
-			//Let's use the convenience methods in the record class to convert the parsed data into a Double.
-			//Numbers are stored in the file using the european format.
-			//Here we read the "price" column, using the "0,00" format mask, and decimal separator set to comma.
+			// Let's use the convenience methods in the record class to convert the parsed
+			// data into a Double.
+			// Numbers are stored in the file using the european format.
+			// Here we read the "price" column, using the "0,00" format mask, and decimal
+			// separator set to comma.
 			Double price = record.getDouble("price", "0,00", "decimalSeparator=,");
 
 			if (price != null) {
@@ -59,7 +64,7 @@ public class RecordExamples extends Example {
 		}
 
 		print("Average car price: $" + (sumOfPrices / allRecords.size()));
-		//##CODE_END
+		// ##CODE_END
 		printAndValidate();
 	}
 
@@ -67,9 +72,11 @@ public class RecordExamples extends Example {
 	public void example002RecordMetadata() throws Exception {
 
 		CsvParserSettings settings = new CsvParserSettings();
-		//the file used in the example uses '\n' as the line separator sequence.
-		//the line separator sequence is defined here to ensure systems such as MacOS and Windows
-		//are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
+		// the file used in the example uses '\n' as the line separator sequence.
+		// the line separator sequence is defined here to ensure systems such as MacOS
+		// and Windows
+		// are able to process this file correctly (MacOS uses '\r'; and Windows uses
+		// '\r\n').
 		settings.getFormat().setLineSeparator("\n");
 
 		settings.setHeaderExtractionEnabled(true);
@@ -79,7 +86,7 @@ public class RecordExamples extends Example {
 		// parses all records in one go
 		List<Record> allRecords = parser.parseAllRecords(getReader("/examples/example.csv"));
 
-		//##CODE_START
+		// ##CODE_START
 		parser.getRecordMetadata().setTypeOfColumns(Long.class, "year", "price");
 		parser.getRecordMetadata().setDefaultValueOfColumns("0", "Year");
 		parser.getRecordMetadata().convertFields(Conversions.replace("\\.00", "")).set("Price");
@@ -91,58 +98,66 @@ public class RecordExamples extends Example {
 			println(year + " " + model + ": $" + price);
 		}
 
-		//##CODE_END
+		// ##CODE_END
 		printAndValidate();
 	}
 
 	@Test
 	public void example003RecordToMap() throws Exception {
 		CsvParserSettings settings = new CsvParserSettings();
-		//the file used in the example uses '\n' as the line separator sequence.
-		//the line separator sequence is defined here to ensure systems such as MacOS and Windows
-		//are able to process this file correctly (MacOS uses '\r'; and Windows uses '\r\n').
+		// the file used in the example uses '\n' as the line separator sequence.
+		// the line separator sequence is defined here to ensure systems such as MacOS
+		// and Windows
+		// are able to process this file correctly (MacOS uses '\r'; and Windows uses
+		// '\r\n').
 		settings.getFormat().setLineSeparator("\n");
 
 		settings.setHeaderExtractionEnabled(true);
 
 		CsvParser parser = new CsvParser(settings);
 
-		//##CODE_START
+		// ##CODE_START
 		// this time, lest's parse on demand.
 		parser.beginParsing(getReader("/examples/example.csv"));
 
-		//null year should become 0000
+		// null year should become 0000
 		parser.getRecordMetadata().setDefaultValueOfColumns("0000", "Year");
 
-		//decimal separator in prices will be replaced by comma
+		// decimal separator in prices will be replaced by comma
 		parser.getRecordMetadata().convertFields(Conversions.replace("\\.00", ",00")).set("Price");
 
-		//make will be uppercase
+		// make will be uppercase
 		parser.getRecordMetadata().convertFields(Conversions.toUpperCase()).set("make");
 
-		//let's fill a map with values.
+		// let's fill a map with values.
 		LinkedHashMap<String, Object> values = new LinkedHashMap<String, Object>();
 
-		//create instances of Record on demand
+		// create instances of Record on demand
 		Record record;
 		while ((record = parser.parseNextRecord()) != null) {
-			//we can get the original values of selected columns (by name or index) in a map.
-			//Map<String, String> originalValues = record.toFieldMap();
+			// we can get the original values of selected columns (by name or index) in a
+			// map.
+			// Map<String, String> originalValues = record.toFieldMap();
 
-			//to get the converted values as specified in the record metadata use the method ending with "ObjectMap"
-			//Map<String, Object> convertedValues = record.toFieldObjectMap();
+			// to get the converted values as specified in the record metadata use the
+			// method ending with "ObjectMap"
+			// Map<String, Object> convertedValues = record.toFieldObjectMap();
 
-			//all map methods allow you to choose which columns to get data from. Here we select just the (originally parsed) year:
-			Map<String, String> originalYearValues = record.toFieldMap("YEAR"); //the character case of the selection is kept regardless of what the headers contain.
-			println(originalYearValues); //original values, no conversions applied.
+			// all map methods allow you to choose which columns to get data from. Here we
+			// select just the (originally parsed) year:
+			Map<String, String> originalYearValues = record.toFieldMap("YEAR"); // the character case of the selection
+																				// is kept regardless of what the
+																				// headers contain.
+			println(originalYearValues); // original values, no conversions applied.
 
-			//instead of creating new maps every time, we can also reuse maps and invoke the "fill" methods
+			// instead of creating new maps every time, we can also reuse maps and invoke
+			// the "fill" methods
 			record.fillFieldObjectMap(values);
 			println(values);
 
 		}
 
-		//##CODE_END
+		// ##CODE_END
 		printAndValidate();
 	}
 }

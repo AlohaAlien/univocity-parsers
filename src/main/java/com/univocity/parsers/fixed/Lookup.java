@@ -16,7 +16,9 @@
 package com.univocity.parsers.fixed;
 
 import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
+import com.univocity.parsers.common.record.RecordFactory;
 
 import java.util.*;
 import java.util.Map.*;
@@ -74,8 +76,8 @@ class Lookup {
 			}
 
 			@Override
-			public RecordMetaData recordMetaData(){
-				if(recordFactory == null){
+			public RecordMetaData recordMetaData() {
+				if (recordFactory == null) {
 					recordFactory = new RecordFactory(this);
 				}
 				return recordFactory.getRecordMetaData();
@@ -105,13 +107,15 @@ class Lookup {
 		registerLookup("behind", lookup, lengths, map);
 	}
 
-	private static void registerLookup(String direction, String lookup, FixedWidthFields lengths, Map<String, FixedWidthFields> map) {
+	private static void registerLookup(String direction, String lookup, FixedWidthFields lengths,
+			Map<String, FixedWidthFields> map) {
 		if (lookup == null) {
 			throw new IllegalArgumentException("Look" + direction + " value cannot be null");
 		}
 
 		if (lengths == null) {
-			throw new IllegalArgumentException("Lengths of fields associated to look" + direction + " value '" + lookup + "' cannot be null");
+			throw new IllegalArgumentException(
+					"Lengths of fields associated to look" + direction + " value '" + lookup + "' cannot be null");
 		}
 
 		map.put(lookup, lengths);
@@ -130,7 +134,7 @@ class Lookup {
 		Arrays.sort(out, new Comparator<Lookup>() {
 			@Override
 			public int compare(Lookup o1, Lookup o2) {
-				//longer values go first.
+				// longer values go first.
 				return o1.value.length < o2.value.length ? 1 : o1.value.length == o2.value.length ? 0 : -1;
 			}
 		});
@@ -154,7 +158,8 @@ class Lookup {
 		return max;
 	}
 
-	static int[] calculateMaxFieldLengths(FixedWidthFields fieldLengths, Map<String, FixedWidthFields> lookaheadFormats, Map<String, FixedWidthFields> lookbehindFormats) {
+	static int[] calculateMaxFieldLengths(FixedWidthFields fieldLengths, Map<String, FixedWidthFields> lookaheadFormats,
+			Map<String, FixedWidthFields> lookbehindFormats) {
 		List<int[]> allLengths = new ArrayList<int[]>();
 
 		if (fieldLengths != null) {

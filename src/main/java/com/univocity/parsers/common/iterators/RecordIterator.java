@@ -16,15 +16,17 @@
 package com.univocity.parsers.common.iterators;
 
 import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 
 import java.io.*;
 
 /**
- * An iterator of {@link Record}s. Created when {@link AbstractParser#iterateRecords(File)}
+ * An iterator of {@link Record}s. Created when
+ * {@link AbstractParser#iterateRecords(File)}
  * (and its overloaded counterparts) is called
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public abstract class RecordIterator extends ParserIterator<Record> {
 

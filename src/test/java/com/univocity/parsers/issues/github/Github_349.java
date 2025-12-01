@@ -15,9 +15,8 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
 import com.univocity.parsers.common.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
 
@@ -29,13 +28,15 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/349
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_349 {
 
 	@Test
 	public void testNoDuplicates() {
-		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource("notduplicate_1,notduplicate_2,notduplicate_3\r\nvalueForFirst,valueForSecond,valueForThird");
+		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource(
+				"notduplicate_1,notduplicate_2,notduplicate_3\r\nvalueForFirst,valueForSecond,valueForThird");
 		Record row = iterator.next();
 		Map<String, String> parsedRow = row.fillFieldMap(new HashMap<String, String>());
 		assertEquals(parsedRow.size(), 3);
@@ -46,24 +47,29 @@ public class Github_349 {
 
 	@Test
 	public void duplicatesNotAtEnd() {
-		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource("duplicate,duplicate,notduplicate\r\nvalueForFirst,valueForSecond,valueForThird");
+		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource(
+				"duplicate,duplicate,notduplicate\r\nvalueForFirst,valueForSecond,valueForThird");
 		Record row = iterator.next();
 		Map<String, String> parsedRow = row.fillFieldMap(new HashMap<String, String>());
 		assertEquals(parsedRow.size(), 2);
-		assertTrue(parsedRow.get("duplicate").equals("valueForFirst") || parsedRow.get("duplicate").equals("valueForSecond"));
+		assertTrue(parsedRow.get("duplicate").equals("valueForFirst")
+				|| parsedRow.get("duplicate").equals("valueForSecond"));
 		assertEquals(parsedRow.get("notduplicate"), "valueForThird");
 	}
 
 	@Test
 	public void duplicatesAtEnd() {
-		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource("duplicate,notduplicate,duplicate\r\nvalueForFirst,valueForSecond,valueForThird");
+		ResultIterator<Record, ParsingContext> iterator = getParsedIteratorForResource(
+				"duplicate,notduplicate,duplicate\r\nvalueForFirst,valueForSecond,valueForThird");
 		Record row = iterator.next();
 		Map<String, String> parsedRow = row.fillFieldMap(new HashMap<String, String>());
 
 		assertEquals(parsedRow.size(), 2);
-		assertTrue(parsedRow.get("duplicate").equals("valueForFirst") || parsedRow.get("duplicate").equals("valueForThird"));
+		assertTrue(parsedRow.get("duplicate").equals("valueForFirst")
+				|| parsedRow.get("duplicate").equals("valueForThird"));
 		assertEquals(parsedRow.get("notduplicate"), "valueForSecond");
-//		assertEquals(parsedRow.get("duplicate\r"), "valueForThird"); // carriage return kept
+		// assertEquals(parsedRow.get("duplicate\r"), "valueForThird"); // carriage
+		// return kept
 	}
 
 	private ResultIterator<Record, ParsingContext> getParsedIteratorForResource(String input) {

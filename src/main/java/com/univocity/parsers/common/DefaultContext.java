@@ -15,12 +15,16 @@
  */
 package com.univocity.parsers.common;
 
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
+import com.univocity.parsers.common.record.RecordFactory;
 
 /**
- * Default implementation of the {@link Context} interface with essential information about the output being produced.
+ * Default implementation of the {@link Context} interface with essential
+ * information about the output being produced.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class DefaultContext implements Context {
 
@@ -44,7 +48,7 @@ public class DefaultContext implements Context {
 
 	@Override
 	public String[] headers() {
-		if(headers == null) {
+		if (headers == null) {
 			if (output == null) {
 				headers = ArgumentUtils.EMPTY_STRING_ARRAY;
 			}
@@ -54,7 +58,7 @@ public class DefaultContext implements Context {
 	}
 
 	public String[] selectedHeaders() {
-		if(headers == null) {
+		if (headers == null) {
 			headers();
 		}
 		int[] extractedFieldIndexes = extractedFieldIndexes();
@@ -103,7 +107,6 @@ public class DefaultContext implements Context {
 		columnMap.reset();
 	}
 
-
 	@Override
 	public int currentColumn() {
 		if (output == null) {
@@ -111,7 +114,6 @@ public class DefaultContext implements Context {
 		}
 		return output.getCurrentColumn();
 	}
-
 
 	@Override
 	public long currentRecord() {
@@ -145,12 +147,11 @@ public class DefaultContext implements Context {
 	}
 
 	@Override
-	public RecordMetaData recordMetaData(){
-		if(recordFactory == null){
+	public RecordMetaData recordMetaData() {
+		if (recordFactory == null) {
 			recordFactory = new RecordFactory(this);
 		}
 		return recordFactory.getRecordMetaData();
 	}
-
 
 }

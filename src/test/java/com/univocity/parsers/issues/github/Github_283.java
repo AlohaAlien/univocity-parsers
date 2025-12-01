@@ -15,10 +15,9 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-
 import com.univocity.parsers.annotations.*;
 import com.univocity.parsers.common.processor.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
 
@@ -30,28 +29,28 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/283
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_283 {
 
 	private static final String INPUT = "a,A, a , A ,a ,A , b \n1,2,3,4,5,6,7";
 
-	private static final String[] ALL_FIELDS = new String[]{"a", "A", " a ", " A ", "a ", "A ", "B"};
+	private static final String[] ALL_FIELDS = new String[] { "a", "A", " a ", " A ", "a ", "A ", "B" };
 
 	@DataProvider
 	public Object[][] paramProvider() {
-		return new Object[][]{
-				{true, ALL_FIELDS},
-				{false, ALL_FIELDS},
+		return new Object[][] {
+				{ true, ALL_FIELDS },
+				{ false, ALL_FIELDS },
 
-				{true, new String[]{" a ", " A ", "a ", "A ", "B"}},
-				{false, new String[]{" a ", " A ", "a ", "A ", "B"}},
+				{ true, new String[] { " a ", " A ", "a ", "A ", "B" } },
+				{ false, new String[] { " a ", " A ", "a ", "A ", "B" } },
 
-				{true, new String[]{"a", "A", " a ", " A ", " B"}},
-				{false, new String[]{"a", "A", " a ", " A ", " B"}},
+				{ true, new String[] { "a", "A", " a ", " A ", " B" } },
+				{ false, new String[] { "a", "A", " a ", " A ", " B" } },
 		};
 	}
-
 
 	@Test(dataProvider = "paramProvider")
 	public void testHandlingOfSimilarHeaders(boolean trim, String[] selectedFields) {
@@ -126,7 +125,7 @@ public class Github_283 {
 				}
 			}
 		}
-		if(k < row.length && row[k] == null){
+		if (k < row.length && row[k] == null) {
 			row[k] = 7;
 		}
 

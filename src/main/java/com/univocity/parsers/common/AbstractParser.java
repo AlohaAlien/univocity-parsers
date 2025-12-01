@@ -20,7 +20,8 @@ import com.univocity.parsers.common.input.*;
 import com.univocity.parsers.common.iterators.*;
 import com.univocity.parsers.common.processor.*;
 import com.univocity.parsers.common.processor.core.*;
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
+import com.univocity.parsers.common.record.RecordMetaData;
 
 import java.io.*;
 import java.nio.charset.*;
@@ -29,20 +30,31 @@ import java.util.*;
 import static com.univocity.parsers.common.ArgumentUtils.*;
 
 /**
- * The AbstractParser class provides a common ground for all parsers in univocity-parsers.
- * <p> It handles all settings defined by {@link CommonParserSettings}, and delegates the parsing algorithm implementation to its subclasses through the
+ * The AbstractParser class provides a common ground for all parsers in
+ * univocity-parsers.
+ * <p>
+ * It handles all settings defined by {@link CommonParserSettings}, and
+ * delegates the parsing algorithm implementation to its subclasses through the
  * abstract method {@link AbstractParser#parseRecord()}
- * <p> The following (absolutely required) attributes are exposed to subclasses:
+ * <p>
+ * The following (absolutely required) attributes are exposed to subclasses:
  * <ul>
- * <li><b>input (<i>{@link CharInputReader}</i>):</b> the character input provider that reads characters from a given input into an internal buffer</li>
- * <li><b>output (<i>{@link ParserOutput}</i>):</b> the output handler for every record parsed from the input. Implementors must use this object to handle the input (such as appending characters and notifying of values parsed)</li>
+ * <li><b>input (<i>{@link CharInputReader}</i>):</b> the character input
+ * provider that reads characters from a given input into an internal
+ * buffer</li>
+ * <li><b>output (<i>{@link ParserOutput}</i>):</b> the output handler for every
+ * record parsed from the input. Implementors must use this object to handle the
+ * input (such as appending characters and notifying of values parsed)</li>
  * <li><b>ch (<i>char</i>):</b> the current character read from the input</li>
  * </ul>
  *
- * @param <T> The specific parser settings configuration class, which can potentially provide additional configuration options supported by the parser
+ * @param <T> The specific parser settings configuration class, which can
+ *            potentially provide additional configuration options supported by
+ *            the parser
  *            implementation.
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:parsers@univocity.com">parsers@univocity.com</a>
  * @see com.univocity.parsers.csv.CsvParser
  * @see com.univocity.parsers.csv.CsvParserSettings
  * @see com.univocity.parsers.fixed.FixedWidthParser
@@ -78,7 +90,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	private final boolean processComments;
 
 	/**
-	 * All parsers must support, at the very least, the settings provided by {@link CommonParserSettings}. The AbstractParser requires its configuration to be
+	 * All parsers must support, at the very least, the settings provided by
+	 * {@link CommonParserSettings}. The AbstractParser requires its configuration
+	 * to be
 	 * properly initialized.
 	 *
 	 * @param settings the parser configuration
@@ -115,13 +129,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 			try {
 				input.skipLines(1);
 			} catch (IllegalArgumentException e) {
-				//end of input reached, ignore.
+				// end of input reached, ignore.
 			}
 		}
 	}
 
 	/**
-	 * Parses the entirety of a given input and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given input and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
 	 * @param reader The input to be parsed.
@@ -177,21 +192,42 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 
 	/**
 	 * Parser-specific implementation for reading a single record from the input.
-	 * <p> The AbstractParser handles the initialization and processing of the input until it is ready to be parsed.
-	 * <p> It then delegates the input to the parser-specific implementation defined by {@link #parseRecord()}. In general, an implementation of
+	 * <p>
+	 * The AbstractParser handles the initialization and processing of the input
+	 * until it is ready to be parsed.
+	 * <p>
+	 * It then delegates the input to the parser-specific implementation defined by
+	 * {@link #parseRecord()}. In general, an implementation of
 	 * {@link AbstractParser#parseRecord()} will perform the following steps:
 	 * <ul>
-	 * <li>Test the character stored in <i>ch</i> and take some action on it (e.g. is <i>while (ch != '\n'){doSomething()}</i>)</li>
-	 * <li>Request more characters by calling <i>ch = input.nextChar();</i> </li>
-	 * <li>Append the desired characters to the output by executing, for example, <i>output.appender.append(ch)</i></li>
-	 * <li>Notify a value of the record has been fully read by executing <i>output.valueParsed()</i>. This will clear the output appender ({@link CharAppender}) so the next call to output.appender.append(ch) will be store the character of the next parsed value</li>
+	 * <li>Test the character stored in <i>ch</i> and take some action on it (e.g.
+	 * is <i>while (ch != '\n'){doSomething()}</i>)</li>
+	 * <li>Request more characters by calling <i>ch = input.nextChar();</i></li>
+	 * <li>Append the desired characters to the output by executing, for example,
+	 * <i>output.appender.append(ch)</i></li>
+	 * <li>Notify a value of the record has been fully read by executing
+	 * <i>output.valueParsed()</i>. This will clear the output appender
+	 * ({@link CharAppender}) so the next call to output.appender.append(ch) will be
+	 * store the character of the next parsed value</li>
 	 * <li>Rinse and repeat until all values of the record are parsed</li>
 	 * </ul>
-	 * <p> Once the {@link #parseRecord()} returns, the AbstractParser takes over and handles the information (generally, reorganizing it and  passing it on to a {@link RowProcessor}).
-	 * <p> After the record processing, the AbstractParser reads the next characters from the input, delegating control again to the parseRecord() implementation for processing of the next record.
-	 * <p> This cycle repeats until the reading process is stopped by the user, the input is exhausted, or an error happens.
-	 * <p> In case of errors, the unchecked exception {@link TextParsingException} will be thrown and all resources in use will be closed automatically
-	 * unless {@link CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}. The exception should contain the cause and more information about where in the input the error happened.
+	 * <p>
+	 * Once the {@link #parseRecord()} returns, the AbstractParser takes over and
+	 * handles the information (generally, reorganizing it and passing it on to a
+	 * {@link RowProcessor}).
+	 * <p>
+	 * After the record processing, the AbstractParser reads the next characters
+	 * from the input, delegating control again to the parseRecord() implementation
+	 * for processing of the next record.
+	 * <p>
+	 * This cycle repeats until the reading process is stopped by the user, the
+	 * input is exhausted, or an error happens.
+	 * <p>
+	 * In case of errors, the unchecked exception {@link TextParsingException} will
+	 * be thrown and all resources in use will be closed automatically
+	 * unless {@link CommonParserSettings#isAutoClosingEnabled()} evaluates to
+	 * {@code false}. The exception should contain the cause and more information
+	 * about where in the input the error happened.
 	 *
 	 * @see com.univocity.parsers.common.input.CharInputReader
 	 * @see com.univocity.parsers.common.input.CharAppender
@@ -202,9 +238,11 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	protected abstract void parseRecord();
 
 	/**
-	 * Allows the parser implementation to handle any value that was being consumed when the end of the input was reached
+	 * Allows the parser implementation to handle any value that was being consumed
+	 * when the end of the input was reached
 	 *
-	 * @return a flag indicating whether the parser was processing a value when the end of the input was reached.
+	 * @return a flag indicating whether the parser was processing a value when the
+	 *         end of the input was reached.
 	 */
 	protected boolean consumeValueOnEOF() {
 		return false;
@@ -241,9 +279,12 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
 	 * @param reader The input to be parsed.
 	 */
@@ -251,7 +292,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		output.reset();
 
 		if (reader instanceof LineReader) {
-			input = new DefaultCharInputReader(settings.getFormat().getLineSeparator(), settings.getFormat().getNormalizedNewline(), settings.getInputBufferSize(), whitespaceRangeStart, true);
+			input = new DefaultCharInputReader(settings.getFormat().getLineSeparator(),
+					settings.getFormat().getNormalizedNewline(), settings.getInputBufferSize(), whitespaceRangeStart,
+					true);
 		} else {
 			input = settings.newCharInputReader(whitespaceRangeStart);
 		}
@@ -268,7 +311,7 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		if (input instanceof AbstractCharInputReader) {
 			AbstractCharInputReader inputReader = ((AbstractCharInputReader) input);
 			inputReader.addInputAnalysisProcess(getInputAnalysisProcess());
-			for(InputAnalysisProcess p : settings.getInputAnalysisProcesses()){
+			for (InputAnalysisProcess p : settings.getInputAnalysisProcesses()) {
 				inputReader.addInputAnalysisProcess(p);
 			}
 		}
@@ -289,7 +332,7 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		while (extractHeaders && output.parsedHeaders == null && !context.isStopped() && !extractingHeaders) {
 			Processor userProvidedProcessor = processor;
 			try {
-				processor = NoopProcessor.instance; //disables any users provided processors to capture headers
+				processor = NoopProcessor.instance; // disables any users provided processors to capture headers
 				extractingHeaders = true;
 				parseNext();
 			} finally {
@@ -309,10 +352,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Allows the parser implementation to traverse the input buffer before the parsing process starts, in order to enable automatic configuration and discovery
+	 * Allows the parser implementation to traverse the input buffer before the
+	 * parsing process starts, in order to enable automatic configuration and
+	 * discovery
 	 * of data formats.
 	 *
-	 * @return a custom implementation of {@link InputAnalysisProcess}. By default, {@code null} is returned and no special input analysis will be performed.
+	 * @return a custom implementation of {@link InputAnalysisProcess}. By default,
+	 *         {@code null} is returned and no special input analysis will be
+	 *         performed.
 	 */
 	protected InputAnalysisProcess getInputAnalysisProcess() {
 		return null;
@@ -338,7 +385,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		if (chars != null) {
 			int length = output.appender.length();
 			if (length > chars.length) {
-				message = "Length of parsed input (" + length + ") exceeds the maximum number of characters defined in" +
+				message = "Length of parsed input (" + length + ") exceeds the maximum number of characters defined in"
+						+
 						" your parser settings (" + settings.getMaxCharsPerColumn() + "). ";
 				length = chars.length;
 			}
@@ -347,12 +395,15 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 			if (tmp.contains("\n") || tmp.contains("\r")) {
 				tmp = displayLineSeparators(tmp, true);
 				String lineSeparator = displayLineSeparators(settings.getFormat().getLineSeparatorString(), false);
-				message += "\nIdentified line separator characters in the parsed content. This may be the cause of the error. " +
-						"The line separator in your parser settings is set to '" + lineSeparator + "'. " + getParsedContent(tmp);
+				message += "\nIdentified line separator characters in the parsed content. This may be the cause of the error. "
+						+
+						"The line separator in your parser settings is set to '" + lineSeparator + "'. "
+						+ getParsedContent(tmp);
 			}
 
 			int nullCharacterCount = 0;
-			//ensuring the StringBuilder won't grow over Integer.MAX_VALUE to avoid OutOfMemoryError
+			// ensuring the StringBuilder won't grow over Integer.MAX_VALUE to avoid
+			// OutOfMemoryError
 			int maxLength = length > Integer.MAX_VALUE / 2 ? Integer.MAX_VALUE / 2 - 1 : length;
 			StringBuilder s = new StringBuilder(maxLength);
 			for (int i = 0; i < maxLength; i++) {
@@ -367,8 +418,10 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 			tmp = s.toString();
 
 			if (nullCharacterCount > 0) {
-				message += "\nIdentified " + nullCharacterCount + " null characters ('\0') on parsed content. This may " +
-						"indicate the data is corrupt or its encoding is invalid. Parsed content:\n\t" + getParsedContent(tmp);
+				message += "\nIdentified " + nullCharacterCount + " null characters ('\0') on parsed content. This may "
+						+
+						"indicate the data is corrupt or its encoding is invalid. Parsed content:\n\t"
+						+ getParsedContent(tmp);
 			}
 
 		}
@@ -377,14 +430,16 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 			try {
 				int index = Integer.parseInt(ex.getMessage());
 				if (index == settings.getMaxCharsPerColumn()) {
-					message += "\nHint: Number of characters processed may have exceeded limit of " + index + " characters per column. Use settings.setMaxCharsPerColumn(int) to define the maximum number of characters a column can have";
+					message += "\nHint: Number of characters processed may have exceeded limit of " + index
+							+ " characters per column. Use settings.setMaxCharsPerColumn(int) to define the maximum number of characters a column can have";
 				}
 				if (index == settings.getMaxColumns()) {
-					message += "\nHint: Number of columns processed may have exceeded limit of " + index + " columns. Use settings.setMaxColumns(int) to define the maximum number of columns your input can have";
+					message += "\nHint: Number of columns processed may have exceeded limit of " + index
+							+ " columns. Use settings.setMaxColumns(int) to define the maximum number of columns your input can have";
 				}
 				message += "\nEnsure your configuration is correct, with delimiters, quotes and escape sequences that match the input format you are trying to parse";
 			} catch (Throwable t) {
-				//ignore;
+				// ignore;
 			}
 		}
 
@@ -394,7 +449,7 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 			}
 			message += "Parser Configuration: " + settings.toString();
 		} catch (Exception t) {
-			//ignore
+			// ignore
 		}
 
 		if (errorContentLength == 0) {
@@ -407,7 +462,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * In case of errors, stops parsing and closes all open resources. Avoids hiding the original exception in case another error occurs when stopping.
+	 * In case of errors, stops parsing and closes all open resources. Avoids hiding
+	 * the original exception in case another error occurs when stopping.
 	 */
 	private void stopParsing(Throwable error) {
 		if (error != null) {
@@ -467,7 +523,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 				throw new IllegalStateException("Input reader must not be null");
 			} else {
 				if (context == null) {
-					throw new IllegalStateException("Input not defined. Please call method 'beginParsing()' with a valid input.");
+					throw new IllegalStateException(
+							"Input not defined. Please call method 'beginParsing()' with a valid input.");
 				} else if (context.isStopped()) {
 					return Collections.emptyList();
 				}
@@ -485,7 +542,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * Parses all remaining rows from the input and returns them in a list.
 	 *
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all remaining records parsed from the input.
 	 */
@@ -503,10 +561,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses all remaining {@link Record}s from the input and returns them in a list.
+	 * Parses all remaining {@link Record}s from the input and returns them in a
+	 * list.
 	 *
-	 * @param expectedRowCount expected number of {@link Record}s to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 * @param expectedRowCount expected number of {@link Record}s to be parsed from
+	 *                         the input.
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all remaining records parsed from the input.
 	 */
@@ -515,9 +576,10 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses all remaining {@link Record}s from the input and returns them in a list.
+	 * Parses all remaining {@link Record}s from the input and returns them in a
+	 * list.
 	 *
-	 * @return the list of all remaining  {@link Record}s parsed from the input.
+	 * @return the list of all remaining {@link Record}s parsed from the input.
 	 */
 	public List<Record> parseAllRecords() {
 		return internalParseAllRecords(false, null, -1);
@@ -539,7 +601,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 *
 	 * @param reader           the input to be parsed
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -561,14 +624,19 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		return ch == comment;
 	}
 
-
 	/**
-	 * Parses the next record from the input. Note that {@link AbstractParser#beginParsing(Reader)} must have been invoked once before calling this method.
-	 * If the end of the input is reached, then this method will return null. Additionally, all resources will be closed automatically at the end of the input
+	 * Parses the next record from the input. Note that
+	 * {@link AbstractParser#beginParsing(Reader)} must have been invoked once
+	 * before calling this method.
+	 * If the end of the input is reached, then this method will return null.
+	 * Additionally, all resources will be closed automatically at the end of the
+	 * input
 	 * or if any error happens while parsing,
-	 * unless {@link CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}.
+	 * unless {@link CommonParserSettings#isAutoClosingEnabled()} evaluates to
+	 * {@code false}.
 	 *
-	 * @return The record parsed from the input or null if there's no more characters to read.
+	 * @return The record parsed from the input or null if there's no more
+	 *         characters to read.
 	 */
 	public final String[] parseNext() {
 		try {
@@ -641,7 +709,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses a single line from a String in the format supported by the parser implementation.
+	 * Parses a single line from a String in the format supported by the parser
+	 * implementation.
 	 *
 	 * @param line a line of text to be parsed
 	 *
@@ -655,9 +724,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 		return context.toRecord(values);
 	}
 
-
 	/**
-	 * Parses a single line from a String in the format supported by the parser implementation.
+	 * Parses a single line from a String in the format supported by the parser
+	 * implementation.
 	 *
 	 * @param line a line of text to be parsed
 	 *
@@ -719,7 +788,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given file and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given file and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
 	 * @param file The file to be parsed.
@@ -729,7 +799,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given file and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given file and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
 	 * @param file     The file to be parsed.
@@ -740,7 +811,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given file and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given file and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
 	 * @param file     The file to be parsed.
@@ -751,10 +823,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given input and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given input and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
-	 * @param input The input to be parsed. The input stream will be closed automatically, unless {@link CommonParserSettings#isAutoClosingEnabled()} evaluates
+	 * @param input The input to be parsed. The input stream will be closed
+	 *              automatically, unless
+	 *              {@link CommonParserSettings#isAutoClosingEnabled()} evaluates
 	 *              to {@code false}.
 	 */
 	public final void parse(InputStream input) {
@@ -762,10 +837,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given input and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given input and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
-	 * @param input    The input to be parsed. The input stream will be closed automatically, unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    The input to be parsed. The input stream will be closed
+	 *                 automatically, unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}.
 	 * @param encoding the encoding of the input stream
 	 */
@@ -774,10 +852,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the entirety of a given input and delegates each parsed row to an instance of {@link RowProcessor}, defined by
+	 * Parses the entirety of a given input and delegates each parsed row to an
+	 * instance of {@link RowProcessor}, defined by
 	 * {@link CommonParserSettings#getRowProcessor()}.
 	 *
-	 * @param input    The input to be parsed. The input stream will be closed automatically, unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    The input to be parsed. The input stream will be closed
+	 *                 automatically, unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}.
 	 * @param encoding the encoding of the input stream
 	 */
@@ -786,9 +867,12 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
 	 * @param file The file to be parsed.
 	 */
@@ -797,9 +881,12 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
 	 * @param file     The file to be parsed.
 	 * @param encoding the encoding of the file
@@ -809,9 +896,12 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
 	 * @param file     The file to be parsed.
 	 * @param encoding the encoding of the file
@@ -821,24 +911,34 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
-	 * @param input The input to be parsed. The input stream will be closed automatically in case of errors unless
-	 *              {@link              CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}.
+	 * @param input The input to be parsed. The input stream will be closed
+	 *              automatically in case of errors unless
+	 *              {@link CommonParserSettings#isAutoClosingEnabled()} evaluates to
+	 *              {@code false}.
 	 */
 	public final void beginParsing(InputStream input) {
 		beginParsing(ArgumentUtils.newReader(input));
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
-	 * @param input    The input to be parsed. The input stream will be closed automatically in case of errors unless
-	 *                 {@link                 CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}.
+	 * @param input    The input to be parsed. The input stream will be closed
+	 *                 automatically in case of errors unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()} evaluates
+	 *                 to {@code false}.
 	 * @param encoding the encoding of the input stream
 	 */
 	public final void beginParsing(InputStream input, String encoding) {
@@ -846,12 +946,17 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided in the configuration, it will be used to perform additional processing.
-	 * The parsed records must be read one by one with the invocation of {@link AbstractParser#parseNext()}.
-	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop reading from the input.
+	 * Starts an iterator-style parsing cycle. If a {@link RowProcessor} is provided
+	 * in the configuration, it will be used to perform additional processing.
+	 * The parsed records must be read one by one with the invocation of
+	 * {@link AbstractParser#parseNext()}.
+	 * The user may invoke @link {@link AbstractParser#stopParsing()} to stop
+	 * reading from the input.
 	 *
-	 * @param input    The input to be parsed. The input stream will be closed automatically in case of errors unless
-	 *                 {@link                 CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}.
+	 * @param input    The input to be parsed. The input stream will be closed
+	 *                 automatically in case of errors unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()} evaluates
+	 *                 to {@code false}.
 	 * @param encoding the encoding of the input stream
 	 */
 	public final void beginParsing(InputStream input, Charset encoding) {
@@ -863,7 +968,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 *
 	 * @param file             the input file to be parsed
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -877,7 +983,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * @param file             the input file to be parsed
 	 * @param encoding         the encoding of the file
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -891,7 +998,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * @param file             the input file to be parsed
 	 * @param encoding         the encoding of the file
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -902,10 +1010,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -916,11 +1027,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param encoding         the encoding of the input stream
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -931,11 +1045,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param encoding         the encoding of the input stream
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -981,7 +1098,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input the input stream to be parsed. The input stream will be closed
+	 *              automatically unless
+	 *              {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *              evaluates to {@code false}
 	 *
 	 * @return the list of all records parsed from the input.
@@ -993,7 +1112,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input    the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    the input stream to be parsed. The input stream will be
+	 *                 closed automatically unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}
 	 * @param encoding the encoding of the input stream
 	 *
@@ -1006,7 +1127,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input    the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    the input stream to be parsed. The input stream will be
+	 *                 closed automatically unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}
 	 * @param encoding the encoding of the input stream
 	 *
@@ -1021,7 +1144,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 *
 	 * @param file             the input file to be parsed
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -1035,7 +1159,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * @param file             the input file to be parsed
 	 * @param encoding         the encoding of the file
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -1049,7 +1174,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * @param file             the input file to be parsed
 	 * @param encoding         the encoding of the file
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the file.
 	 */
@@ -1060,10 +1186,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -1074,11 +1203,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param encoding         the encoding of the input stream
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -1089,11 +1221,14 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input            the input stream to be parsed. The input stream will be closed automatically unless
-	 *                         {@link                         CommonParserSettings#isAutoClosingEnabled()} evaluates to {@code false}
+	 * @param input            the input stream to be parsed. The input stream will
+	 *                         be closed automatically unless
+	 *                         {@link CommonParserSettings#isAutoClosingEnabled()}
+	 *                         evaluates to {@code false}
 	 * @param encoding         the encoding of the input stream
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -1139,7 +1274,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input the input stream to be parsed. The input stream will be closed
+	 *              automatically unless
+	 *              {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *              evaluates to {@code false}
 	 *
 	 * @return the list of all records parsed from the input.
@@ -1151,7 +1288,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input    the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    the input stream to be parsed. The input stream will be
+	 *                 closed automatically unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}
 	 * @param encoding the encoding of the input stream
 	 *
@@ -1164,7 +1303,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	/**
 	 * Parses all records from an input stream and returns them in a list.
 	 *
-	 * @param input    the input stream to be parsed. The input stream will be closed automatically unless {@link CommonParserSettings#isAutoClosingEnabled()}
+	 * @param input    the input stream to be parsed. The input stream will be
+	 *                 closed automatically unless
+	 *                 {@link CommonParserSettings#isAutoClosingEnabled()}
 	 *                 evaluates to {@code false}
 	 * @param encoding the encoding of the input stream
 	 *
@@ -1179,7 +1320,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 *
 	 * @param reader           the input to be parsed
 	 * @param expectedRowCount expected number of rows to be parsed from the input.
-	 *                         Used to pre-allocate the size of the output {@link List}
+	 *                         Used to pre-allocate the size of the output
+	 *                         {@link List}
 	 *
 	 * @return the list of all records parsed from the input.
 	 */
@@ -1211,11 +1353,16 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Parses the next record from the input. Note that {@link AbstractParser#beginParsing(Reader)} must have been invoked once before calling this method.
-	 * If the end of the input is reached, then this method will return null. Additionally, all resources will be closed automatically at the end of the input
+	 * Parses the next record from the input. Note that
+	 * {@link AbstractParser#beginParsing(Reader)} must have been invoked once
+	 * before calling this method.
+	 * If the end of the input is reached, then this method will return null.
+	 * Additionally, all resources will be closed automatically at the end of the
+	 * input
 	 * or if any error happens while parsing.
 	 *
-	 * @return The record parsed from the input or null if there's no more characters to read.
+	 * @return The record parsed from the input or null if there's no more
+	 *         characters to read.
 	 */
 	public final Record parseNextRecord() {
 		String[] row = this.parseNext();
@@ -1227,7 +1374,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 
 	/**
 	 * Returns all comments collected by the parser so far.
-	 * An empty map will be returned if {@link CommonParserSettings#isCommentCollectionEnabled()} evaluates to {@code false}.
+	 * An empty map will be returned if
+	 * {@link CommonParserSettings#isCommentCollectionEnabled()} evaluates to
+	 * {@code false}.
 	 *
 	 * @return a map containing the line numbers and comments found in each.
 	 */
@@ -1237,7 +1386,9 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 
 	/**
 	 * Returns the last comment found in the input.
-	 * {@code null} will be returned if {@link CommonParserSettings#isCommentCollectionEnabled()} is evaluated to {@code false}.
+	 * {@code null} will be returned if
+	 * {@link CommonParserSettings#isCommentCollectionEnabled()} is evaluated to
+	 * {@code false}.
 	 *
 	 * @return the last comment found in the input.
 	 */
@@ -1246,10 +1397,13 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Returns the headers <b>parsed</b> from the input, if and only if {@link CommonParserSettings#headerExtractionEnabled} is {@code true}.
-	 * The result of this method won't return the list of headers manually set by the user in {@link CommonParserSettings#getHeaders()}.
+	 * Returns the headers <b>parsed</b> from the input, if and only if
+	 * {@link CommonParserSettings#headerExtractionEnabled} is {@code true}.
+	 * The result of this method won't return the list of headers manually set by
+	 * the user in {@link CommonParserSettings#getHeaders()}.
 	 *
-	 * @return the headers parsed from the input, when {@link CommonParserSettings#headerExtractionEnabled} is {@code true}.
+	 * @return the headers parsed from the input, when
+	 *         {@link CommonParserSettings#headerExtractionEnabled} is {@code true}.
 	 */
 	final String[] getParsedHeaders() {
 		extractHeadersIfRequired();
@@ -1257,7 +1411,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Returns the current parsing context with information about the status of the parser at any given time.
+	 * Returns the current parsing context with information about the status of the
+	 * parser at any given time.
 	 *
 	 * @return the parsing context
 	 */
@@ -1266,7 +1421,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Returns the metadata associated with {@link Record}s parsed from the input using {@link AbstractParser#parseAllRecords(File)} or
+	 * Returns the metadata associated with {@link Record}s parsed from the input
+	 * using {@link AbstractParser#parseAllRecords(File)} or
 	 * {@link AbstractParser#parseNextRecord()}.
 	 *
 	 * @return the metadata of {@link Record}s generated with the current input.
@@ -1343,7 +1499,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * Provides an {@link IterableResult} for iterating rows parsed from the input.
 	 *
 	 * @param input    the the {@code InputStream} with contents to be parsed
-	 * @param encoding the character encoding to be used for processing the given input.
+	 * @param encoding the character encoding to be used for processing the given
+	 *                 input.
 	 *
 	 * @return an iterator for rows parsed from the input.
 	 */
@@ -1355,7 +1512,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	 * Provides an {@link IterableResult} for iterating rows parsed from the input.
 	 *
 	 * @param input    the the {@code InputStream} with contents to be parsed
-	 * @param encoding the character encoding to be used for processing the given input.
+	 * @param encoding the character encoding to be used for processing the given
+	 *                 input.
 	 *
 	 * @return an iterator for rows parsed from the input.
 	 */
@@ -1385,7 +1543,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input    the input {@code File}
 	 * @param encoding the encoding of the input {@code File}
@@ -1397,7 +1556,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input    the input {@code File}
 	 * @param encoding the encoding of the input {@code File}
@@ -1414,7 +1574,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input the input {@code File}
 	 *
@@ -1430,7 +1591,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input the input {@code Reader}
 	 *
@@ -1446,10 +1608,12 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input    the the {@code InputStream} with contents to be parsed
-	 * @param encoding the character encoding to be used for processing the given input.
+	 * @param encoding the character encoding to be used for processing the given
+	 *                 input.
 	 *
 	 * @return an iterator for records parsed from the input.
 	 */
@@ -1458,14 +1622,17 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input    the the {@code InputStream} with contents to be parsed
-	 * @param encoding the character encoding to be used for processing the given input.
+	 * @param encoding the character encoding to be used for processing the given
+	 *                 input.
 	 *
 	 * @return an iterator for records parsed from the input.
 	 */
-	public final IterableResult<Record, ParsingContext> iterateRecords(final InputStream input, final Charset encoding) {
+	public final IterableResult<Record, ParsingContext> iterateRecords(final InputStream input,
+			final Charset encoding) {
 		return new RecordIterator(this) {
 			@Override
 			protected void beginParsing() {
@@ -1475,7 +1642,8 @@ public abstract class AbstractParser<T extends CommonParserSettings<?>> {
 	}
 
 	/**
-	 * Provides an {@link IterableResult} for iterating records parsed from the input.
+	 * Provides an {@link IterableResult} for iterating records parsed from the
+	 * input.
 	 *
 	 * @param input the the {@code InputStream} with contents to be parsed
 	 *

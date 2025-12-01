@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.univocity.parsers.issues.github;
 
-import com.univocity.parsers.common.record.*;
+import com.univocity.parsers.common.record.Record;
 import com.univocity.parsers.conversions.*;
 import com.univocity.parsers.csv.*;
 import org.testng.annotations.*;
@@ -29,7 +29,8 @@ import static org.testng.Assert.*;
 /**
  * From: https://github.com/univocity/univocity-parsers/issues/156
  *
- * @author Univocity Software Pty Ltd - <a href="mailto:dev@univocity.com">dev@univocity.com</a>
+ * @author Univocity Software Pty Ltd -
+ *         <a href="mailto:dev@univocity.com">dev@univocity.com</a>
  */
 public class Github_156 {
 
@@ -65,14 +66,14 @@ public class Github_156 {
 		}
 
 		List<T> threadList = new ArrayList<T>();
-		for(int i = 0; i < 50; i++){
+		for (int i = 0; i < 50; i++) {
 			threadList.add(new T(r1));
 			threadList.add(new T(r2));
 		}
-		for(T thread : threadList){
+		for (T thread : threadList) {
 			thread.start();
 		}
-		for(T thread : threadList){
+		for (T thread : threadList) {
 			thread.join();
 		}
 		assertEquals(errors.size(), 0);
